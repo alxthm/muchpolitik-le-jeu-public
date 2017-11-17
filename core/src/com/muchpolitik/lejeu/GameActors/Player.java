@@ -64,7 +64,7 @@ public class Player extends Actor {
             return new Rectangle();
         }
     };
-    private Array<Rectangle> surroundingTiles = new Array<Rectangle>();
+    private Array<Rectangle> surroundingTiles = new Array<>();
     private Rectangle bounds;
     private Vector2 xPoint1, xPoint2, yPoint1, yPoint2;
     private TextureAtlas atlas;
@@ -181,7 +181,7 @@ public class Player extends Actor {
     public void loadAnimations(String costumeName) {
         // idle animations
         Array<TextureAtlas.AtlasRegion> idleRightFrames = atlas.findRegions("player-" + costumeName + "-idle");
-        Array<TextureAtlas.AtlasRegion> idleLeftFrames = new Array<TextureAtlas.AtlasRegion>();
+        Array<TextureAtlas.AtlasRegion> idleLeftFrames = new Array<>();
         for (TextureAtlas.AtlasRegion rFrame : idleRightFrames) {
             TextureAtlas.AtlasRegion lFrame = new TextureAtlas.AtlasRegion(rFrame);
             lFrame.flip(true, false);
@@ -194,7 +194,7 @@ public class Player extends Actor {
 
         // walk animations
         Array<TextureAtlas.AtlasRegion> walkRightFrames = atlas.findRegions("player-" + costumeName + "-walk");
-        Array<TextureAtlas.AtlasRegion> walkLeftFrames = new Array<TextureAtlas.AtlasRegion>();
+        Array<TextureAtlas.AtlasRegion> walkLeftFrames = new Array<>();
         for (TextureAtlas.AtlasRegion rFrame : walkRightFrames) {
             TextureAtlas.AtlasRegion lFrame = new TextureAtlas.AtlasRegion(rFrame);
             lFrame.flip(true, false);
@@ -207,7 +207,7 @@ public class Player extends Actor {
 
         // jump animations
         Array<TextureAtlas.AtlasRegion> jumpRightFrames = atlas.findRegions("player-" + costumeName + "-jump");
-        Array<TextureAtlas.AtlasRegion> jumpLeftFrames = new Array<TextureAtlas.AtlasRegion>();
+        Array<TextureAtlas.AtlasRegion> jumpLeftFrames = new Array<>();
         for (TextureAtlas.AtlasRegion rFrame : jumpRightFrames) {
             TextureAtlas.AtlasRegion lFrame = new TextureAtlas.AtlasRegion(rFrame);
             lFrame.flip(true, false);
@@ -274,8 +274,7 @@ public class Player extends Actor {
         // return the new position of player, once all forces are applied
         // x(t+dt) = x(t) + v * dt
         // and same for y(t)
-        Vector2 newPos = new Vector2(getX() + speedX * delta, getY() + speedY * delta);
-        return newPos;
+        return new Vector2(getX() + speedX * delta, getY() + speedY * delta);
     }
 
     /**
@@ -388,9 +387,9 @@ public class Player extends Actor {
             setX(mapWidth - 1);
 
         // prevent camera from going out of world boundaries on y-axis
-        if (camera.position.y < minCamY)
+        if (camera.position.y <= minCamY)
             camera.position.y = minCamY;
-        else if (camera.position.y > maxCamY)
+        else if (camera.position.y >= maxCamY)
             camera.position.y = maxCamY;
         else
             // if the camera isn't at the edge

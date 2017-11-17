@@ -1,3 +1,4 @@
-**/.DS_Store
+build
 html/build/gwt
+**/.DS_Store
 .idea

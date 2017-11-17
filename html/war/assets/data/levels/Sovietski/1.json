@@ -1,0 +1,7 @@
+{
+  world: "Sovietski"
+  backgroundName: "background_sovietski_1.png"
+  levelsUnlocked: [
+    "Sovietski/2"
+  ]
+}

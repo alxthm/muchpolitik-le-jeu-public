@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="2b606b46a627d9e7e9cf9ebe08579bfb6c703051">
+        <dex dex="/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_1e8d2d7b114c460c6f6202ea5e42c76061300514/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/core/build/libs/core-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b00baad65f0d62c7bfbf41f366465b60a6fb89dd">
+        <dex dex="/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/pre-dexed/debug/core-1.0_810bea963a78c73edccd37d5afb71be298b3f480.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_9e739803255051c0bda240139689fcbb4e83fffd/classes.dex" />
+    </item>
+
+</items>

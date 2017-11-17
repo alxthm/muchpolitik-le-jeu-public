@@ -1,0 +1,13 @@
+{
+  world: "Ville"
+  backgroundName: "background.png"
+  followingCutscene: "dialogTest"
+  levelsUnlocked: [
+    "Ville/Boss",
+    "KKK/0",
+    "KKK/Boss",
+    "Sovietski/0",
+    "Anar/0",
+    "Mairie/0"
+  ]
+}

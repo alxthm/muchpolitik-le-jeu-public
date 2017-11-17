@@ -1,0 +1,7 @@
+{
+  world: "Mairie"
+  backgroundName: "background_mairie.png"
+  timedLevel: true
+  timeToFinishLevel: 20
+  levelsUnlocked: []
+}

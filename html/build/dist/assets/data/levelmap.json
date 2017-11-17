@@ -1,0 +1,66 @@
+[
+  {
+    itemName: "Ville/0"
+    text: "Ville - Niveau 0"
+  }
+  {
+    itemName: "Ville/1"
+    text: "Ville - Niveau 1"
+  }
+  {
+    itemName: "Ville/2"
+    text: "Ville - Niveau 2"
+  }
+  {
+    itemName: "Ville/3"
+    text: "Ville - Niveau 3"
+  }
+  {
+    itemName: "Anar/1"
+    text: "Anar - Niveau 1"
+  }
+  {
+    itemName: "Anar/2"
+    text: "Anar - Niveau 2"
+  }
+  {
+    itemName: "Anar/3"
+    text: "Anar - Niveau 3"
+  }
+  {
+    itemName: "KKK/1"
+    text: "KKK - Niveau 1"
+  }
+  {
+    itemName: "KKK/2"
+    text: "KKK - Niveau 2"
+  }
+  {
+    itemName: "KKK/3"
+    text: "KKK - Niveau 3"
+  }
+  {
+    itemName: "Sovietski/1"
+    text: "Sovietski - Niveau 1"
+  }
+  {
+    itemName: "Sovietski/2"
+    text: "Sovietski - Niveau 2"
+  }
+  {
+    itemName: "Sovietski/3"
+    text: "Sovietski - Niveau 3"
+  }
+  {
+    itemName: "Mairie/1"
+    text: "Mairie - Niveau 1"
+  }
+  {
+    itemName: "Mairie/2"
+    text: "Mairie - Niveau 2"
+  }
+  {
+    itemName: "Mairie/3"
+    text: "Mairie - Niveau 3"
+  }
+]

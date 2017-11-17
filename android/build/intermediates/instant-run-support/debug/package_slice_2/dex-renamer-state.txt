@@ -1,0 +1,4 @@
+#Sat Nov 11 20:55:08 CET 2017
+base.0=/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/5/slice_2
+renamed.0=classes.dex
+file.0=/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/5/slice_2/classes.dex

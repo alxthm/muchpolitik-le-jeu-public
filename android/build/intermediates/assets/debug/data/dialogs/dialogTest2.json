@@ -1,0 +1,47 @@
+{
+backgroundName: "test2.png"
+char1Name: "dolande.png"
+char2Name: "marmule.png"
+text: [
+	{
+		charNb: 1
+		text: "ptn t vrément nul comment ta pu le laisser gagner??"
+	}
+	{
+		charNb: 2
+		text: "faut excuser oh"
+	}
+	{
+		charNb: 2
+		text: "le petit la est trop fort pour moi"
+	}
+	{
+		charNb: 1
+		text: "pff  tous des uncapable c pas possible"
+	}
+	{
+		charNb: 1
+		text: "ba dejà  t viré"
+	}
+	{
+		charNb: 2
+		text: "pardooon laisse moi 2e chance la je vai le gater"
+	}
+	{
+		charNb: 1
+		text: "nn quitte là, il é temps de m'occuper moi meme du jeune filibere"
+	}
+	{
+		charNb: 2
+		text: "et mes allocations chomage alor??"
+	}
+	{
+		charNb: 1
+		text: "ah désolée mais c la crise ici on pratique l'ostérité"
+	}
+	{
+		charNb: 2
+		text: "wlh jorai du rester au fn, jm  au moins il payai lui"
+	}
+]
+}

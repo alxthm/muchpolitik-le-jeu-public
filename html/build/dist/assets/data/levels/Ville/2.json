@@ -1,0 +1,7 @@
+{
+  world: "Ville"
+  backgroundName: "background_ville.png"
+  levelsUnlocked: [
+    "Ville/3"
+  ]
+}

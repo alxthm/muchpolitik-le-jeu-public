@@ -1,0 +1,9 @@
+{
+  world: "Ville"
+  backgroundName: "background_ville.png"
+  levelsUnlocked: [
+    "KKK/1",
+    "Anar/1",
+    "Sovietski/1"
+  ]
+}

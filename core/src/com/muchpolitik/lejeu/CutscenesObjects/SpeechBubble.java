@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.TimeUtils;
  */
 public class SpeechBubble extends Window {
 
-    private int DELAY_BETWEEN_LETTERS = 50, SPEECH_BUBBLE_WIDTH = 800, SPEECH_BUBBLE_HEIGHT = 400;
+    private int DELAY_BETWEEN_LETTERS = 50, SPEECH_BUBBLE_WIDTH = 950, SPEECH_BUBBLE_HEIGHT = 550;
     private long lastLetterDispTime;
     private String totalText, currentText;
     private boolean isTextFullyDisplayed;
@@ -25,9 +25,9 @@ public class SpeechBubble extends Window {
         isTextFullyDisplayed = true; // so the text doesn't show unless startDispText() is called
 
         if (isBubble1)
-            setBounds(500, 500, SPEECH_BUBBLE_WIDTH, SPEECH_BUBBLE_HEIGHT);
+            setBounds(400, 400, SPEECH_BUBBLE_WIDTH, SPEECH_BUBBLE_HEIGHT);
         else
-            setBounds(1350, 500, SPEECH_BUBBLE_WIDTH, SPEECH_BUBBLE_HEIGHT);
+            setBounds(1200, 400, SPEECH_BUBBLE_WIDTH, SPEECH_BUBBLE_HEIGHT);
 
         // place the logical table containing the label at the top left of the window
         top().left().pad(5, 15, 0, 15);

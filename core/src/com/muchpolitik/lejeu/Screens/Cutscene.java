@@ -19,13 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.CutscenesObjects.Dialog;
 import com.muchpolitik.lejeu.CutscenesObjects.Dude;
 import com.muchpolitik.lejeu.CutscenesObjects.SpeechObject;
 import com.muchpolitik.lejeu.CutscenesObjects.SpeechBubble;
 import com.muchpolitik.lejeu.LeJeu;
+import com.muchpolitik.lejeu.Stages.PopUp;
 
 /**
  * The parent class for cutscenes. It can be used directly for simple scenes, with no movement.
@@ -37,13 +37,16 @@ public class Cutscene extends InputAdapter implements CustomScreen {
     private Skin skin;
     private LeJeu game;
 
-    private boolean displayingText, acceptingInput = true;
-    private int currentSpeechIndex;
-    private String jsonFileName;
     private SpeechBubble speechBubble1, speechBubble2, currentBubble;
     private Array<SpeechObject> dialogText;
     private Sprite backgroundSprite, character1Sprite, character2Sprite;
     private Music music;
+    private PopUp popUp;
+
+    private boolean displayingText;
+    private int currentSpeechIndex;
+    private String jsonFileName, followingCutscene, followingLevel;
+
 
     public Cutscene(LeJeu game, String jsonFileName) {
         stage = new Stage(new FitViewport(2560, 1440));
@@ -73,7 +76,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         // create actors
         SpriteDrawable background = new SpriteDrawable(backgroundSprite);
         Dude dude1 = new Dude(character1Sprite);
-        dude1.setPosition(50, 500);
+        dude1.setPosition(0, 500);
         Dude dude2 = new Dude(character2Sprite);
         dude2.setPosition(2128, 500);
         speechBubble1 = new SpeechBubble(true, skin);
@@ -88,17 +91,11 @@ public class Cutscene extends InputAdapter implements CustomScreen {
 
         // start displaying text
         currentSpeechIndex = 0;
-        displayNextBubble();
+        doNextAction(currentSpeechIndex);
 
 
         InputMultiplexer multiplexer = new InputMultiplexer(stage, this);
         Gdx.input.setInputProcessor(multiplexer);
-
-
-        // load music
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/dialog_trkl.ogg"));
-        music.setLooping(true);
-        music.setVolume(game.getMusicVolume());
     }
 
     @Override
@@ -112,12 +109,22 @@ public class Cutscene extends InputAdapter implements CustomScreen {
 
         stage.act();
         stage.draw();
+
+        if (popUp != null && popUp.isOpen()) {
+            popUp.act();
+            popUp.draw();
+        }
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height);
         stage.getCamera().update();
+
+        if (popUp != null && popUp.isOpen()) {
+            popUp.getViewport().update(width, height);
+            popUp.getCamera().update();
+        }
     }
 
     @Override
@@ -142,71 +149,112 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         character1Sprite.getTexture().dispose();
         character2Sprite.getTexture().dispose();
         music.dispose();
+        if (popUp != null)
+            popUp.dispose();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         if (displayingText && !currentBubble.isTextFullyDisplayed())
+            // if there is more text to display
             currentBubble.finishDispText();
 
-        else if (acceptingInput) {
-            currentSpeechIndex += 1;
+        else {
+            // if all the text is already displayed
 
-            if (currentSpeechIndex < dialogText.size) {
+            if (currentSpeechIndex + 1 < dialogText.size) {
                 // if dialog is not finished
-                doNextAction(dialogText.get(currentSpeechIndex).getText());
 
-            } else {
+                if (doNextAction(currentSpeechIndex + 1))
+                    // if an action was executed
+                    currentSpeechIndex++;
+            } else
+                // if dialog is finished
                 goToNextScreen();
-            }
         }
 
         return false;
     }
-
 
     @Override
     public boolean keyTyped(char character) {
         return touchDown(0, 0, 0, 0);           // go next on any key typed
     }
 
-    public void loadAssets() {
+    private void loadAssets() {
         // load dialog file containing all info
         skin = game.getSkin();
         Json json = new Json();
         Dialog dialog = json.fromJson(Dialog.class, Gdx.files.internal("data/dialogs/" + jsonFileName + ".json"));
 
+        // load images
         backgroundSprite = new Sprite(new Texture("graphics/backgrounds/cutscenes/" + dialog.getBackgroundName()));
         character1Sprite = new Sprite(new Texture("graphics/heads/" + dialog.getChar1Name()));
         character2Sprite = new Sprite(new Texture("graphics/heads/" + dialog.getChar2Name()));
         character2Sprite.flip(true, false);
+
+        // load text and following cutscene and level info
         dialogText = dialog.getText();
+        followingCutscene = dialog.getFollowingCutscene();
+        followingLevel = dialog.getFollowingLevel();
+
+        // load music
+        String musicName = dialog.getMusicName();
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/" + musicName + ".ogg"));
+        music.setLooping(true);
+        music.setVolume(game.getMusicVolume());
     }
 
     /**
-     * start displaying next speech bubble or a custom action.
-     * @param text the text of the next speech object
+     * Start displaying next speech bubble or a custom action.
+     *
+     * @param speechIndex the index of the next speech object
+     * @return If a new action was executed and if the speechIndex should be incremented
      */
-    public void doNextAction(String text) {
+    private boolean doNextAction(int speechIndex) {
+        String text = dialogText.get(speechIndex).getText();
 
         displayingText = false; // by default
 
-        if (text.equals("zoom")) {
-            zoomOnChar2();
+        // if there is a popup on the screen
+        if (popUp!= null && popUp.isOpen()) {
+            if (!popUp.isMovingOut())
+                // if it has not begun moving out, remove it
+                popUp.removePopUp();
+
+            // in any case, no new speech was displayed
+            return false;
+
+        } else {
+            // if there is no popup open on the screen, we can do the next action
+            switch (text) {
+                case "zoom":
+                    zoomOnChar(dialogText.get(speechIndex).getChar());
+                    break;
+                case "dezoom":
+                    dezoomOnChar(dialogText.get(speechIndex).getChar());
+                    break;
+                case "displayImage":
+                    String imageName = dialogText.get(speechIndex).getImageName();
+                    if (popUp != null)
+                        popUp.dispose();
+                    popUp = new PopUp(imageName);
+                    popUp.displayPopUp();
+                    break;
+                default:
+                    // in case this is the first bubble, and currentBubble has not been initialized
+                    if (currentBubble != null)
+                        currentBubble.hide();
+                    // display next bubble
+                    displayNextBubble(speechIndex);
+                    break;
+            }
         }
-        else if (text.equals("dezoom")) {
-            dezoomOnChar2();
-        }
-        else {
-            // display next bubble
-            currentBubble.hide();
-            displayNextBubble();
-            displayingText = true;
-        }
+        return true;
     }
 
-    public void zoomOnChar2() {
+    private void zoomOnChar(final int charNb) {
         final OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
         Action zoomIn = new Action() {
             @Override
@@ -219,16 +267,19 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         Action moveRight = new Action() {
             @Override
             public boolean act(float delta) {
-                camera.translate(12, 0);
+                if (charNb == 1)
+                    camera.translate(-12, 0);
+                else if (charNb == 2)
+                    camera.translate(12, 0);
                 camera.update();
                 return true;
             }
         };
 
-        stage.addAction(Actions.repeat(50, Actions.parallel(zoomIn,moveRight)));
+        stage.addAction(Actions.repeat(40, Actions.parallel(zoomIn, moveRight)));
     }
 
-    public void dezoomOnChar2() {
+    private void dezoomOnChar(final int charNb) {
         final OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
         Action zoomOut = new Action() {
             @Override
@@ -241,26 +292,36 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         Action moveLeft = new Action() {
             @Override
             public boolean act(float delta) {
-                camera.translate(-12, 0);
+                if (charNb == 1)
+                    camera.translate(12, 0);
+                else if (charNb == 2)
+                    camera.translate(-12, 0);
                 camera.update();
                 return true;
             }
         };
-        stage.addAction(Actions.repeat(50, Actions.parallel(zoomOut,moveLeft)));
+        stage.addAction(Actions.repeat(40, Actions.parallel(zoomOut, moveLeft)));
     }
 
     /**
      * Start displaying next speech with the right bubble (number 1 or 2)
      */
-    public void displayNextBubble() {
-        int currentChar = dialogText.get(currentSpeechIndex).getChar();
-        currentBubble = currentChar == 1? speechBubble1 : speechBubble2;
-        currentBubble.startDispText(dialogText.get(currentSpeechIndex).getText());
+    private void displayNextBubble(int speechIndex) {
+        int currentCharacter = dialogText.get(speechIndex).getChar();
+        currentBubble = (currentCharacter == 1) ? speechBubble1 : speechBubble2;
+        currentBubble.startDispText(dialogText.get(speechIndex).getText());
         displayingText = true;
     }
 
+    /**
+     * As the dialog is finished, go to the next cutscene, the next level, or go back to the level map
+     */
     public void goToNextScreen() {
-        // dialog is finished, go back to level map
-        game.changeScreen(this, new LevelMap(game));
+        if (followingCutscene != null)
+            game.changeScreen(this, new Cutscene(game, followingCutscene));
+        else if (followingLevel != null)
+            game.changeScreen(this, new Level(game, followingLevel));
+        else
+            game.changeScreen(this, new LevelMap(game));
     }
 }

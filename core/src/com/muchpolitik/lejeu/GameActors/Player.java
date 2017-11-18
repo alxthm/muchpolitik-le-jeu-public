@@ -483,8 +483,7 @@ public class Player extends Actor {
     }
 
     public void addOneLife() {
-        if (lives < 3)
-            lives++;
+        lives++;
     }
 
     public void setPressingRight(boolean pressingRight) {

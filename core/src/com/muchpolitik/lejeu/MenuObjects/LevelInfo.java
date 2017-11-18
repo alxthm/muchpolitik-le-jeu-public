@@ -9,7 +9,7 @@ public class LevelInfo {
 
     private boolean timedLevel;
     private float timeToFinishLevel;
-    private String world, followingCutscene, backgroundName;
+    private String world, precedingCutscene, followingCutscene, backgroundName;
     private ArrayList<String> levelsUnlocked;
 
     public String getWorld() {
@@ -30,6 +30,10 @@ public class LevelInfo {
 
     public String getFollowingCutscene() {
         return followingCutscene;
+    }
+
+    public String getPrecedingCutscene() {
+        return  precedingCutscene;
     }
 
     public ArrayList<String> getLevelsUnlocked() {

@@ -5,12 +5,10 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -23,12 +21,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.MenuObjects.ItemInfo;
+import com.muchpolitik.lejeu.MenuObjects.LevelInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +85,7 @@ public class LevelMap implements CustomScreen {
 
 
         // create all level buttons
-        for (ItemInfo i : buttonsInfoList) {
+        for (final ItemInfo i : buttonsInfoList) {
             final String levelName = i.getItemName();
 
             // create an imageTextButton with label under the image
@@ -101,13 +98,21 @@ public class LevelMap implements CustomScreen {
             button.add(button.getLabel());
 
             if (prefs.getBoolean(levelName + "Unlocked")) {
-                // if level is unlocked, add a click listener to load level
-                button.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        game.changeScreen(thisScreen, new Level(game, levelName));
-                    }
-                });
+                // add a listener to load either a cutscene or a level
+                if (i.getPrecedingCutscene() != null)
+                    button.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            game.changeScreen(thisScreen, new Cutscene(game, i.getPrecedingCutscene()));
+                        }
+                    });
+                else
+                    button.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            game.changeScreen(thisScreen, new Level(game, levelName));
+                        }
+                    });
 
                 // set button style
                 if (prefs.getBoolean(levelName + "Done"))

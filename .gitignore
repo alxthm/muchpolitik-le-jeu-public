@@ -1,8 +1,23 @@
-# exclude everything except core/src/ and android/assets/
-.
-!core
+# exclude all folders except core/src/ and android/assets/
+.gradle
+.idea
+build
+desktop
+gradle
+html
+ios
 core/*
 !core/src
-!android
 android/*
 !android/assets
+
+# exclude .DS_Store files
+*.DS_Store
+
+# exclude other files
+gradle.properties
+gradlew
+gradlew.bat
+local.properties
+*.iml
+settings.gradle

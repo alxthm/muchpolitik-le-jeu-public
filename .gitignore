@@ -1,5 +1,5 @@
 # exclude everything except core/src/ and android/assets/
-./*
+.
 !core
 core/*
 !core/src

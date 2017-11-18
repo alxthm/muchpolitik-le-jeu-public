@@ -1,7 +1,0 @@
-#Thu Nov 16 20:16:40 CET 2017
-base.0=/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_9e739803255051c0bda240139689fcbb4e83fffd
-renamed.1=classes2.dex
-renamed.0=classes.dex
-file.1=/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_1e8d2d7b114c460c6f6202ea5e42c76061300514/classes.dex
-base.1=/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_1e8d2d7b114c460c6f6202ea5e42c76061300514
-file.0=/Users/alexandre/Programmation/LibGDX/MuchPolitik-Le Jeu/android/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_9e739803255051c0bda240139689fcbb4e83fffd/classes.dex

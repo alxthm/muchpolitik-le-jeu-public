@@ -1,4 +1,8 @@
-build
-html/build/gwt
-**/.DS_Store
-.idea
+# exclude everything except core/src/ and android/assets/
+./*
+!core
+core/*
+!core/src
+!android
+android/*
+!android/assets

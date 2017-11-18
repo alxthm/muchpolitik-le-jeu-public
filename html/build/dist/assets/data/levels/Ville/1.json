@@ -1,8 +1,0 @@
-{
-  world: "Ville"
-  backgroundName: "background_ville.png"
-  followingCutscene: "dialogTest"
-  levelsUnlocked: [
-    "Ville/2"
-  ]
-}

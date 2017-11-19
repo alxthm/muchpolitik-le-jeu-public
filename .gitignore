@@ -1,11 +1,15 @@
-# exclude all folders except core/src/ and android/assets/
+# exclude all folders except core/src/, android/assets/ and desktop/build/libs
 .gradle
 .idea
 build
 desktop
+!build.gradle
+!build/libs
 gradle
 html
+!build.gradle
 ios
+!build.gradle
 core/*
 !core/src
 android/*

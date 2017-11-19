@@ -9,6 +9,8 @@ Dans le répertoire ```android/assets/``` se trouvent toutes les **ressources gr
 - Les niveaux dans le répertoire ```android/assets/data/levels/```
 - Les dialogues dans le répertoire ```android/assets/data/dialogs/```
 
+Dans le répertoire ```desktop/build/libs/``` se trouve la dernière version exécutable du jeu (en .jar). Elle peut ne pas être complètement à jour.
+
 Si vous avez des modifications à faire dessus, essayez de vous relire avant de poster, et de ne modifier que les fichiers nécessaires (pour limiter les erreurs).
 
 ## Comment faire

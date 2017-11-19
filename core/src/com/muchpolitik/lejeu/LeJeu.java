@@ -50,13 +50,10 @@ public class LeJeu extends Game {
         // get preferences
         prefs = Gdx.app.getPreferences("MPprefs");
 
-        //TODO: remove once testing is over
-        prefs.putBoolean("Ville/0Unlocked", true);
-
         // if game is played for the first time, set default preferences
         if (!prefs.getBoolean("alreadyPlayed")) {
             prefs.putBoolean("alreadyPlayed", true);
-            prefs.putBoolean("Ville/1Unlocked", true);
+            prefs.putBoolean("Ville/0Unlocked", true);
             prefs.putBoolean("defaultCostumeOwned", true);
             prefs.putString("equippedCostume", "default");
             prefs.flush();

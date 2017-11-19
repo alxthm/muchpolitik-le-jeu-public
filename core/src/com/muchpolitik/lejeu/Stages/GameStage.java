@@ -10,8 +10,10 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.MarieNougatine;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.Marmule;
 import com.muchpolitik.lejeu.GameActors.Enemies.DangerousObstacle.BlinkingObstacle;
@@ -41,6 +43,7 @@ import com.muchpolitik.lejeu.GameActors.Enemies.ProjectileThrowers.TouittosMeuf;
 import com.muchpolitik.lejeu.GameActors.Enemies.Sprinters.ProfRoyaliste;
 import com.muchpolitik.lejeu.GameActors.Enemies.Sprinters.Skieur;
 import com.muchpolitik.lejeu.GameActors.Enemies.DangerousObstacle.StaticObstacle;
+import com.muchpolitik.lejeu.GameActors.GameObjects.Hint;
 import com.muchpolitik.lejeu.GameActors.GameObjects.InvincibilityBonus;
 import com.muchpolitik.lejeu.GameActors.GameObjects.Key;
 import com.muchpolitik.lejeu.GameActors.GameObjects.LifeBonus;
@@ -57,19 +60,19 @@ public class GameStage extends Stage {
     private String world;
     private Level level;
     private TiledMap map;
+
     private Player player;
     private Array<Enemy> enemies;
     private Array<Coin> coins;
     private Array<Actor> bonuses;
-
     private Array<Key> keys;
-
+    private Array<Hint> hints;
     private WinTrigger winTrigger;
 
     private int tileSize;
 
     public GameStage(Level lvl, String world) {
-        super(new FitViewport(10 * 16/9f, 10)); // create the stage
+        super(new FitViewport(10 * 16 / 9f, 10)); // create the stage
 
         this.world = world;
         level = lvl;
@@ -84,7 +87,6 @@ public class GameStage extends Stage {
         loadBosses();
 
         // add actors to the stage
-        addActor(player);
         if (enemies.size > 0) {
             for (Enemy enemy : enemies)
                 addActor(enemy);
@@ -104,11 +106,17 @@ public class GameStage extends Stage {
         if (winTrigger != null) {
             addActor(winTrigger);
         }
+        if (hints.size > 0) {
+            for (Hint hint : hints)
+                addActor(hint);
+        }
+        addActor(player);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+
         GdxAI.getTimepiece().update(delta);
         MessageManager.getInstance().update();
     }
@@ -118,7 +126,7 @@ public class GameStage extends Stage {
      */
     private void loadMapEnemies() {
         // the array of enemies
-        Array<Enemy> enemyArray = new Array<Enemy>(128);
+        Array<Enemy> enemyArray = new Array<Enemy>(2048);
 
         // load all enemies in the 'enemies' layer of the map
         MapObjects enemies = map.getLayers().get("enemies").getObjects();
@@ -135,137 +143,138 @@ public class GameStage extends Stage {
             }
 
 
-            int enemyType = enemy.getProperties().get("gid", int.class);
+            int offSet = 9; // enemyType has an offset that depends on the number of MapObjects
+            int enemyType = enemy.getProperties().get("gid", int.class) - offSet;
 
 
-                if (world.equals("Ville")) {
-                    switch (enemyType) {
-                    case 7:
+            if (world.equals("Ville")) {
+                switch (enemyType) {
+                    case 1:
                         enemyArray.add(new BadaudFemme(startX, startY, number, this));
                         break;
-                    case 8:
+                    case 2:
                         enemyArray.add(new BadaudHomme(startX, startY, number, this));
                         break;
-                    case 9:
+                    case 3:
                         enemyArray.add(new BadaudVieux(startX, startY, number, this));
                         break;
-                    case 10:
+                    case 4:
                         enemyArray.add(new Chien(startX, startY, number, this));
                         break;
-                    case 11:
+                    case 5:
                         enemyArray.add(new OiseauTwitter(startX, startY, number, this));
                         break;
-                    case 12:
+                    case 6:
                         enemyArray.add(new StaticObstacle("ronces-0", startX, startY, this));
                         break;
-                    case 13:
+                    case 7:
                         enemyArray.add(new StaticObstacle("ronces-1", startX, startY, this));
                         break;
-                    case 14:
+                    case 8:
                         enemyArray.add(new BlinkingObstacle(startX, startY, number, this));
                         break;
                 }
 
             } else if (world.equals("Anar")) {
                 switch (enemyType) {
-                    case 7:
+                    case 1:
                         enemyArray.add(new Anonimousse(startX, startY, number, this));
                         break;
-                    case 8:
+                    case 2:
                         enemyArray.add(new Draideux(startX, startY, number, this));
                         break;
-                    case 9:
+                    case 3:
                         enemyArray.add(new FedoraGuy(startX, startY, number, this));
                         break;
-                    case 10:
+                    case 4:
                         enemyArray.add(new Nanarchiste(startX, startY, number, this));
                         break;
-                    case 11:
+                    case 5:
                         enemyArray.add(new Punkh(startX, startY, number, this));
                         break;
-                    case 12:
+                    case 6:
                         enemyArray.add(new StaticObstacle("seringues", startX, startY, this));
                         break;
-                    case 13:
+                    case 7:
                         enemyArray.add(new StaticObstacle("brasero", startX, startY, this));
                         break;
                 }
 
             } else if (world.equals("KKK")) {
-                    switch (enemyType) {
-                    case 7:
+                switch (enemyType) {
+                    case 1:
                         enemyArray.add(new Didiee(startX, startY, number, this));
                         break;
-                    case 8:
+                    case 2:
                         enemyArray.add(new Fantome(startX, startY, number, this));
                         break;
-                    case 9:
+                    case 3:
                         enemyArray.add(new Hutler(startX, startY, number, this));
                         break;
-                    case 10:
+                    case 4:
                         enemyArray.add(new StaticObstacle("feu-fn-0", startX, startY, this));
                         break;
-                    case 11:
+                    case 5:
                         enemyArray.add(new StaticObstacle("feu-fn-1", startX, startY, this));
                         break;
-                    case 12:
+                    case 6:
                         enemyArray.add(new StaticObstacle("pics-0", startX, startY, this));
                         break;
-                    case 13:
+                    case 7:
                         enemyArray.add(new StaticObstacle("pics-1", startX, startY, this));
                         break;
                 }
             } else if (world.equals("Sovietski")) {
                 switch (enemyType) {
-                    case 7:
+                    case 1:
                         enemyArray.add(new Moustachu(startX, startY, number, this));
                         break;
-                    case 8:
+                    case 2:
                         enemyArray.add(new ProfRoyaliste(startX, startY, number, this));
                         break;
-                    case 9:
+                    case 3:
                         enemyArray.add(new Russe(startX, startY, number, this));
                         break;
-                    case 10:
+                    case 4:
                         enemyArray.add(new Skieur(startX, startY, number, this));
                         break;
-                    case 11:
+                    case 5:
                         enemyArray.add(new MarteauObstacle(startX, startY, number, this));
                         break;
-                    case 12:
+                    case 6:
                         enemyArray.add(new StaticObstacle("pics-0", startX, startY, this));
                         break;
-                    case 13:
+                    case 7:
                         enemyArray.add(new StaticObstacle("pics-1", startX, startY, this));
                         break;
-                    case 14:
+                    case 8:
                         enemyArray.add(new StaticObstacle("barbeles-0", startX, startY, this));
                         break;
-                    case 15:
+                    case 9:
                         enemyArray.add(new StaticObstacle("barbeles-1", startX, startY, this));
                         break;
-                    case 16:
+                    case 10:
                         enemyArray.add(new Stalactite(startX, startY, number, this));
                         break;
                 }
             } else if (world.equals("Mairie")) {
                 switch (enemyType) {
-                    case 7:
+                    case 1:
                         enemyArray.add(new Swaggi(startX, startY, number, this));
                         break;
-                    case 8:
+                    case 2:
                         enemyArray.add(new TouittosKeum(startX, startY, number, this));
                         break;
-                    case 9:
+                    case 3:
                         enemyArray.add(new TouittosMeuf(startX, startY, number, this));
                         break;
-                    case 10:
+                    case 4:
                         enemyArray.add(new PouceRouge(startX, startY, number, this));
                         break;
-                    case 11:
+                    case 5:
                         enemyArray.add(new StaticObstacle("cables-electriques-0", startX, startY, this));
                         break;
-                    case 12:
+                    case 6:
                         enemyArray.add(new StaticObstacle("cables-electriques-1", startX, startY, this));
                         break;
                 }
@@ -282,6 +291,7 @@ public class GameStage extends Stage {
         coins = new Array<>(2048);
         bonuses = new Array<>(512);
         keys = new Array<>(128);
+        hints = new Array<>(128);
 
         // load all objects in the 'objects-layer' of the map
         MapObjects objects = map.getLayers().get("objects").getObjects();
@@ -291,6 +301,7 @@ public class GameStage extends Stage {
             float startX = object.getProperties().get("x", float.class) / tileSize;
             float startY = object.getProperties().get("y", float.class) / tileSize;
             int objectType = object.getProperties().get("gid", int.class);
+            String imageName = object.getProperties().get("type", String.class);
 
             switch (objectType) {
                 case 1:
@@ -314,7 +325,12 @@ public class GameStage extends Stage {
                     winTrigger = new WinTrigger(startX, startY, level);
                     break;
                 case 6:
+                    // add a key
                     keys.add(new Key(startX, startY, level));
+                    break;
+                case 7:
+                    // add a hint
+                    hints.add(new Hint(startX, startY, level, imageName));
                     break;
             }
         }

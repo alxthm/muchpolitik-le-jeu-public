@@ -83,7 +83,6 @@ public class LevelMap implements CustomScreen {
                 Gdx.files.internal("data/levelmap.json"));
         buttonsList = new ArrayList<>();
 
-
         // create all level buttons
         for (final ItemInfo i : buttonsInfoList) {
             final String levelName = i.getItemName();
@@ -141,10 +140,11 @@ public class LevelMap implements CustomScreen {
 
 
         // add level buttons to the map
-        float[][] positions = {{0f, 3000f}, {374.0f, 1680.0f}, {953.0f, 1764.0f}, {1591.0f, 1678.0f},
-                {2524.0f, 1164.0f}, {3409.0f, 789.0f}, {4195.0f, 27.0f}, {1180.0f, 1224.0f},
-                {443.0f, 469.0f}, {1769.0f, 205.0f}, {2275.0f, 2253.0f}, {3152.0f, 2229.0f},
-                {3828.0f, 2713.0f}, {2975.0f, 1733.0f}, {3912.0f, 1755.0f}, {4746.0f, 1751.0f}};
+        float[][] positions = {{50.0f, 1638.0f}, {568.0f, 1702.0f}, {1117.0f, 1762.0f},
+                {1686.0f, 1672.0f}, {2524.0f, 1164.0f}, {3409.0f, 789.0f}, {4195.0f, 27.0f},
+                {1180.0f, 1224.0f}, {443.0f, 469.0f}, {1769.0f, 205.0f}, {2275.0f, 2253.0f},
+                {3152.0f, 2229.0f}, {3828.0f, 2713.0f}, {2975.0f, 1733.0f}, {3912.0f, 1755.0f},
+                {4746.0f, 1751.0f}};
         for (int i = 0; i < buttonsList.size(); i++) {
             float x = positions[i][0];
             float y = positions[i][1];
@@ -233,7 +233,7 @@ public class LevelMap implements CustomScreen {
      * the list of positions is printed out.
      * Allows the programmer to arrange manually level buttons position.
      */
-    public void arrangeMapManually(WidgetGroup map, final ScrollPane scrollPane) {
+    private void arrangeMapManually(WidgetGroup map, final ScrollPane scrollPane) {
         final ArrayList<Window> windowsList = new ArrayList<>();
 
         // allow disabling scrolling to position windows
@@ -260,7 +260,7 @@ public class LevelMap implements CustomScreen {
                     float posY = windowsList.get(i).getY();
                     positions[i] = new float[]{posX, posY};
                 }
-                String positionString = Arrays.deepToString(positions).replaceAll(".0", ".0f")
+                String positionString = Arrays.deepToString(positions).replaceAll("\\.0", ".0f")
                         .replace('[', '{').replace(']', '}');
                 Gdx.app.debug("Level Map Arrangement", positionString);
             }

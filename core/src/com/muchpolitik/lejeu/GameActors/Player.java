@@ -16,10 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.muchpolitik.lejeu.GameActors.GameObjects.InvincibilityBonus;
 import com.muchpolitik.lejeu.Screens.Level;
 import com.muchpolitik.lejeu.Stages.BackgroundStage;
 
@@ -27,7 +28,7 @@ public class Player extends Actor {
 
     private float typicalDelta = 0.017f;
     private float MAX_SPEED_X = 5;
-    private float MAX_SPEED_Y = 18; // max speed fall
+    private float MAX_SPEED_Y = 18; // max speed while falling
     // x axis forces
     private float ACCELERATION = 0.3f / typicalDelta;
     private float DECELERATION = 0.5f / typicalDelta;
@@ -37,7 +38,7 @@ public class Player extends Actor {
     private float SECOND_JUMP_SPEED = 11;
     private float GRAVITY = 0.6f / typicalDelta;
     private float TIME_HURT = 1000; // en ms.
-    private int lives = 30;
+    private int lives = 3;
 
     private enum State {
         Idle,
@@ -71,6 +72,8 @@ public class Player extends Actor {
     private Sprite dead;
     private Animation<TextureRegion> currentAnimation, idleRightAnimation, idleLeftAnimation, walkRightAnimation, walkLeftAnimation,
             jumpRightAnimation, jumpLeftAnimation;
+    private SequenceAction stopInvincibilityDelayed;
+
 
     public Player(Level lvl, OrthographicCamera camera, String costumeName, float startX, float startY) {
         level = lvl;
@@ -119,16 +122,17 @@ public class Player extends Actor {
         speedY = 0;
         setBounds(startX, startY, 1, 1);
         hitboxWidth = getWidth() * 2 / 3f;
-        bounds = new Rectangle(getX() + (getWidth() - hitboxWidth) / 2f, getY(), hitboxWidth, getHeight());
+        bounds = new Rectangle(getX() + (getWidth() - hitboxWidth) / 2f, getY(),
+                hitboxWidth, getHeight());
         xPoint1 = new Vector2();
         xPoint2 = new Vector2();
         yPoint1 = new Vector2();
         yPoint2 = new Vector2();
+
     }
 
     @Override
     public void act(float delta) {
-
         super.act(delta);
 
         if (state != State.Dead) {
@@ -143,13 +147,15 @@ public class Player extends Actor {
             updateLogic();
         }
 
+        Gdx.app.debug("player invincibility test", String.valueOf(invincible));
+
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        // make character blink when hurt, remove transparency when he isn't hurt
         Color color = getColor();
-        if (hurt) {
+        // make character blink when hurt (and not invincible)
+        if (hurt && !invincible) {
             if (lastBlinkTransparent) {
                 setColor(color.r, color.g, color.b, 0.8f);
                 lastBlinkTransparent = false;
@@ -157,7 +163,9 @@ public class Player extends Actor {
                 setColor(color.r, color.g, color.b, 0);
                 lastBlinkTransparent = true;
             }
-        } else if (state != State.Dying && state != State.Dead) {
+        }
+        // remove transparency if player isn't fading out
+        else if (state != State.Dying && state != State.Dead) {
             setColor(color.r, color.g, color.b, 1);
         }
         batch.setColor(getColor());
@@ -515,28 +523,39 @@ public class Player extends Actor {
         canDoSecondJump = true;
     }
 
-    public void makeInvicible(float duration) {
-
-        // make invincible for a limited duration.
+    /**
+     * Change player color and make him invincible temporarily. Also, make sure
+     * that no previous bonus will expire before duration time)
+     **/
+    public void makeInvincible() {
+        // make invincible
         invincible = true;
-        DelayAction stopInvincibleAction = new DelayAction(duration);
-        stopInvincibleAction.setAction(new Action() {
+
+        // if there is already an invincibility bonus running, remove it
+        if (getActions().contains(stopInvincibilityDelayed, true)) {
+            removeAction(stopInvincibilityDelayed);
+        }
+
+        // reset the action
+        Action stopInvincibleAction = new Action() {
             @Override
             public boolean act(float delta) {
                 invincible = false;
                 return true;
             }
-        });
+        };
+        ColorAction colorAction1 = Actions.color(Color.RED,
+                InvincibilityBonus.duration / 2f, Interpolation.exp5Out);
+        ColorAction colorAction2 = Actions.color(Color.WHITE,
+                InvincibilityBonus.duration / 2f, Interpolation.exp5In);
+        stopInvincibilityDelayed = Actions.sequence(colorAction1, colorAction2, stopInvincibleAction);
 
-        // change player color to red during bonus
-        ColorAction colorAction1 = Actions.color(Color.RED, duration / 2f, Interpolation.exp5Out);
-        ColorAction colorAction2 = Actions.color(Color.WHITE, duration / 2f, Interpolation.exp5In);
-        addAction(stopInvincibleAction);
-        addAction(Actions.sequence(colorAction1, colorAction2));
+        // add the action
+        addAction(stopInvincibilityDelayed);
     }
 
-    public void setInvincible(boolean invincible) {
-        this.invincible = invincible;
+    public void setInvincible() {
+        this.invincible = true;
     }
 
 

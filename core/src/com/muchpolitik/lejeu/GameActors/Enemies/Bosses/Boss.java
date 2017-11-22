@@ -1,11 +1,9 @@
 package com.muchpolitik.lejeu.GameActors.Enemies.Bosses;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.muchpolitik.lejeu.AI.BossStates.BossStates;
 import com.muchpolitik.lejeu.AI.MessageType;
 import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
@@ -46,7 +44,7 @@ public abstract class Boss extends Enemy {
         super.killEnemy();
 
         // avoid player to lose during the boss dying animation
-        gameStage.getPlayer().setInvincible(true);
+        gameStage.getPlayer().setInvincible();
     }
 
     @Override

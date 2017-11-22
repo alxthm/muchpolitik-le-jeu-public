@@ -8,7 +8,7 @@ import com.muchpolitik.lejeu.Screens.Level;
 
 public class InvincibilityBonus extends Actor {
 
-    private static float duration = 10;
+    public static float duration = 10;
 
     private Sprite sprite;
     private Rectangle bounds;
@@ -27,7 +27,7 @@ public class InvincibilityBonus extends Actor {
     @Override
     public void act(float delta) {
         if (bounds.overlaps(level.getPlayer().getBounds())) {
-            level.getPlayer().makeInvicible(duration);
+            level.getPlayer().makeInvincible();
             this.remove();
         }
     }

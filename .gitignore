@@ -1,19 +1,21 @@
-# exclude all folders except core/src/, android/assets/ and desktop/build/libs
-.gradle
-.idea
-build
+# exclude all folders except core/src/, android/assets/ and build.gradle files
 desktop
 !build.gradle
 !build/libs
-gradle
 html
 !build.gradle
 ios
 !build.gradle
 core/*
 !core/src
+!build.gradle
 android/*
 !android/assets
+!build.gradle
+gradle
+.gradle
+.idea
+build
 
 # exclude .DS_Store files
 *.DS_Store

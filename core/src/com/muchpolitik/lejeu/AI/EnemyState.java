@@ -1,6 +1,5 @@
 package com.muchpolitik.lejeu.AI;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;

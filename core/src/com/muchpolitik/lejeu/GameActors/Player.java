@@ -147,8 +147,6 @@ public class Player extends Actor {
             updateLogic();
         }
 
-        Gdx.app.debug("player invincibility test", String.valueOf(invincible));
-
     }
 
     @Override

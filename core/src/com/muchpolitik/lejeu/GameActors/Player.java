@@ -424,7 +424,7 @@ public class Player extends Actor {
         if ((state == State.Dying && TimeUtils.timeSinceMillis(deathTime) > 1000)
                 || getY() < -10) {
             state = State.Dead;
-            level.loadGameOverMenu();
+            level.loadGameOverMenu(Level.GameOverCause.PlayerDead);
         }
 
     }

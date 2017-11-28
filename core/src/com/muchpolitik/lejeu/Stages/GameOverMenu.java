@@ -26,9 +26,10 @@ public class GameOverMenu extends CustomStage {
     private Music music;
 
 
-    public GameOverMenu(Level lvl, final LeJeu game) {
+    public GameOverMenu(Level lvl, final LeJeu game, Level.GameOverCause cause) {
         super(new FitViewport(2560, 1440));
         level = lvl;
+
 
         // load skin
         Skin skin = game.getSkin();
@@ -39,7 +40,17 @@ public class GameOverMenu extends CustomStage {
         Window window = new Window("game over", skin);
         window.setMovable(false);
 
-        Label infoLabel = new Label("maleurseument c'est perdu !!", skin, "ui-white");
+        // load text according to game over cause
+        String text = "";
+        switch (cause) {
+            case PlayerDead:
+                text = "tu es mort !!";
+                break;
+            case TimesUp:
+                text = "temps écoulée !!";
+                break;
+        }
+        Label infoLabel = new Label(text + "\nmaleurseument c'est perdu..", skin, "ui-white");
 
         TextButton restartButton = new TextButton("recommoncer", skin);
         restartButton.addListener(new ChangeListener() {

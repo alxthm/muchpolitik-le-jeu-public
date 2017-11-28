@@ -5,7 +5,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.muchpolitik.lejeu.Screens.CreditScreen;
 import com.muchpolitik.lejeu.Screens.CustomScreen;
@@ -20,6 +19,7 @@ public class LeJeu extends Game {
 
     private Preferences prefs;
     private Skin skin;
+
     private enum CurrentScreenState {
         MainMenu,
         LevelMap,
@@ -28,13 +28,15 @@ public class LeJeu extends Game {
         Level,
         Cutscene
     }
+
     private CurrentScreenState currentScreenState;
 
     public static final float DEFAULT_VOLUME = 0.6f;
     private float musicVolume, soundVolume;
+    private boolean audioOn;
 
     @Override
-	public void create () {
+    public void create() {
 
         switch (Gdx.app.getType()) {
             // on Android, catch back key
@@ -56,12 +58,12 @@ public class LeJeu extends Game {
             prefs.putBoolean("Ville/0Unlocked", true);
             prefs.putBoolean("defaultCostumeOwned", true);
             prefs.putString("equippedCostume", "default");
+            prefs.putBoolean("audioOn", true);
             prefs.flush();
         }
 
         // get sound preferences
-        musicVolume = DEFAULT_VOLUME;
-        soundVolume = DEFAULT_VOLUME;
+        setAudioOn(prefs.getBoolean("audioOn"));
 
         // load ui skin
         skin = new Skin(Gdx.files.internal("ui/ui_skin.json"));
@@ -91,7 +93,8 @@ public class LeJeu extends Game {
                     onBackPressed(true);
                 break;
 
-            case Desktop: case WebGL:
+            case Desktop:
+            case WebGL:
                 // on desktop and browser, catch esc key
                 if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
                     onBackPressed(false);
@@ -190,15 +193,26 @@ public class LeJeu extends Game {
         return musicVolume;
     }
 
-    public void setMusicVolume(float musicVolume) {
-        this.musicVolume = musicVolume;
-    }
-
     public float getSoundVolume() {
         return soundVolume;
     }
 
-    public void setSoundVolume(float soundVolume) {
-        this.soundVolume = soundVolume;
+    public boolean isAudioOn() {
+        return audioOn;
+    }
+
+    /**
+     * Set audio and save it in game preferences.
+     * @param audioOn
+     */
+    public void setAudioOn(boolean audioOn) {
+        // set preferences
+        this.audioOn = audioOn;
+        prefs.putBoolean("audioOn", audioOn);
+        prefs.flush();
+
+        // set volume
+        musicVolume = audioOn? DEFAULT_VOLUME : 0;
+        soundVolume = audioOn? DEFAULT_VOLUME : 0;
     }
 }

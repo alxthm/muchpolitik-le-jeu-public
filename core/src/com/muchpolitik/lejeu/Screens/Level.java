@@ -24,6 +24,8 @@ import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.Stages.GameUIStage;
 import com.muchpolitik.lejeu.Stages.GameWinMenu;
 
+import java.util.Objects;
+
 import javax.xml.soap.Text;
 
 /**
@@ -41,6 +43,11 @@ public class Level implements CustomScreen {
         Paused,
         GameOver,
         GameWin
+    }
+
+    public enum GameOverCause {
+        PlayerDead,
+        TimesUp
     }
 
     private GameState state;
@@ -253,13 +260,13 @@ public class Level implements CustomScreen {
     /**
      * Change game state and load game over menu.
      */
-    public void loadGameOverMenu() {
+    public void loadGameOverMenu(GameOverCause cause) {
         if (state == GameState.Playing) {
             state = GameState.GameOver;
             gameUIStage.releaseButtons(); // so the player doesn't continue to move
 
             levelMusic.pause();
-            gameOverMenu = new GameOverMenu(this, game);
+            gameOverMenu = new GameOverMenu(this, game, cause);
             Gdx.input.setInputProcessor(gameOverMenu);
         }
     }
@@ -273,12 +280,39 @@ public class Level implements CustomScreen {
             gameStage.removePlayer(); // so the player disappears and cannot be killed
             gameUIStage.releaseButtons(); // so the player doesn't continue to move
 
-            // add money earned and save game progress in preferences
+            // add money earned to game preferences
             int totalMoney = money + prefs.getInteger("money");
             prefs.putInteger("money", totalMoney);
+
+            // save progress in game preferences
             prefs.putBoolean(name + "Done", true);
+
+            // unlock next levels
             for (String levelUnlocked : levelInfo.getLevelsUnlocked())
-                prefs.putBoolean(levelUnlocked + "Unlocked", true);
+                if (levelUnlocked.equals("Mairie/1")) {
+                    // unlocking Mairie/1 requires having finished other levels
+                    switch (name) {
+                        case "Sovietski/timer":
+                            if (prefs.getBoolean("KKK/timerDone") && prefs.getBoolean("Anar/timerDone"))
+                                prefs.putBoolean(levelUnlocked + "Unlocked", true);
+                            break;
+                        case "KKK/timer":
+                            if (prefs.getBoolean("Sovietski/timerDone") && prefs.getBoolean("Anar/timerDone"))
+                                prefs.putBoolean(levelUnlocked + "Unlocked", true);
+                            break;
+                        case "Anar/timer":
+                            if (prefs.getBoolean("KKK/timerDone") && prefs.getBoolean("Sovietski/timerDone"))
+                                prefs.putBoolean(levelUnlocked + "Unlocked", true);
+                            break;
+                    }
+                    Gdx.app.debug("levels finished", prefs.getBoolean("KKK/timerDone") + ", "
+                            + prefs.getBoolean("Anar/timerDone") + ", "
+                            + prefs.getBoolean("Sovietski/timerDone") + ", ");
+
+
+                } else
+                    prefs.putBoolean(levelUnlocked + "Unlocked", true);
+
             prefs.flush();
 
             levelMusic.pause();

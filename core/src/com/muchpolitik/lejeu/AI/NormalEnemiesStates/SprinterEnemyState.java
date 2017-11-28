@@ -1,5 +1,6 @@
 package com.muchpolitik.lejeu.AI.NormalEnemiesStates;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.muchpolitik.lejeu.GameActors.Enemies.Sprinters.SprinterEnemy;

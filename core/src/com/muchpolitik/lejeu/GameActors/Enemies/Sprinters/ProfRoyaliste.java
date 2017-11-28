@@ -6,11 +6,11 @@ import com.muchpolitik.lejeu.Stages.GameStage;
 public class ProfRoyaliste extends  SprinterEnemy {
 
     public ProfRoyaliste(float startX, float startY, float range, GameStage gameStage) {
-        super("skieur", startX, startY, range, gameStage);
+        super("prof-royaliste", startX, startY, range, gameStage);
 
         // set custom variables
         defenseType = DefenseType.Tank;
-        loadStunnedAnimations(gameStage.getLevel().getGameObjectsAtlas(), "skieur");
+        loadStunnedAnimations(gameStage.getLevel().getGameObjectsAtlas(), "prof-royaliste");
         speed = 1;
         attackSpeed = 4;
         deathTime = 4;

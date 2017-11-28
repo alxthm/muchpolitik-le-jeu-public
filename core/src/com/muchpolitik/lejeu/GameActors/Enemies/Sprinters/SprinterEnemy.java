@@ -21,6 +21,8 @@ public class SprinterEnemy extends Enemy {
 
         // for all sprinter enemies
         loadAnimations(gameStage.getLevel().getGameObjectsAtlas(), name, true);
+        attackingLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        attackingRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
         facingRight = MathUtils.randomBoolean();
     }
 

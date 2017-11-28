@@ -52,7 +52,7 @@ public class StaticObstacle extends Enemy {
     public void loadAnimations(TextureAtlas atlas, String name, boolean loadAtkAnimations) {
         stateTime = 0;
 
-        // obstacles only use one animation with one frame.
+        // obstacles only use one animation.
         Array<TextureAtlas.AtlasRegion> frame = atlas.findRegions(name);
         currentAnimation = new Animation<>(0.1f, frame);
     }

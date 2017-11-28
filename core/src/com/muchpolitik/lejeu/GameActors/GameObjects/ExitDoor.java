@@ -9,7 +9,7 @@ import com.muchpolitik.lejeu.Screens.Level;
 /**
  * Load next Level / Cutscene when touched by the player.
  */
-public class WinTrigger extends Actor {
+public class ExitDoor extends Actor {
 
     private boolean disabled;
 
@@ -17,12 +17,17 @@ public class WinTrigger extends Actor {
     private Rectangle bounds;
     private Level level;
 
-    public WinTrigger(float startX, float startY, Level lvl) {
+    public ExitDoor(float startX, float startY, Level lvl) {
         level = lvl;
 
-        enabledSprite = lvl.getGameObjectsAtlas().createSprite("wintrigger-enabled");
-        disabledSprite = lvl.getGameObjectsAtlas().createSprite("wintrigger-disabled");
-        // currentSprite is set once all keys are loaded, in the setDisabled method, /!\ to call it just after winTrigger instantiation
+        // load sprites (a mailbox for all boss levels except Mairie, and a door otherwise)
+        boolean levelWithMailbox = level.getName().contains("timer") && !level.getName().contains("Mairie");
+        String doorType = levelWithMailbox? "exit-mailbox" : "exit-door";
+        enabledSprite = lvl.getGameObjectsAtlas().createSprite(doorType + "-enabled");
+        disabledSprite = lvl.getGameObjectsAtlas().createSprite(doorType + "-disabled");
+
+        // currentSprite is set once all keys are loaded, in the setDisabled method,
+        // /!\ to call it just after winTrigger instantiation
 
         //set position and size
         setBounds(startX, startY, 1, 1);

@@ -122,6 +122,7 @@ public class MainMenu implements CustomScreen {
 
     public void createButtons() {
         // main buttons
+
         levelMapButton = new TextButton("joué", skin);
         levelMapButton.addListener(new ChangeListener() {
             @Override
@@ -130,6 +131,7 @@ public class MainMenu implements CustomScreen {
                 game.changeScreen(thisScreen, new LevelMap(game));
             }
         });
+
         shopButton = new TextButton("boutiqque", skin);
         shopButton.addListener(new ChangeListener() {
             @Override
@@ -138,7 +140,8 @@ public class MainMenu implements CustomScreen {
                 game.changeScreen(thisScreen, new Shop(game));
             }
         });
-        aboutButton = new TextButton("aide", skin);
+
+        aboutButton = new TextButton("la dream tim", skin);
         aboutButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -147,8 +150,11 @@ public class MainMenu implements CustomScreen {
             }
         });
 
+
         // small buttons
+
         shareButton = new Button(skin, "button-share");
+
         webButton = new Button(skin, "button-web");
         webButton.addListener(new ChangeListener() {
             @Override
@@ -156,6 +162,7 @@ public class MainMenu implements CustomScreen {
                 Gdx.net.openURI("http://www.muchpolitik.fr");
             }
         });
+
         fbButton = new Button(skin, "button-facebook");
         fbButton.addListener(new ChangeListener() {
             @Override
@@ -163,20 +170,17 @@ public class MainMenu implements CustomScreen {
                 Gdx.net.openURI("https://www.facebook.com/MuchPolitik/");
             }
         });
+
         rateButton = new Button(skin, "button-rate");
+
         volumeButton = new Button(skin, "button-volume");
-        boolean musicOff = (game.getMusicVolume() == 0);
-        volumeButton.setChecked(musicOff);
+        // button checked : audio off, button not checked : audio on
+        volumeButton.setChecked(!game.isAudioOn());
         volumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (!volumeButton.isChecked()) {
-                    game.setMusicVolume(LeJeu.DEFAULT_VOLUME);
-                    game.setSoundVolume(LeJeu.DEFAULT_VOLUME);
-                } else {
-                    game.setMusicVolume(0);
-                    game.setSoundVolume(0);
-                }
+                boolean audioOn = !volumeButton.isChecked();
+                game.setAudioOn(audioOn);
                 music.setVolume(game.getMusicVolume());
             }
         });

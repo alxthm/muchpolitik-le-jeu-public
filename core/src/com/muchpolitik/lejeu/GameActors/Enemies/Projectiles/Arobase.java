@@ -1,5 +1,6 @@
 package com.muchpolitik.lejeu.GameActors.Enemies.Projectiles;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.muchpolitik.lejeu.Stages.GameStage;
@@ -7,7 +8,11 @@ import com.muchpolitik.lejeu.Stages.GameStage;
 public class Arobase extends Projectile {
 
     public Arobase(float startX, float startY, boolean facingRight, GameStage gameStage) {
-        super("arobase" + MathUtils.random(6), startX, startY, facingRight, gameStage);
+        super("arobase", startX, startY, facingRight, gameStage);
+
+        // slow down animation rate
+        walkLeftAnimation.setFrameDuration(0.3f);
+        walkRightAnimation.setFrameDuration(0.3f);
 
         // set custom variables
         setSize(0.5f, 0.5f);

@@ -6,14 +6,11 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.MarieNougatine;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.Marmule;
 import com.muchpolitik.lejeu.GameActors.Enemies.DangerousObstacle.BlinkingObstacle;
@@ -49,7 +46,7 @@ import com.muchpolitik.lejeu.GameActors.GameObjects.Key;
 import com.muchpolitik.lejeu.GameActors.GameObjects.LifeBonus;
 import com.muchpolitik.lejeu.GameActors.GameObjects.TimeBonus;
 import com.muchpolitik.lejeu.GameActors.Player;
-import com.muchpolitik.lejeu.GameActors.GameObjects.WinTrigger;
+import com.muchpolitik.lejeu.GameActors.GameObjects.ExitDoor;
 import com.muchpolitik.lejeu.Screens.Level;
 
 /**
@@ -67,7 +64,7 @@ public class GameStage extends Stage {
     private Array<Actor> bonuses;
     private Array<Key> keys;
     private Array<Hint> hints;
-    private WinTrigger winTrigger;
+    private ExitDoor winTrigger;
 
     private int tileSize;
 
@@ -322,7 +319,7 @@ public class GameStage extends Stage {
                     break;
                 case 5:
                     // create win trigger
-                    winTrigger = new WinTrigger(startX, startY, level);
+                    winTrigger = new ExitDoor(startX, startY, level);
                     break;
                 case 6:
                     // add a key
@@ -374,7 +371,7 @@ public class GameStage extends Stage {
         return level;
     }
 
-    public WinTrigger getWinTrigger() {
+    public ExitDoor getWinTrigger() {
         return winTrigger;
     }
 }

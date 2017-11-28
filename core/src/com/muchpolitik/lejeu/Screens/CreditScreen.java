@@ -65,17 +65,16 @@ public class CreditScreen implements CustomScreen {
 
 
         // create widgets
-        Label title = new Label("la team de choc", skin, "title");
-        CreditCard billCard = new CreditCard(skin, billTexture, "billvezay",
-                "C le mystérieux rédac chef du célébrissime journale MuchPolitik " +
-                        "(plu de 800 million de lecteurs qotidiens)\n" +
-                        "Bref 1 très grand jounraliste qui a pu optenir l'histoire (véridik) " +
-                        "de filibère suite à 1 reportaje trés risqué");
-        CreditCard garbaCard = new CreditCard(skin, garbaTexture, "garbadrom",
-                "Un dévelopeur de talent, qui métrise pa moins de 507 langages informatik différent..\n" +
-                        "Activist politik sans concecion, il rejoint les anonymousses à 4 ans !\n" +
-                        "On ne compte mm plu ses exploit depui (hack multiples de la nsa, du " +
-                        "kgb, et de comptes facebok)");
+        Label title = new Label("la dream tim", skin, "title");
+        CreditCard billCard = new CreditCard(skin, billTexture, "Bill Vezay",
+                "Le mystérieux rédac chef du célébrissime journale MuchPolitik " +
+                        "(plu de 800 million de lecteurs qotidiens)...\n" +
+                        "Cest grâce a ses reportajes qu'on a pu optenir l'histoire (véridik) " +
+                        "de filibère");
+        CreditCard garbaCard = new CreditCard(skin, garbaTexture, "alexandre",
+                "Un dévelopeur fantastik, qui métrise pa moins de 507 langages informatik différent " +
+                        "et fée partie des anonymousses..\n" +
+                        "Il sait aussi comment hacké la nsa et des comptes facebok");
         CreditCard florentCard = new CreditCard(skin, florentTexture, "florentintin", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
         CreditCard julienCard = new CreditCard(skin, julienTexture, "julien", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
         CreditCard leoCard = new CreditCard(skin, leoTexture, "leo kaupe", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");

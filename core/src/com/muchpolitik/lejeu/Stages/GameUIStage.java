@@ -176,7 +176,7 @@ public class GameUIStage extends Stage {
 
             if (timeLeft <= 0) {
                 // load gameOverMenu
-                level.loadGameOverMenu();
+                level.loadGameOverMenu(Level.GameOverCause.TimesUp);
                 timeLeftLabel.setText("temps restant : 0s.");
             }
         }

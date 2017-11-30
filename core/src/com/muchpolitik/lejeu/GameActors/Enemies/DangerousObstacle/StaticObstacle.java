@@ -55,6 +55,7 @@ public class StaticObstacle extends Enemy {
         // obstacles only use one animation.
         Array<TextureAtlas.AtlasRegion> frame = atlas.findRegions(name);
         currentAnimation = new Animation<>(0.1f, frame);
+        currentAnimation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
     @Override

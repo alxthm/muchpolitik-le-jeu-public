@@ -20,7 +20,7 @@ Si vous avez des modifications à faire dessus, essayez de vous relire avant de 
 
 ## Tester ou admirer le produit fini
 #### Pour desktop (Windows, Mac, ou Linux)
-La dernière version exécutable du jeu (au format .jar) se trouve en allant voir les "releases". Normalement il,siuffit d'avoir java installé.
+La dernière version exécutable du jeu (au format .jar) se trouve en allant voir les "releases" (https://github.com/garbadrom/muchpolitik-le-jeu/releases). Normalement il,siuffit d'avoir java installé.
 
 #### Pour Android
 Le lien pour accéder à la page Google Play Store de la version alpha/bêta est : https://play.google.com/apps/testing/com.muchpolitik.lejeu.

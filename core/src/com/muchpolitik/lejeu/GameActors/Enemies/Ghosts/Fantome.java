@@ -9,7 +9,7 @@ public class Fantome extends GhostEnemy {
         super("fantome", startX, startY, range, gameStage);
 
         // set custom variables
-        initialDefenseType = DefenseType.Basic;
+        defenseType = DefenseType.Basic;
         timeBetweenAttacks = 2;
         attackDuration = 4;
         speed = 1;

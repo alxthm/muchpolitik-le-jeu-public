@@ -18,22 +18,7 @@ public class Key extends Actor {
 
     public Key(float startX, float startY, Level lvl) {
         level = lvl;
-
-        String keyType;
-
-        if (level.getName().equals("Ville/timer"))
-            // for boss level in Ville world
-            keyType = "key-dossier-signatures";
-        else if (level.getName().contains("timer"))
-            // for other bosses level
-            keyType = "key-dossier-secret";
-        else if (level.getName().contains("Ville"))
-            // for regular Ville levels
-            keyType = "key-signature";
-        else
-            // for regular levels in other worlds
-            keyType = "key-default";
-
+        String keyType = level.getKeyType();
 
         // create sprite
         sprite = level.getGameObjectsAtlas().createSprite(keyType);

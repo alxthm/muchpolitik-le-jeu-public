@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.MenuObjects.ItemInfo;
@@ -43,7 +44,7 @@ public class LevelMap implements CustomScreen {
     private ScrollPane scrollPane;
 
     public LevelMap(LeJeu game) {
-        stage = new Stage(new FitViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(2560, 1440));
         this.game = game;
         this.skin = game.getSkin();
     }

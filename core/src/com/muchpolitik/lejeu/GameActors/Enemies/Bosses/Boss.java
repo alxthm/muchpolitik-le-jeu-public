@@ -40,8 +40,8 @@ public abstract class Boss extends Enemy {
     }
 
     @Override
-    public void killEnemy() {
-        super.killEnemy();
+    public void startDying() {
+        super.startDying();
 
         // avoid player to lose during the boss dying animation
         gameStage.getPlayer().setInvincible();

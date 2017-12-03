@@ -100,6 +100,9 @@ public class LeJeu extends Game {
                     onBackPressed(false);
                 break;
         }
+
+        Gdx.app.log("w, h", Gdx.graphics.getWidth() + ", " + Gdx.graphics.getHeight());
+
     }
 
     @Override

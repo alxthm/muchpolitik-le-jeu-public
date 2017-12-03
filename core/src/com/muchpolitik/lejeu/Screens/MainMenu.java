@@ -3,20 +3,21 @@ package com.muchpolitik.lejeu.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
+import com.muchpolitik.lejeu.MenuObjects.AnimatedDrawable;
 
 public class MainMenu implements CustomScreen {
 
@@ -25,13 +26,13 @@ public class MainMenu implements CustomScreen {
     private Stage stage;
     private Skin skin;
     private Music music;
+    private TextureAtlas uiSkinAtlas;
 
-    private Sprite background;
     private Button shareButton, webButton, fbButton, rateButton, volumeButton;
     private TextButton levelMapButton, shopButton, aboutButton;
 
     public MainMenu(LeJeu game) {
-        stage = new Stage(new FitViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(2560, 1440));
         this.game = game;
         skin = game.getSkin();
     }
@@ -43,32 +44,55 @@ public class MainMenu implements CustomScreen {
         // create table and set background
         Table table = new Table(skin);
         table.setFillParent(true);
+        table.setBackground("background-blue");
 
-        background = new Sprite(new Texture(Gdx.files.internal("graphics/backgrounds/mainmenu-background.png")));
-        background.setSize(2560, 1440);
-        table.setBackground(new SpriteDrawable(background));
+        // load animations
+        uiSkinAtlas = new TextureAtlas("ui/ui_skin.atlas");
+        Animation<TextureRegion> filibereAnimation = new Animation<TextureRegion>(0.12f,
+                uiSkinAtlas.findRegions("mainmenu_filibere"), Animation.PlayMode.LOOP);
 
         // create widgets
-        Label title = new Label("Much politik - le jeu\n" +
-                "menu principal", skin, "title");
-        title.setAlignment(Align.center);
+        Image title = new Image(skin, "mainmenu_title");
+        Image echarpe = new Image(skin, "mainmenu_echarpe");
+        Image filibere = new Image(new AnimatedDrawable(filibereAnimation));
         createButtons();
 
-        // add widgets to the table
-        table.defaults().center().pad(50, 100, 50, 100).prefSize(700, 150);
-        table.add(title).colspan(3);
+        // create nested tables
+        Table leftButtons = new Table(skin);
+        Table middleButtons = new Table(skin);
+        Table rightButtons = new Table(skin);
+
+        // add widgets to the left table
+        leftButtons.defaults().prefSize(100).padTop(100);
+        leftButtons.add(shareButton);
+        leftButtons.row();
+        leftButtons.add(webButton);
+        leftButtons.row();
+        leftButtons.add(fbButton);
+
+        // add widgets to the right table
+        rightButtons.defaults().prefSize(100).padTop(100);
+        rightButtons.add(rateButton);
+        rightButtons.row();
+        rightButtons.add(volumeButton);
+
+        // add widgets to the middle table
+        middleButtons.defaults().prefSize(700, 150).padTop(50).padBottom(50);
+        middleButtons.add(levelMapButton);
+        middleButtons.row();
+        middleButtons.add(shopButton);
+        middleButtons.row();
+        middleButtons.add(aboutButton);
+
+        // add widgets to the main table
+        table.defaults().center().pad(50);
+        table.add(title).colspan(5);
         table.row();
-        table.add(shareButton).prefSize(144);
-        table.add(levelMapButton).expandX();
-        table.add().prefSize(144);
-        table.row();
-        table.add(webButton).prefSize(144);
-        table.add(shopButton).expandX();
-        table.add(rateButton).prefSize(144);
-        table.row();
-        table.add(fbButton).prefSize(144);
-        table.add(aboutButton).expandX();
-        table.add(volumeButton).prefSize(144);
+        table.add(leftButtons);
+        table.add(filibere);
+        table.add(middleButtons).expandX();
+        table.add(echarpe);
+        table.add(rightButtons);
         stage.addActor(table);
         levelMapButton.getPadLeftValue();
 
@@ -115,9 +139,9 @@ public class MainMenu implements CustomScreen {
 
     @Override
     public void dispose() {
-        background.getTexture().dispose();
         stage.dispose();
         music.dispose();
+        uiSkinAtlas.dispose();
     }
 
     public void createButtons() {

@@ -3,6 +3,7 @@ package com.muchpolitik.lejeu.Stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class BackgroundStage extends Stage {
@@ -12,7 +13,7 @@ public class BackgroundStage extends Stage {
     private float rangeX, rangeY;
 
     public BackgroundStage(Texture backgroundTexture) {
-        super(new FitViewport(2560, 1440));
+        super(new ExtendViewport(2560, 1440));
         this.backgroundTexture = backgroundTexture;
 
         // create background

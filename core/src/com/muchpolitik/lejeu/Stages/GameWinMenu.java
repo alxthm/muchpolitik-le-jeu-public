@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.Screens.Cutscene;
@@ -27,7 +28,7 @@ public class GameWinMenu extends CustomStage {
     private Music music;
 
     public GameWinMenu(Level lvl, LeJeu game, int totalMoney) {
-        super(new FitViewport(2560, 1440));
+        super(new ExtendViewport(2560, 1440));
 
         level = lvl;
         this.game = game;

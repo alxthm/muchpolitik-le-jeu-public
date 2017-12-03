@@ -441,6 +441,22 @@ public class Level implements CustomScreen {
         return nbOfKeys;
     }
 
+    public String getKeyType() {
+        if (getName().equals("Ville/timer"))
+            // for boss level in Ville world
+            return "key-dossier-signatures";
+        else if (getName().contains("timer"))
+            // for other bosses level
+            return "key-dossier-secret";
+        else if (getName().contains("Ville"))
+            // for regular Ville levels
+            return  "key-signature";
+        else
+            // for regular levels in other worlds
+            return  "key-default";
+
+    }
+
     public void setNbOfKeys(int nbOfKeys) {
         this.nbOfKeys = nbOfKeys;
     }

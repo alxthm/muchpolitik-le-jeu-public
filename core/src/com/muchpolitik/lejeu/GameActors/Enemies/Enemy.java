@@ -8,11 +8,11 @@ import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.muchpolitik.lejeu.AI.EnemyState;
+import com.muchpolitik.lejeu.AI.MessageType;
 import com.muchpolitik.lejeu.GameActors.Player;
 import com.muchpolitik.lejeu.Stages.GameStage;
 
@@ -181,7 +181,7 @@ public abstract class Enemy extends Actor implements Telegraph {
                     if (isHitInTheHead()) {
                         // kill enemy
                         player.bounce();
-                        globalStateMachine.changeState(EnemyState.DYING);
+                        startDying();
                     } else {
                         player.loseOneLife();
                     }
@@ -194,7 +194,7 @@ public abstract class Enemy extends Actor implements Telegraph {
                             loseOneLife();
                         } else {
                             player.bounce();
-                            killEnemy();
+                            startDying();
                         }
                     } else {
                         player.loseOneLife();
@@ -266,7 +266,8 @@ public abstract class Enemy extends Actor implements Telegraph {
     /**
      * Enter DYING state.
      */
-    public void killEnemy() {
+    public void startDying() {
+        MessageManager.getInstance().dispatchMessage(this, this, MessageType.START_DYING);
         globalStateMachine.changeState(EnemyState.DYING);
     }
 

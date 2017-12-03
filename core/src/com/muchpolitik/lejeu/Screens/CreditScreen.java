@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.GameActors.GameObjects.InvincibilityBonus;
 import com.muchpolitik.lejeu.LeJeu;
@@ -35,7 +36,6 @@ public class CreditScreen implements CustomScreen {
 
     private Skin skin;
     private Music music;
-    private Texture backgroundTexture;
     private Texture billTexture;
     private Texture garbaTexture;
     private Texture florentTexture;
@@ -44,7 +44,7 @@ public class CreditScreen implements CustomScreen {
 
 
     public CreditScreen(LeJeu game) {
-        stage = new Stage(new FitViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(2560, 1440));
         this.game = game;
         skin = game.getSkin();
     }
@@ -54,25 +54,23 @@ public class CreditScreen implements CustomScreen {
         Gdx.input.setInputProcessor(stage);
 
         // load images
-        backgroundTexture = new Texture("graphics/backgrounds/mainmenu-background.png");
-        Image background = new Image(backgroundTexture);
-        background.setSize(stage.getWidth(), stage.getHeight());
         billTexture = new Texture("graphics/heads/billvezay.png");
-        garbaTexture = new Texture("graphics/heads/garbadrom.png");
+        garbaTexture = new Texture("graphics/heads/alexandre.png");
         florentTexture = new Texture("graphics/heads/florentintin.png");
         julienTexture = new Texture("graphics/heads/julien.png");
         leoTexture = new Texture("graphics/heads/leo_kaupe.png");
 
 
         // create widgets
-        Label title = new Label("la dream tim", skin, "title");
-        CreditCard billCard = new CreditCard(skin, billTexture, "Bill Vezay",
-                "Le mystérieux rédac chef du célébrissime journale MuchPolitik " +
-                        "(plu de 800 million de lecteurs qotidiens)...\n" +
-                        "Cest grâce a ses reportajes qu'on a pu optenir l'histoire (véridik) " +
-                        "de filibère");
-        CreditCard garbaCard = new CreditCard(skin, garbaTexture, "alexandre",
-                "Un dévelopeur fantastik, qui métrise pa moins de 507 langages informatik différent " +
+        Label title = new Label("la dream tim", skin, "title-white");
+        CreditCard billCard = new CreditCard(skin, billTexture,
+                "Tarsi - scénario, graphisme, UX design", "http://www.tarsi.fr",
+                "Tarsi est un créateur multimedia de 1m75 sur 40cm. En-dehors de ses activités " +
+                        "de rédac'chef de Much Politik, il réalise et écrit des histoires sur son " +
+                        "site ouaibe de type 2.0");
+        CreditCard garbaCard = new CreditCard(skin, garbaTexture,
+                "Alexandre - développeur",
+                "Ce jeune virtuoz du clavier métrise pa moins de 507 langages informatik différent " +
                         "et fée partie des anonymousses..\n" +
                         "Il sait aussi comment hacké la nsa et des comptes facebok");
         CreditCard florentCard = new CreditCard(skin, florentTexture, "florentintin", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
@@ -81,8 +79,10 @@ public class CreditScreen implements CustomScreen {
 
         // create the container Table, ScrollPane, and back button
         Table container = new Table(skin);
+        container.background("background-blue");
         ScrollPane scrollPane = new ScrollPane(container, skin);
         scrollPane.setFillParent(true);
+        scrollPane.setOverscroll(false, false);
         TextButton backButton = new TextButton("retour", skin);
         backButton.addListener(new ChangeListener() {
             @Override
@@ -111,7 +111,6 @@ public class CreditScreen implements CustomScreen {
 
 
         // add non-moving widgets directly to the stage
-        stage.addActor(background);
         stage.addActor(scrollPane);
         stage.addActor(backButton);
 
@@ -158,7 +157,6 @@ public class CreditScreen implements CustomScreen {
 
     @Override
     public void dispose() {
-        backgroundTexture.dispose();
         billTexture.dispose();
         garbaTexture.dispose();
         florentTexture.dispose();

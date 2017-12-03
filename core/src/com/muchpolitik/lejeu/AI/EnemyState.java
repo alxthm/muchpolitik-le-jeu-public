@@ -37,6 +37,12 @@ public enum EnemyState implements State<Enemy> {
         }
 
         @Override
+        public void update(Enemy enemy) {
+            // don't update living state machine and move enemy, but still check for collisions with player
+            enemy.checkPlayerCollision();
+        }
+
+        @Override
         public boolean onMessage(Enemy enemy, Telegram telegram) {
             switch (telegram.message) {
                 // for tank enemies

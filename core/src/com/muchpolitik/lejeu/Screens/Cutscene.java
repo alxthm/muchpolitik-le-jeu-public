@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.CutscenesObjects.Dialog;
 import com.muchpolitik.lejeu.CutscenesObjects.Dude;
@@ -49,7 +50,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
 
 
     public Cutscene(LeJeu game, String jsonFileName) {
-        stage = new Stage(new FitViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(2560, 1440));
         this.game = game;
         this.jsonFileName = jsonFileName;
     }
@@ -63,7 +64,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         loadAssets();
 
         // create skip button
-        TextButton skipButton = new TextButton("skip", skin);
+        TextButton skipButton = new TextButton("passer", skin);
         skipButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -71,7 +72,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
             }
         });
         table.top().right();
-        table.add(skipButton).size(250, 130).pad(50);
+        table.add(skipButton).size(300, 150).pad(50);
 
         // create actors
         SpriteDrawable background = new SpriteDrawable(backgroundSprite);

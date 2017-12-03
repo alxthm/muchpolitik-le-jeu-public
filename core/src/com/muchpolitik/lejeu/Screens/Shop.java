@@ -4,20 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.MenuObjects.CostumeCard;
@@ -33,10 +31,9 @@ public class Shop implements CustomScreen {
     private Stage stage;
     private PopUp popUp;
     private Skin skin;
-    private TextureAtlas atlas;
+    private TextureAtlas gameObjectsAtlas;
     private Preferences prefs;
 
-    private Texture backgroundTexture;
     private Music music;
 
     private Label moneyLabel;
@@ -45,7 +42,7 @@ public class Shop implements CustomScreen {
     private int money;
 
     public Shop(LeJeu game) {
-        stage = new Stage(new FitViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(2560, 1440));
         this.game = game;
         skin = game.getSkin();
     }
@@ -57,13 +54,9 @@ public class Shop implements CustomScreen {
         // get shop preferences
         prefs = game.getPrefs();
         money = prefs.getInteger("money");
-        atlas = new TextureAtlas("graphics/gameObjects.atlas");
+        gameObjectsAtlas = new TextureAtlas("graphics/gameObjects.atlas");
 
-        // load background
-        backgroundTexture = new Texture("graphics/backgrounds/mainmenu-background.png");
-        Drawable background = new SpriteDrawable(new Sprite(backgroundTexture));
-
-        // create ui widgets
+        // create ui widgets on the left
         Table leftTable = new Table(skin);
         TextButton backButton = new TextButton("retour", skin);
         backButton.addListener(new ChangeListener() {
@@ -72,10 +65,14 @@ public class Shop implements CustomScreen {
                 game.changeScreen(thisScreen, new MainMenu(game));
             }
         });
-        moneyLabel = new Label("argent : " + money + " pièces", skin);
-        leftTable.add(backButton).left().top().size(250, 130).pad(50);
+        Image coinImage = new Image(skin, "coin");
+        moneyLabel = new Label("x " + money, skin, "ui-white");
+        leftTable.defaults().left();
+        leftTable.add(backButton).size(250, 130).pad(50).colspan(2);
         leftTable.row();
-        leftTable.add(moneyLabel).left().top();
+        leftTable.add(coinImage).prefSize(144);
+        leftTable.add(moneyLabel);
+
 
         // create an info popup
         popUp = new PopUp(skin, "achat impossible", "il te manqe de l'argen !", "game-ui-red");
@@ -116,7 +113,7 @@ public class Shop implements CustomScreen {
         // put everything in the container Table (left widgets that don't move, and the scroll pane)
         Table container = new Table(skin);
         container.setFillParent(true);
-        container.background(background);
+        container.background("background-blue");
         container.left().top();
         container.add(leftTable).top();
         container.add(costumesPane).expand().fill();
@@ -177,7 +174,6 @@ public class Shop implements CustomScreen {
     @Override
     public void dispose() {
         stage.dispose();
-        backgroundTexture.dispose();
         music.dispose();
     }
 
@@ -216,7 +212,7 @@ public class Shop implements CustomScreen {
     }
 
     public TextureAtlas getAtlas() {
-        return atlas;
+        return gameObjectsAtlas;
     }
 
 }

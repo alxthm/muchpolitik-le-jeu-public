@@ -67,7 +67,7 @@ public class Projectile extends Enemy {
         if (collideWithPlayer() && !player.isHurt()) {
             // remove a life for the player, and 'kill' the projectile
             if (player.loseOneLife())
-                globalStateMachine.changeState(EnemyState.DYING);
+                startDying();
         }
     }
 
@@ -86,7 +86,7 @@ public class Projectile extends Enemy {
         for (Rectangle tile : tiles) {
             if (tile.overlaps(bounds)) {
                 // 'kill' the projectile
-                globalStateMachine.changeState(EnemyState.DYING);
+                startDying();
             }
         }
     }

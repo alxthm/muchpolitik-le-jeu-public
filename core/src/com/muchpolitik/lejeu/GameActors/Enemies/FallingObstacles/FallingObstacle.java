@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.muchpolitik.lejeu.AI.EnemyState;
 import com.muchpolitik.lejeu.AI.NormalEnemiesStates.FallingObstacleState;
 import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
 import com.muchpolitik.lejeu.Stages.GameStage;
@@ -88,7 +87,7 @@ public class FallingObstacle extends Enemy {
         for (Rectangle tile : tiles) {
             if (tile.overlaps(bounds)) {
                 // 'kill' the obstacle
-                globalStateMachine.changeState(EnemyState.DYING);
+                startDying();
             }
         }
     }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.muchpolitik.lejeu.AI.NormalEnemiesStates.GhostEnemyState;
 import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
 import com.muchpolitik.lejeu.Stages.GameStage;
@@ -12,7 +13,9 @@ public class GhostEnemy extends Enemy {
 
     public StateMachine<GhostEnemy, GhostEnemyState> livingStateMachine;
     public float timeBetweenAttacks, attackDuration;
-    public Enemy.DefenseType initialDefenseType;
+
+    // every ghost needs its own action so it can be removed at the beginning of 'dyind' animation
+    public Action fadeInAndOutAction;
 
     public GhostEnemy(String name, float startX, float startY, float range, GameStage gameStage) {
         super(startX, startY, range, gameStage);

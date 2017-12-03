@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
@@ -35,7 +36,7 @@ public class PopUp extends CustomStage {
      * Create a popup that contains text and disappears automatically after a certain delay.
      */
     public PopUp(Skin skin, String title, String text, String labelStyle) {
-        super(new FitViewport(2560, 1440));
+        super(new ExtendViewport(2560, 1440));
         popupStyle = Style.TextPopup;
 
         // create widgets

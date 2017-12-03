@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.GameActors.Player;
 import com.muchpolitik.lejeu.Screens.Level;
@@ -31,6 +32,7 @@ import com.muchpolitik.lejeu.Screens.Level;
 public class GameUIStage extends Stage {
 
     private Level level;
+    private Skin skin;
     private Player player;
     private Label livesLabel, moneyLabel, timeLeftLabel, keysLabel;
     private Button leftButton, rightButton, jumpButton, pauseButton;
@@ -42,33 +44,82 @@ public class GameUIStage extends Stage {
      * Create gameUIStage for a non-timed level.
      */
     public GameUIStage(Level lvl, Skin skin) {
-        super(new FitViewport(2560, 1440));
+        super(new ExtendViewport(2560, 1440));
         level = lvl;
+        this.skin = skin;
         player = level.getPlayer();
         timedLevel = false;
         levelWithKeys = level.getNbOfKeys() > 0;
 
         Table table = new Table();
         table.setFillParent(true);
+        table.debug();
 
-        // load graphics
-        //createButtonsStyles();
-        leftButton = new Button(skin, "arrow-left");
-        rightButton = new Button(skin, "arrow-right");
-        jumpButton = new Button(skin, "arrow-jump");
-        pauseButton = new Button(skin, "button-pause");
 
-        // create UI elements
-        Image heartImage = new Image(new Texture("graphics/ui/heart.png"));
-        Image coinImage = new Image(new Texture("graphics/ui/coin.png"));
+        createButtons();
+
+        // create other UI elements
+        Image heartImage = new Image(skin, "coeur");
+        Image coinImage = new Image(skin, "coin");
         livesLabel = new Label("x " + player.getLives(), skin, "game-ui-white");
         moneyLabel = new Label("x " + level.getMoney(), skin, "game-ui-white");
         timeLeftLabel = new Label("", skin, "game-ui-red");
         Table controlButtonsTable = new Table(skin);
 
-        Image keyImage = new Image(new Texture("graphics/ui/key.png"));
+        Image keyImage = new Image(skin, level.getKeyType());
         if (levelWithKeys)
             keysLabel = new Label(level.getNbOfKeysFound() + "/" + level.getNbOfKeys(), skin, "game-ui-white");
+
+
+        // add UI elements to table
+        table.defaults().left();
+        table.add(heartImage).size(100).pad(12);
+        table.add(livesLabel).expandX();
+        table.add(pauseButton).size(180).pad(50).right();
+        table.row();
+        table.add(coinImage).size(100).pad(12);
+        table.add(moneyLabel).expandX();
+        table.row();
+        if (levelWithKeys) {
+            table.add(keyImage).size(100).pad(12);
+            table.add(keysLabel).expandX();
+            table.row();
+        }
+        table.add(timeLeftLabel).colspan(2).expand().top();
+
+        // add buttons on mobile only
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            table.row();
+            controlButtonsTable.add(leftButton).bottom().left();
+            controlButtonsTable.add(rightButton).bottom();
+            controlButtonsTable.add(jumpButton).padRight(150).bottom().right().expand();
+            table.add(controlButtonsTable).colspan(3).bottom().fillX();
+        }
+
+        addActor(table);
+
+    }
+
+    /**
+     * Create gameUIStage for a timed level.
+     */
+    public GameUIStage(Level lvl, Skin skin, float timeToFinishLevel) {
+        this (lvl, skin);
+        timedLevel = true;
+        timeLeft = timeToFinishLevel;
+
+        // display time left
+        timeLeftLabel.setText("temps restant : " + (int) timeLeft + "s.");
+    }
+
+    /**
+     * Create UI buttons and specify their actions.
+     */
+    public void createButtons() {
+        leftButton = new Button(skin, "arrow-left");
+        rightButton = new Button(skin, "arrow-right");
+        jumpButton = new Button(skin, "arrow-jump");
+        pauseButton = new Button(skin, "button-pause");
 
         // add button actions
         leftButton.addListener(new InputListener() {
@@ -122,47 +173,6 @@ public class GameUIStage extends Stage {
                 level.pauseGame();
             }
         });
-
-
-        // add UI elements to table
-        table.defaults().left();
-        table.add(heartImage).size(100).pad(12);
-        table.add(livesLabel).expandX();
-        table.add(pauseButton).size(180).pad(50).right();
-        table.row();
-        table.add(coinImage).size(100).pad(12);
-        table.add(moneyLabel).expandX();
-        table.row();
-        if (levelWithKeys) {
-            table.add(keyImage).size(100).pad(12);
-            table.add(keysLabel).expandX();
-            table.row();
-        }
-        table.add(timeLeftLabel).colspan(2).expand().top();
-
-        // add buttons on mobile only
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            table.row();
-            controlButtonsTable.add(leftButton).bottom().left();
-            controlButtonsTable.add(rightButton).bottom();
-            controlButtonsTable.add(jumpButton).padRight(150).bottom().right().expand();
-            table.add(controlButtonsTable).colspan(3).bottom().fillX();
-        }
-
-        addActor(table);
-
-    }
-
-    /**
-     * Create gameUIStage for a timed level.
-     */
-    public GameUIStage(Level lvl, Skin skin, float timeToFinishLevel) {
-        this (lvl, skin);
-        timedLevel = true;
-        timeLeft = timeToFinishLevel;
-
-        // display time left
-        timeLeftLabel.setText("temps restant : " + (int) timeLeft + "s.");
     }
 
     @Override

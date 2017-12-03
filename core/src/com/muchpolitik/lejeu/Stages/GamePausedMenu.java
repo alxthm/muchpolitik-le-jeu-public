@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.GameActors.Player;
 import com.muchpolitik.lejeu.LeJeu;
@@ -28,7 +29,7 @@ public class GamePausedMenu extends CustomStage {
     private Music music;
 
     public GamePausedMenu(Level lvl, final LeJeu gam) {
-        super(new FitViewport(2560, 1440));
+        super(new ExtendViewport(2560, 1440));
         level = lvl;
         game = gam;
         player = level.getPlayer();

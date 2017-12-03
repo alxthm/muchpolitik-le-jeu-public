@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.MarieNougatine;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.Marmule;
@@ -69,7 +70,7 @@ public class GameStage extends Stage {
     private int tileSize;
 
     public GameStage(Level lvl, String world) {
-        super(new FitViewport(10 * 16 / 9f, 10)); // create the stage
+        super(new ExtendViewport(10 * 16 / 9f, 10)); // create the stage
 
         this.world = world;
         level = lvl;

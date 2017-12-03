@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.Screens.Level;
@@ -27,7 +28,7 @@ public class GameOverMenu extends CustomStage {
 
 
     public GameOverMenu(Level lvl, final LeJeu game, Level.GameOverCause cause) {
-        super(new FitViewport(2560, 1440));
+        super(new ExtendViewport(2560, 1440));
         level = lvl;
 
 

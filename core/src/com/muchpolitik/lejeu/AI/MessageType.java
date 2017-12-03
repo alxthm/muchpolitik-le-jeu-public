@@ -4,6 +4,7 @@ public class MessageType {
     // for regular enemies
     public final static int DEAD = 0;
     public final static int STUN_FINISHED = 1;
+    public final static int START_DYING = 10;
     // for projectile throwers
     public final static int READY_TO_ATTACK = 2;
     public final static int THROW_PROJECTILE = 3;

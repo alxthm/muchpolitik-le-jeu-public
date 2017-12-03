@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.muchpolitik.lejeu.LeJeu;
 
 /**
  * A popup displayed on top of current screen.
@@ -36,7 +37,7 @@ public class PopUp extends CustomStage {
      * Create a popup that contains text and disappears automatically after a certain delay.
      */
     public PopUp(Skin skin, String title, String text, String labelStyle) {
-        super(new ExtendViewport(2560, 1440));
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         popupStyle = Style.TextPopup;
 
         // create widgets
@@ -56,7 +57,7 @@ public class PopUp extends CustomStage {
      * Create a popup that contains an image and disappears when removePopup method is called.
      */
     public PopUp(String imageName) {
-        super(new FitViewport(2560, 1440));
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         popupStyle = Style.ImagePopup;
 
         // load and create image

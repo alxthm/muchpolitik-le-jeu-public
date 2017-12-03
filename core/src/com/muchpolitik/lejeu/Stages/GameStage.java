@@ -48,6 +48,7 @@ import com.muchpolitik.lejeu.GameActors.GameObjects.LifeBonus;
 import com.muchpolitik.lejeu.GameActors.GameObjects.TimeBonus;
 import com.muchpolitik.lejeu.GameActors.Player;
 import com.muchpolitik.lejeu.GameActors.GameObjects.ExitDoor;
+import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.Screens.Level;
 
 /**
@@ -70,7 +71,8 @@ public class GameStage extends Stage {
     private int tileSize;
 
     public GameStage(Level lvl, String world) {
-        super(new ExtendViewport(10 * 16 / 9f, 10)); // create the stage
+        super(new ExtendViewport(LeJeu.minWidth/144f, LeJeu.minHeight/144f,
+                LeJeu.maxWidth/144f, LeJeu.maxHeight/144f)); // create the stage with 1 unit : 1 tile
 
         this.world = world;
         level = lvl;

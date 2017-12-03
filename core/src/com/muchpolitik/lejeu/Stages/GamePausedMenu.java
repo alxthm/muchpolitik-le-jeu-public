@@ -29,7 +29,7 @@ public class GamePausedMenu extends CustomStage {
     private Music music;
 
     public GamePausedMenu(Level lvl, final LeJeu gam) {
-        super(new ExtendViewport(2560, 1440));
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         level = lvl;
         game = gam;
         player = level.getPlayer();

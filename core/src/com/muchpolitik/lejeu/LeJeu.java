@@ -32,6 +32,8 @@ public class LeJeu extends Game {
     private CurrentScreenState currentScreenState;
 
     public static final float DEFAULT_VOLUME = 0.6f;
+    // used to specify viewports virtual screen size
+    public static final int minWidth = 2560, minHeight = 1440, maxWidth = 2560, maxHeight = 1920;
     private float musicVolume, soundVolume;
     private boolean audioOn;
 
@@ -100,9 +102,6 @@ public class LeJeu extends Game {
                     onBackPressed(false);
                 break;
         }
-
-        Gdx.app.log("w, h", Gdx.graphics.getWidth() + ", " + Gdx.graphics.getHeight());
-
     }
 
     @Override
@@ -206,6 +205,7 @@ public class LeJeu extends Game {
 
     /**
      * Set audio and save it in game preferences.
+     *
      * @param audioOn
      */
     public void setAudioOn(boolean audioOn) {
@@ -215,7 +215,7 @@ public class LeJeu extends Game {
         prefs.flush();
 
         // set volume
-        musicVolume = audioOn? DEFAULT_VOLUME : 0;
-        soundVolume = audioOn? DEFAULT_VOLUME : 0;
+        musicVolume = audioOn ? DEFAULT_VOLUME : 0;
+        soundVolume = audioOn ? DEFAULT_VOLUME : 0;
     }
 }

@@ -32,7 +32,7 @@ public class MainMenu implements CustomScreen {
     private TextButton levelMapButton, shopButton, aboutButton;
 
     public MainMenu(LeJeu game) {
-        stage = new Stage(new ExtendViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         this.game = game;
         skin = game.getSkin();
     }

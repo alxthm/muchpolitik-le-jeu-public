@@ -33,9 +33,8 @@ public class TransitionScreen implements Screen {
 
     @Override
     public void show() {
-
         // create stage with a black table
-        stage = new Stage(new ExtendViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         table = new Table(game.getSkin());
         table.setFillParent(true);
         table.setBackground("white");

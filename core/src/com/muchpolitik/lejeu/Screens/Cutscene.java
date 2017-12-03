@@ -50,7 +50,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
 
 
     public Cutscene(LeJeu game, String jsonFileName) {
-        stage = new Stage(new ExtendViewport(2560, 1440));
+        stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         this.game = game;
         this.jsonFileName = jsonFileName;
     }

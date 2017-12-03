@@ -28,7 +28,7 @@ public class GameOverMenu extends CustomStage {
 
 
     public GameOverMenu(Level lvl, final LeJeu game, Level.GameOverCause cause) {
-        super(new ExtendViewport(2560, 1440));
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         level = lvl;
 
 

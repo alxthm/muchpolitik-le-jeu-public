@@ -28,7 +28,7 @@ public class GameWinMenu extends CustomStage {
     private Music music;
 
     public GameWinMenu(Level lvl, LeJeu game, int totalMoney) {
-        super(new ExtendViewport(2560, 1440));
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
 
         level = lvl;
         this.game = game;

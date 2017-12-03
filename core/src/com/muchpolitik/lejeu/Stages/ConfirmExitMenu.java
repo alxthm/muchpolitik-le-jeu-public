@@ -26,12 +26,11 @@ public class ConfirmExitMenu extends CustomStage {
     private Level level;
 
     public ConfirmExitMenu(Level lvl, final LeJeu gam) {
-        super(new ExtendViewport(2560, 1440));
-        LeJeu game = gam;
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         level = lvl;
 
         // load skin
-        Skin skin = game.getSkin();
+        Skin skin = gam.getSkin();
 
         // create a table filling the screen and a window
         Table table = new Table();

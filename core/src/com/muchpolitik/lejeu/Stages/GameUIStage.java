@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.GameActors.Player;
+import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.Screens.Level;
 
 /**
@@ -44,7 +45,7 @@ public class GameUIStage extends Stage {
      * Create gameUIStage for a non-timed level.
      */
     public GameUIStage(Level lvl, Skin skin) {
-        super(new ExtendViewport(2560, 1440));
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         level = lvl;
         this.skin = skin;
         player = level.getPlayer();
@@ -53,7 +54,8 @@ public class GameUIStage extends Stage {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.debug();
+        Table controlButtonsTable = new Table(skin);
+        Table infoLabelsTable = new Table(skin);
 
 
         createButtons();
@@ -64,28 +66,30 @@ public class GameUIStage extends Stage {
         livesLabel = new Label("x " + player.getLives(), skin, "game-ui-white");
         moneyLabel = new Label("x " + level.getMoney(), skin, "game-ui-white");
         timeLeftLabel = new Label("", skin, "game-ui-red");
-        Table controlButtonsTable = new Table(skin);
-
-        Image keyImage = new Image(skin, level.getKeyType());
-        if (levelWithKeys)
-            keysLabel = new Label(level.getNbOfKeysFound() + "/" + level.getNbOfKeys(), skin, "game-ui-white");
 
 
-        // add UI elements to table
-        table.defaults().left();
-        table.add(heartImage).size(100).pad(12);
-        table.add(livesLabel).expandX();
-        table.add(pauseButton).size(180).pad(50).right();
-        table.row();
-        table.add(coinImage).size(100).pad(12);
-        table.add(moneyLabel).expandX();
-        table.row();
+        // add info labels (ime, money, lives, ...) to infoLabelsTable
+        infoLabelsTable.defaults().pad(15);
+        infoLabelsTable.add(heartImage).size(144);
+        infoLabelsTable.add(livesLabel).expandX();
+        infoLabelsTable.row();
+        infoLabelsTable.add(coinImage).size(144);
+        infoLabelsTable.add(moneyLabel).expandX();
+        infoLabelsTable.row();
         if (levelWithKeys) {
-            table.add(keyImage).size(100).pad(12);
-            table.add(keysLabel).expandX();
-            table.row();
+            Image keyImage = new Image(skin, level.getKeyType());
+            keysLabel = new Label(level.getNbOfKeysFound() + "/" + level.getNbOfKeys(), skin, "game-ui-white");
+            infoLabelsTable.add(keyImage).size(144);
+            infoLabelsTable.add(keysLabel).expandX();
+            infoLabelsTable.row();
         }
-        table.add(timeLeftLabel).colspan(2).expand().top();
+        if (timedLevel)
+            infoLabelsTable.add(timeLeftLabel).colspan(2).expand().top();
+
+        // add all UI elements to the main table
+        table.add(infoLabelsTable).top().left().expand();
+        table.add(pauseButton).top();
+
 
         // add buttons on mobile only
         if (Gdx.app.getType() == Application.ApplicationType.Android) {

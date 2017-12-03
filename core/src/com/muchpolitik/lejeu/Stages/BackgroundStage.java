@@ -1,10 +1,12 @@
 package com.muchpolitik.lejeu.Stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.muchpolitik.lejeu.LeJeu;
 
 public class BackgroundStage extends Stage {
 
@@ -12,8 +14,10 @@ public class BackgroundStage extends Stage {
     private Image background;
     private float rangeX, rangeY;
 
+    private final float maxMoveX = 5, maxMoveY = 5;
+
     public BackgroundStage(Texture backgroundTexture) {
-        super(new ExtendViewport(2560, 1440));
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         this.backgroundTexture = backgroundTexture;
 
         // create background
@@ -32,7 +36,13 @@ public class BackgroundStage extends Stage {
      * @param deltaY in percents of map height
      */
     public void translate(float deltaX, float deltaY) {
-        background.moveBy(deltaX * rangeX, deltaY * rangeY);
+        // prevent the background from moving too fast
+        float moveX = Math.abs(deltaX * rangeX) > maxMoveX ?
+                Math.signum(deltaX) * maxMoveX : deltaX * rangeX;
+        float moveY = Math.abs(deltaY * rangeY) > maxMoveY ?
+                Math.signum(deltaY) * maxMoveY : deltaY * rangeY;
+
+        background.moveBy(moveX, moveY);
 
         // make sure the background stays fully on the screen
         if (background.getX() > 0)

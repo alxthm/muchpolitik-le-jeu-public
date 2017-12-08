@@ -3,6 +3,9 @@ package com.muchpolitik.lejeu.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.LocalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -90,7 +93,17 @@ public class Level implements CustomScreen {
         // load level info
         Json json = new Json();
         levelInfo = json.fromJson(LevelInfo.class, Gdx.files.internal("data/levels/" + name + ".json"));
+        // TODO: comment out for a normal release - ok
+        // FOR EASIER LEVEL DESIGN (load level data from an external directory at the root of the app)
+        //levelInfo = json.fromJson(LevelInfo.class, Gdx.files.local(name + ".json"));
         followingCutscene = levelInfo.getFollowingCutscene();
+
+        // TODO: comment out for a normal release - ok
+        // FOR EASIER LEVEL DESIGN (load level data from an external directory at the root of the app)
+        //FileHandleResolver debugFileHandleReolver = new LocalFileHandleResolver();
+        //TmxMapLoader debugMapLoader = new TmxMapLoader(debugFileHandleReolver);
+        //map = debugMapLoader.load(name + "-map.tmx");
+
 
         // load map and create mapRenderer
         map = new TmxMapLoader().load("data/levels/" + name + "-map.tmx");

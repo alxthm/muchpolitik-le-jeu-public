@@ -37,6 +37,7 @@ public class GameUIStage extends Stage {
     private Player player;
     private Label livesLabel, moneyLabel, timeLeftLabel, keysLabel;
     private Button leftButton, rightButton, jumpButton, pauseButton;
+    private Table infoLabelsTable;
 
     private boolean timedLevel, levelWithKeys;
     private float timeLeft;
@@ -55,7 +56,7 @@ public class GameUIStage extends Stage {
         Table table = new Table();
         table.setFillParent(true);
         Table controlButtonsTable = new Table(skin);
-        Table infoLabelsTable = new Table(skin);
+        infoLabelsTable = new Table(skin);
 
 
         createButtons();
@@ -69,22 +70,20 @@ public class GameUIStage extends Stage {
 
 
         // add info labels (ime, money, lives, ...) to infoLabelsTable
-        infoLabelsTable.defaults().pad(15);
+        infoLabelsTable.defaults().left().pad(15);
         infoLabelsTable.add(heartImage).size(144);
         infoLabelsTable.add(livesLabel).expandX();
         infoLabelsTable.row();
         infoLabelsTable.add(coinImage).size(144);
         infoLabelsTable.add(moneyLabel).expandX();
-        infoLabelsTable.row();
         if (levelWithKeys) {
             Image keyImage = new Image(skin, level.getKeyType());
             keysLabel = new Label(level.getNbOfKeysFound() + "/" + level.getNbOfKeys(), skin, "game-ui-white");
+            infoLabelsTable.row();
             infoLabelsTable.add(keyImage).size(144);
             infoLabelsTable.add(keysLabel).expandX();
-            infoLabelsTable.row();
         }
-        if (timedLevel)
-            infoLabelsTable.add(timeLeftLabel).colspan(2).expand().top();
+
 
         // add all UI elements to the main table
         table.add(infoLabelsTable).top().left().expand();
@@ -108,12 +107,14 @@ public class GameUIStage extends Stage {
      * Create gameUIStage for a timed level.
      */
     public GameUIStage(Level lvl, Skin skin, float timeToFinishLevel) {
-        this (lvl, skin);
+        this(lvl, skin);
         timedLevel = true;
         timeLeft = timeToFinishLevel;
 
         // display time left
         timeLeftLabel.setText("temps restant : " + (int) timeLeft + "s.");
+        infoLabelsTable.row();
+        infoLabelsTable.add(timeLeftLabel).colspan(2);
     }
 
     /**

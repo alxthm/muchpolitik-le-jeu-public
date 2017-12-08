@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.muchpolitik.lejeu.Screens.CreditScreen;
 import com.muchpolitik.lejeu.Screens.CustomScreen;
@@ -69,12 +70,6 @@ public class LeJeu extends Game {
 
         // load ui skin
         skin = new Skin(Gdx.files.internal("ui/ui_skin.json"));
-
-
-        //TODO: Check mipmapping and how to handle different resolutions
-        //http://www.badlogicgames.com/wordpress/?p=1403
-        //skin.getFont("ui-font").getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
-        //Texture.TextureFilter.Linear); // to support distance field font
 
 
         // load main menu

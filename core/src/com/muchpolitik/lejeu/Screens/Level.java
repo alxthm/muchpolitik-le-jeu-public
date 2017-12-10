@@ -96,6 +96,7 @@ public class Level implements CustomScreen {
         // TODO: comment out for a normal release - ok
         // FOR EASIER LEVEL DESIGN (load level data from an external directory at the root of the app)
         //levelInfo = json.fromJson(LevelInfo.class, Gdx.files.local(name + ".json"));
+
         followingCutscene = levelInfo.getFollowingCutscene();
 
         // TODO: comment out for a normal release - ok

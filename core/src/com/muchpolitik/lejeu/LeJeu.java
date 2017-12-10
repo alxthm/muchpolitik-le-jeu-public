@@ -16,7 +16,10 @@ import com.muchpolitik.lejeu.Screens.MainMenu;
 import com.muchpolitik.lejeu.Screens.Shop;
 import com.muchpolitik.lejeu.Screens.TransitionScreen;
 
-public class LeJeu extends Game {
+/**
+ * The generic game class. It should be extended in order to add platform-specific code.
+ */
+public abstract class LeJeu extends Game {
 
     private Preferences prefs;
     private Skin skin;
@@ -40,13 +43,6 @@ public class LeJeu extends Game {
 
     @Override
     public void create() {
-
-        switch (Gdx.app.getType()) {
-            // on Android, catch back key
-            case Android:
-                Gdx.input.setCatchBackKey(true);
-                break;
-        }
 
         // TODO: set to LOG_INFO or LOG_NONE once the game is published
         Gdx.app.setLogLevel(Application.LOG_DEBUG); // log all messages
@@ -79,25 +75,6 @@ public class LeJeu extends Game {
         currentScreenState = CurrentScreenState.MainMenu;
     }
 
-    @Override
-    public void render() {
-        super.render();
-
-        switch (Gdx.app.getType()) {
-            case Android:
-                // on Android, catch back key
-                if (Gdx.input.isKeyJustPressed(Input.Keys.BACK))
-                    onBackPressed(true);
-                break;
-
-            case Desktop:
-            case WebGL:
-                // on desktop and browser, catch esc key
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
-                    onBackPressed(false);
-                break;
-        }
-    }
 
     @Override
     public void dispose() {
@@ -117,7 +94,7 @@ public class LeJeu extends Game {
      * When back key is pressed on Android, doesn't exit the app immediately, but goes back to
      * another screen or display a confirmation dialog box.
      */
-    private void onBackPressed(boolean onAndroid) {
+    protected void onBackPressed(boolean onAndroid) {
         CustomScreen currentScreen;
 
         // check if screens aren't already switching
@@ -213,4 +190,9 @@ public class LeJeu extends Game {
         musicVolume = audioOn ? DEFAULT_VOLUME : 0;
         soundVolume = audioOn ? DEFAULT_VOLUME : 0;
     }
+
+    /**
+     * Open a window to share the app.
+     */
+    public abstract void shareApp();
 }

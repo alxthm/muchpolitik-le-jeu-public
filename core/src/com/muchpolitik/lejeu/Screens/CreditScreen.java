@@ -64,16 +64,21 @@ public class CreditScreen implements CustomScreen {
         // create widgets
         Label title = new Label("la dream tim", skin, "title-white");
         CreditCard billCard = new CreditCard(skin, billTexture,
-                "Tarsi - scénario, graphisme, UX design", "http://www.tarsi.fr",
+                "Tarsi - scénario, graphisme, UX design",
+                "http://www.tarsi.fr",
                 "Tarsi est un créateur multimedia de 1m75 sur 40cm. En-dehors de ses activités " +
                         "de rédac'chef de Much Politik, il réalise et écrit des histoires sur son " +
                         "site ouaibe de type 2.0");
         CreditCard garbaCard = new CreditCard(skin, garbaTexture,
                 "Alexandre - développeur",
                 "Ce jeune virtuoz du clavier métrise pa moins de 507 langages informatik différent " +
-                        "et fée partie des anonymousses..\n" +
+                        "et fée partie des anonymousses.\n" +
                         "Il sait aussi comment hacké la nsa et des comptes facebok");
-        CreditCard florentCard = new CreditCard(skin, florentTexture, "florentintin", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
+        CreditCard florentCard = new CreditCard(skin, florentTexture,
+                "Floran le hareng - graphisme, animations",
+                "https://www.youtube.com/c/Floranlehareng",
+                "Un mek qui fais des dessin et des vidé eaux !! Au fond de lui cest un " +
+                        "harang mirobolan...");
         CreditCard julienCard = new CreditCard(skin, julienTexture, "julien", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
         CreditCard leoCard = new CreditCard(skin, leoTexture, "leo kaupe", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
 
@@ -95,7 +100,7 @@ public class CreditScreen implements CustomScreen {
 
 
         // put all the widgets in the table
-        container.defaults().pad(50, 500, 50, 200);
+        container.defaults().pad(50, 500, 50, 100);
         container.add(title).center();
         container.row();
         container.defaults().growX();

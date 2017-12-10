@@ -178,6 +178,14 @@ public class MainMenu implements CustomScreen {
         // small buttons
 
         shareButton = new Button(skin, "button-share");
+        // on Android, start a new activity to share the app
+        shareButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.shareApp();
+            }
+        });
+
 
         webButton = new Button(skin, "button-web");
         webButton.addListener(new ChangeListener() {
@@ -196,6 +204,12 @@ public class MainMenu implements CustomScreen {
         });
 
         rateButton = new Button(skin, "button-rate");
+        rateButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.muchpolitik.lejeu");
+            }
+        });
 
         volumeButton = new Button(skin, "button-volume");
         // button checked : audio off, button not checked : audio on

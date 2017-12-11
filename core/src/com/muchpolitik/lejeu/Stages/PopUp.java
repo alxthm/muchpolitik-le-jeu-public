@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
 
 /**
@@ -19,7 +18,7 @@ import com.muchpolitik.lejeu.LeJeu;
 public class PopUp extends CustomStage {
 
     public enum Style {
-        TextPopup,
+        NotifPopup,
         ImagePopup
     }
 
@@ -34,11 +33,18 @@ public class PopUp extends CustomStage {
 
 
     /**
+     * Create an empty stage for a popup.
+     */
+    public PopUp(Skin skin) {
+        super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
+    }
+
+    /**
      * Create a popup that contains text and disappears automatically after a certain delay.
      */
     public PopUp(Skin skin, String title, String text, String labelStyle) {
         super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
-        popupStyle = Style.TextPopup;
+        popupStyle = Style.NotifPopup;
 
         // create widgets
         Window popupWindow = new Window(title, skin);
@@ -73,14 +79,14 @@ public class PopUp extends CustomStage {
     }
 
     /**
-     * Move in (and sometimes make sure the popup moves out automatically).
+     * Move in (and can make sure the popup moves out automatically).
      */
     public void displayPopUp() {
         // start move in transition
         moveIn();
         open = true;
 
-        if (popupStyle == Style.TextPopup)
+        if (popupStyle == Style.NotifPopup)
             // move out automatically after a certain duration
             addAction(Actions.delay(2, new Action() {
                 @Override

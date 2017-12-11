@@ -93,17 +93,17 @@ public class Level implements CustomScreen {
         // load level info
         Json json = new Json();
         levelInfo = json.fromJson(LevelInfo.class, Gdx.files.internal("data/levels/" + name + ".json"));
-        // TODO: comment out for a normal release - ok
-        // FOR EASIER LEVEL DESIGN (load level data from an external directory at the root of the app)
-        //levelInfo = json.fromJson(LevelInfo.class, Gdx.files.local(name + ".json"));
+        // COMMENT OUT FOR A NORMAL RELEASE
+        // useful for level design (load level data from an external directory at the root of the app)
+//        levelInfo = json.fromJson(LevelInfo.class, Gdx.files.local(name + ".json"));
 
         followingCutscene = levelInfo.getFollowingCutscene();
 
-        // TODO: comment out for a normal release - ok
-        // FOR EASIER LEVEL DESIGN (load level data from an external directory at the root of the app)
-        //FileHandleResolver debugFileHandleReolver = new LocalFileHandleResolver();
-        //TmxMapLoader debugMapLoader = new TmxMapLoader(debugFileHandleReolver);
-        //map = debugMapLoader.load(name + "-map.tmx");
+        // COMMENT OUT FOR A NORMAL RELEASE
+        // useful for level design (load level data from an external directory at the root of the app)
+//        FileHandleResolver debugFileHandleReolver = new LocalFileHandleResolver();
+//        TmxMapLoader debugMapLoader = new TmxMapLoader(debugFileHandleReolver);
+//        map = debugMapLoader.load(name + "-map.tmx");
 
 
         // load map and create mapRenderer

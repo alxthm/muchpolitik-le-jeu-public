@@ -1,5 +1,6 @@
 package com.muchpolitik.lejeu.Screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
@@ -20,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.CutscenesObjects.Dialog;
 import com.muchpolitik.lejeu.CutscenesObjects.Dude;
 import com.muchpolitik.lejeu.CutscenesObjects.SpeechObject;
@@ -46,13 +46,13 @@ public class Cutscene extends InputAdapter implements CustomScreen {
 
     private boolean displayingText;
     private int currentSpeechIndex;
-    private String jsonFileName, followingCutscene, followingLevel;
+    private String cutsceneName, followingCutscene, followingLevel;
 
 
-    public Cutscene(LeJeu game, String jsonFileName) {
+    public Cutscene(LeJeu game, String cutsceneName) {
         stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         this.game = game;
-        this.jsonFileName = jsonFileName;
+        this.cutsceneName = cutsceneName;
     }
 
     @Override
@@ -187,7 +187,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         // load dialog file containing all info
         skin = game.getSkin();
         Json json = new Json();
-        Dialog dialog = json.fromJson(Dialog.class, Gdx.files.internal("data/dialogs/" + jsonFileName + ".json"));
+        Dialog dialog = json.fromJson(Dialog.class, Gdx.files.internal("data/dialogs/" + cutsceneName + ".json"));
 
         // load images
         backgroundSprite = new Sprite(new Texture("graphics/backgrounds/cutscenes/" + dialog.getBackgroundName()));
@@ -219,7 +219,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         displayingText = false; // by default
 
         // if there is a popup on the screen
-        if (popUp!= null && popUp.isOpen()) {
+        if (popUp != null && popUp.isOpen()) {
             if (!popUp.isMovingOut())
                 // if it has not begun moving out, remove it
                 popUp.removePopUp();
@@ -322,7 +322,13 @@ public class Cutscene extends InputAdapter implements CustomScreen {
             game.changeScreen(this, new Cutscene(game, followingCutscene));
         else if (followingLevel != null)
             game.changeScreen(this, new Level(game, followingLevel));
-        else
-            game.changeScreen(this, new LevelMap(game));
+        else {
+            // on android after finishing a world, display a popup
+            // asking for ratings after loading level map
+            boolean askForRatings = Gdx.app.getType() == Application.ApplicationType.Android
+                    && cutsceneName.contains("victoire")
+                    && game.getPrefs().getBoolean("askForRatings");
+            game.changeScreen(this, new LevelMap(game, askForRatings));
+        }
     }
 }

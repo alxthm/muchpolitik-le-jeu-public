@@ -58,6 +58,7 @@ public abstract class LeJeu extends Game {
             prefs.putBoolean("defaultCostumeOwned", true);
             prefs.putString("equippedCostume", "default");
             prefs.putBoolean("audioOn", true);
+            prefs.putBoolean("askForRatings", true);
             prefs.flush();
         }
 
@@ -192,7 +193,7 @@ public abstract class LeJeu extends Game {
     }
 
     /**
-     * Open a window to share the app.
+     * Open a window to share the app if the platform supports it.
      */
     public abstract void shareApp();
 }

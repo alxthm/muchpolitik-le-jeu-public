@@ -23,10 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.muchpolitik.lejeu.LeJeu;
 import com.muchpolitik.lejeu.MenuObjects.ItemInfo;
-import com.muchpolitik.lejeu.MenuObjects.LevelInfo;
+import com.muchpolitik.lejeu.Stages.RatingsPopup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,11 +36,15 @@ public class LevelMap implements CustomScreen {
     private CustomScreen thisScreen = this;
     private Stage stage;
     private Skin skin;
+    private Preferences prefs;
     private Music music;
 
     private Texture backgroundTexture;
     private ArrayList<ImageTextButton> buttonsList;
     private ScrollPane scrollPane;
+    private RatingsPopup ratingsPopup;
+
+    private boolean askForRatings = false;
 
     public LevelMap(LeJeu game) {
         stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
@@ -49,9 +52,14 @@ public class LevelMap implements CustomScreen {
         this.skin = game.getSkin();
     }
 
+    public LevelMap(LeJeu game, boolean askForRatings) {
+        this(game);
+        this.askForRatings = askForRatings;
+    }
+
     @Override
     public void load() {
-        Preferences prefs = game.getPrefs();
+        prefs = game.getPrefs();
         Gdx.input.setInputProcessor(stage);
 
 
@@ -82,89 +90,11 @@ public class LevelMap implements CustomScreen {
         Json json = new Json();
         ArrayList<ItemInfo> buttonsInfoList = json.fromJson(ArrayList.class, ItemInfo.class,
                 Gdx.files.internal("data/levelmap.json"));
-        buttonsList = new ArrayList<>();
 
         // create all level buttons
-        for (final ItemInfo i : buttonsInfoList) {
-            final String levelName = i.getItemName();
-
-            // create an imageTextButton with label under the image
-            ImageTextButton button = new ImageTextButton(i.getText(), skin);
-            Label.LabelStyle style = skin.get("game-ui-white", Label.LabelStyle.class);
-            button.getLabel().setStyle(style);
-            button.setName(levelName);
-            button.clearChildren();
-            button.add(button.getImage()).row();
-            button.add(button.getLabel());
-
-            // TODO: comment out for a normal release - ok
-            // for level designers only : unlock all levels
-            // add a listener to load either a cutscene or a level
-//            if (i.getPrecedingCutscene() != null)
-//                button.addListener(new ChangeListener() {
-//                    @Override
-//                    public void changed(ChangeEvent event, Actor actor) {
-//                        game.changeScreen(thisScreen, new Cutscene(game, i.getPrecedingCutscene()));
-//                    }
-//                });
-//            else
-//                button.addListener(new ChangeListener() {
-//                    @Override
-//                    public void changed(ChangeEvent event, Actor actor) {
-//                        game.changeScreen(thisScreen, new Level(game, levelName));
-//                    }
-//                });
-//
-//            // set button style
-//            if (prefs.getBoolean(levelName + "Done"))
-//                if (levelName.toLowerCase().contains("boss")) {
-//                    button.setStyle(skin.get("boss-level-done", ImageTextButton.ImageTextButtonStyle.class));
-//                } else {
-//                    button.setStyle(skin.get("basic-level-done", ImageTextButton.ImageTextButtonStyle.class));
-//                }
-
-
-            if (prefs.getBoolean(levelName + "Unlocked")) {
-                // add a listener to load either a cutscene or a level
-                if (i.getPrecedingCutscene() != null)
-                    button.addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ChangeEvent event, Actor actor) {
-                            game.changeScreen(thisScreen, new Cutscene(game, i.getPrecedingCutscene()));
-                        }
-                    });
-                else
-                    button.addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ChangeEvent event, Actor actor) {
-                            game.changeScreen(thisScreen, new Level(game, levelName));
-                        }
-                    });
-
-                // set button style
-                if (prefs.getBoolean(levelName + "Done")) {
-                    if (levelName.toLowerCase().contains("boss")) {
-                        button.setStyle(skin.get("boss-level-done", ImageTextButton.ImageTextButtonStyle.class));
-                    } else {
-                        button.setStyle(skin.get("basic-level-done", ImageTextButton.ImageTextButtonStyle.class));
-                    }
-                } else if (levelName.contains("Boss")) {
-                    button.setStyle(skin.get("boss-level-unlocked", ImageTextButton.ImageTextButtonStyle.class));
-                } else {
-                    button.setStyle(skin.get("basic-level-unlocked", ImageTextButton.ImageTextButtonStyle.class));
-                }
-
-            } else {
-                // if level is locked, set the right style (basic or boss), and set disabled
-                if (levelName.toLowerCase().contains("boss")) {
-                    button.setStyle(skin.get("boss-level-done", ImageTextButton.ImageTextButtonStyle.class));
-                } else {
-                    button.setStyle(skin.get("basic-level-done", ImageTextButton.ImageTextButtonStyle.class));
-                }
-                button.setDisabled(true);
-            }
-            buttonsList.add(button);
-        }
+        buttonsList = new ArrayList<>();
+        for (final ItemInfo levelInfo : buttonsInfoList)
+            buttonsList.add(getButton(levelInfo));
 
 
         // add level buttons to the map
@@ -204,6 +134,15 @@ public class LevelMap implements CustomScreen {
         music.setLooping(true);
         music.setVolume(game.getMusicVolume());
 
+
+        // if required, add a popup asking for ratings on the PlayStore
+        if (askForRatings) {
+            ratingsPopup = new RatingsPopup(skin, game.getPrefs(), stage);
+            Gdx.input.setInputProcessor(ratingsPopup);
+
+            // display the popup with an animation
+            ratingsPopup.displayPopUp();
+        }
     }
 
     @Override
@@ -222,12 +161,22 @@ public class LevelMap implements CustomScreen {
 
         stage.act();
         stage.draw();
+
+        if (ratingsPopup != null) {
+            ratingsPopup.act();
+            ratingsPopup.draw();
+        }
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getCamera().update();
         stage.getViewport().update(width, height);
+
+        if (ratingsPopup != null) {
+            ratingsPopup.act();
+            ratingsPopup.draw();
+        }
     }
 
     @Override
@@ -250,6 +199,94 @@ public class LevelMap implements CustomScreen {
         stage.dispose();
         backgroundTexture.dispose();
         music.dispose();
+    }
+
+    /**
+     * Create a button to load a level.
+     * @param levelInfo
+     * @return the button
+     */
+    private ImageTextButton getButton(final ItemInfo levelInfo) {
+        final String levelName = levelInfo.getItemName();
+
+        // create an imageTextButton with label under the image
+        ImageTextButton button = new ImageTextButton(levelInfo.getText(), skin);
+        Label.LabelStyle style = skin.get("game-ui-white", Label.LabelStyle.class);
+        button.getLabel().setStyle(style);
+        button.setName(levelName);
+        button.clearChildren();
+        button.add(button.getImage()).row();
+        button.add(button.getLabel());
+
+        // COMMENT OUT FOR A NORMAL RELEASE
+        // for level designers only : unlock all levels
+        // add a listener to load either a cutscene or a level
+//            if (i.getPrecedingCutscene() != null)
+//                button.addListener(new ChangeListener() {
+//                    @Override
+//                    public void changed(ChangeEvent event, Actor actor) {
+//                        game.changeScreen(thisScreen, new Cutscene(game, i.getPrecedingCutscene()));
+//                    }
+//                });
+//            else
+//                button.addListener(new ChangeListener() {
+//                    @Override
+//                    public void changed(ChangeEvent event, Actor actor) {
+//                        game.changeScreen(thisScreen, new Level(game, levelName));
+//                    }
+//                });
+//
+//            // set button style
+//            if (prefs.getBoolean(levelName + "Done"))
+//                if (levelName.toLowerCase().contains("boss")) {
+//                    button.setStyle(skin.get("boss-level-done", ImageTextButton.ImageTextButtonStyle.class));
+//                } else {
+//                    button.setStyle(skin.get("basic-level-done", ImageTextButton.ImageTextButtonStyle.class));
+//                }
+
+
+        if (prefs.getBoolean(levelName + "Unlocked")) {
+            // add a listener to load either a cutscene or a level
+            if (levelInfo.getPrecedingCutscene() != null)
+                button.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        game.changeScreen(thisScreen, new Cutscene(game, levelInfo.getPrecedingCutscene()));
+                    }
+                });
+            else
+                button.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        game.changeScreen(thisScreen, new Level(game, levelName));
+                    }
+                });
+
+            // set button style
+            if (prefs.getBoolean(levelName + "Done")) {
+                if (levelName.toLowerCase().contains("boss")) {
+                    button.setStyle(skin.get("boss-level-done", ImageTextButton.ImageTextButtonStyle.class));
+                } else {
+                    button.setStyle(skin.get("basic-level-done", ImageTextButton.ImageTextButtonStyle.class));
+                }
+            } else if (levelName.contains("Boss")) {
+                button.setStyle(skin.get("boss-level-unlocked", ImageTextButton.ImageTextButtonStyle.class));
+            } else {
+                button.setStyle(skin.get("basic-level-unlocked", ImageTextButton.ImageTextButtonStyle.class));
+            }
+
+        } else {
+            // if level is locked, set the right style (basic or boss), and set disabled
+            if (levelName.toLowerCase().contains("boss")) {
+                button.setStyle(skin.get("boss-level-done", ImageTextButton.ImageTextButtonStyle.class));
+            } else {
+                button.setStyle(skin.get("basic-level-done", ImageTextButton.ImageTextButtonStyle.class));
+            }
+            button.setDisabled(true);
+
+        }
+
+        return button;
     }
 
     /**

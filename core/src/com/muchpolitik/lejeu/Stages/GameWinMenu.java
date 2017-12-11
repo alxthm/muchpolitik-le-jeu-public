@@ -1,5 +1,6 @@
 package com.muchpolitik.lejeu.Stages;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Interpolation;

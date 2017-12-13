@@ -30,11 +30,10 @@ public class SpeechBubble extends Window {
             setBounds(1200, 400, SPEECH_BUBBLE_WIDTH, SPEECH_BUBBLE_HEIGHT);
 
         // place the logical table containing the label at the top left of the window
-        top().left().pad(5, 15, 0, 15);
-
+        top().left().pad(0, 30, 0, 30);
         label = new Label("", skin, "dialog");
         label.setWrap(true);
-        add(label).prefWidth(SPEECH_BUBBLE_WIDTH - 30);
+        add(label).prefWidth(SPEECH_BUBBLE_WIDTH - 60);
 
     }
 

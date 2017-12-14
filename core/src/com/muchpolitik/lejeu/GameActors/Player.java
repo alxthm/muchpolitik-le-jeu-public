@@ -514,11 +514,16 @@ public class Player extends Actor {
     }
 
     /**
-     * Make player bounce, after hitting an enemy on the head for example. Also allow the player to jump again.
+     * If the player is walking, does nothing.
+     * If the player is in the air (ie he jumped on the enemy), make him bounce.
+     * <p>
+     * Also allow the player to jump again.
      */
     public void bounce() {
-        speedY = FIRST_JUMP_SPEED * 2 / 3f;
-        canDoSecondJump = true;
+        if (state != State.Walking && state != State.Idle) {
+            speedY = FIRST_JUMP_SPEED * 2 / 3f;
+            canDoSecondJump = true;
+        }
     }
 
     /**
@@ -552,8 +557,12 @@ public class Player extends Actor {
         addAction(stopInvincibilityDelayed);
     }
 
+    public boolean isInvincible() {
+        return invincible;
+    }
+
     public void setInvincible() {
-        this.invincible = true;
+        invincible = true;
     }
 
 

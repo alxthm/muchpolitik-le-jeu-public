@@ -29,10 +29,10 @@ public abstract class Enemy extends Actor implements Telegraph {
      */
     public int lives = STARTING_LIVES;
     public boolean facingRight;
-    public Animation <TextureAtlas.AtlasRegion> currentAnimation, walkRightAnimation, walkLeftAnimation, stunnedRightAnimation,
-    stunnedLeftAnimation, dyingAnimation, attackingRightAnimation, attackingLeftAnimation;
+    public Animation<TextureAtlas.AtlasRegion> currentAnimation, walkRightAnimation, walkLeftAnimation, stunnedRightAnimation,
+            stunnedLeftAnimation, dyingAnimation, attackingRightAnimation, attackingLeftAnimation;
     public Rectangle bounds;
-    public float stunnedTime = 5, headHeight = 2/3f; // a proportion of enemy height beyond which is head hitbox
+    public float stunnedTime = 5, headHeight = 2 / 3f; // a proportion of enemy height beyond which is head hitbox
 
 
     public enum DefenseType {
@@ -42,10 +42,10 @@ public abstract class Enemy extends Actor implements Telegraph {
     }
 
     public Player player;
-    public StateMachine <Enemy, EnemyState> globalStateMachine;
+    public StateMachine<Enemy, EnemyState> globalStateMachine;
     public GameStage gameStage;
-        // a generic state machine, for generic states (LIVING, STUNNED, DYING) of all types of enemies.
-        // handles all defense types (basic, tank, immortal)
+    // a generic state machine, for generic states (LIVING, STUNNED, DYING) of all types of enemies.
+    // handles all defense types (basic, tank, immortal)
     public DefenseType defenseType;
 
     /**
@@ -84,6 +84,7 @@ public abstract class Enemy extends Actor implements Telegraph {
 
     /**
      * Handles the msg by giving it to globalStateMachine of the enemy
+     *
      * @param msg
      * @return
      */
@@ -104,12 +105,13 @@ public abstract class Enemy extends Actor implements Telegraph {
 
     /**
      * Get graphics from level TextureAtlas and load following animations :
-     *  walk right,
-     *  walk left,
-     *  dying
-     *  @param atlas gameObjects atlas
-     *  @param name name of the enemy
-     *  @param loadAtkAnimations if attackingLeft and attackingRight animations should be loaded (for bosses, projectiles throwers and sprinters)
+     * walk right,
+     * walk left,
+     * dying
+     *
+     * @param atlas             gameObjects atlas
+     * @param name              name of the enemy
+     * @param loadAtkAnimations if attackingLeft and attackingRight animations should be loaded (for bosses, projectiles throwers and sprinters)
      */
     public void loadAnimations(TextureAtlas atlas, String name, boolean loadAtkAnimations) {
         stateTime = 0;
@@ -174,11 +176,12 @@ public abstract class Enemy extends Actor implements Telegraph {
      */
     public void checkPlayerCollision() {
         updateBounds();
-        if (collideWithPlayer()) {
 
+        if (collideWithPlayer()) {
             switch (defenseType) {
+
                 case Basic:
-                    if (isHitInTheHead()) {
+                    if (isHit()) {
                         // kill enemy
                         player.bounce();
                         startDying();
@@ -188,7 +191,7 @@ public abstract class Enemy extends Actor implements Telegraph {
                     break;
 
                 case Tank:
-                    if (isHitInTheHead()) {
+                    if (isHit()) {
                         if (lives > 1) {
                             player.bounce();
                             loseOneLife();
@@ -212,11 +215,11 @@ public abstract class Enemy extends Actor implements Telegraph {
      * Set enemy position to the range limit and change animation.
      */
     public void turnAround() {
-        float newX = facingRight? (startX + rangeOfAction) : (startX - rangeOfAction);
+        float newX = facingRight ? (startX + rangeOfAction) : (startX - rangeOfAction);
         setX(newX);
 
         facingRight = !facingRight;
-        currentAnimation = facingRight? walkRightAnimation : walkLeftAnimation;
+        currentAnimation = facingRight ? walkRightAnimation : walkLeftAnimation;
     }
 
     /**
@@ -229,8 +232,7 @@ public abstract class Enemy extends Actor implements Telegraph {
                 moveBy(speed * deltaTime, 0);
             else
                 moveBy(-speed * deltaTime, 0);
-        }
-        else {
+        } else {
             turnAround();
         }
     }
@@ -279,12 +281,18 @@ public abstract class Enemy extends Actor implements Telegraph {
         return bounds.overlaps(player.getBounds());
     }
 
-    private boolean isHitInTheHead() {
-        return (player.getY() > getY() + getHeight()*headHeight && !player.isHurt());
+    /**
+     * Check if the enemy is hit in the head, or if the player is in invincible mode (and every contact is a hit).
+     *
+     * @return if the ennemy should take a hit
+     */
+    private boolean isHit() {
+        boolean isHitInTheHead = player.getY() > getY() + getHeight() * headHeight;
+        return (isHitInTheHead && !player.isHurt()) || player.isInvincible();
     }
 
     protected boolean isOnScreen() {
-        return gameStage.getCamera().frustum.boundsInFrustum(getX(), getY(), 0, getWidth()/2f, getHeight()/2f, 0);
+        return gameStage.getCamera().frustum.boundsInFrustum(getX(), getY(), 0, getWidth() / 2f, getHeight() / 2f, 0);
     }
 
     public GameStage getGameStage() {

@@ -112,8 +112,8 @@ public class Level implements CustomScreen {
         float unitScale = (float) 1 / tileSize;
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
         // for debugging
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setAutoShapeType(true);
+        //shapeRenderer = new ShapeRenderer();
+        //shapeRenderer.setAutoShapeType(true);
 
         // load most graphics
         gameObjectsAtlas = new TextureAtlas("graphics/gameObjects.atlas");
@@ -171,10 +171,10 @@ public class Level implements CustomScreen {
         mapRenderer.render();
 
         // render gameStage (and debug lines)
-        shapeRenderer.setProjectionMatrix(gameStage.getCamera().combined); // for debugging
-        shapeRenderer.begin();
+        //shapeRenderer.setProjectionMatrix(gameStage.getCamera().combined); // for debugging
+        //shapeRenderer.begin();
         gameStage.draw();
-        shapeRenderer.end();
+        //shapeRenderer.end();
 
         // render UI
         gameUIStage.draw();

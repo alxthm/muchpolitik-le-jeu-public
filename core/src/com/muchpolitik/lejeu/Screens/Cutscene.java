@@ -46,6 +46,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
 
     private boolean displayingText;
     private int currentSpeechIndex;
+    private float zoomStep, cameraMoveStep;
     private String cutsceneName, followingCutscene, followingLevel;
 
 
@@ -53,6 +54,10 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         this.game = game;
         this.cutsceneName = cutsceneName;
+
+        // adapt the zoom to the screen width (which can vary)
+        zoomStep = stage.getWidth() / 256000f;
+        cameraMoveStep = stage.getWidth() / 250f;
     }
 
     @Override
@@ -79,9 +84,13 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         Dude dude1 = new Dude(character1Sprite);
         dude1.setPosition(0, 500);
         Dude dude2 = new Dude(character2Sprite);
-        dude2.setPosition(2128, 500);
-        speechBubble1 = new SpeechBubble(true, skin);
-        speechBubble2 = new SpeechBubble(false, skin);
+        dude2.setPosition(stage.getWidth() - dude1.getWidth(), 500);
+        speechBubble1 = new SpeechBubble(skin);
+        speechBubble1.setBounds(400, 400,
+                SpeechBubble.SPEECH_BUBBLE_WIDTH, SpeechBubble.SPEECH_BUBBLE_HEIGHT);
+        speechBubble2 = new SpeechBubble(skin);
+        speechBubble2.setBounds(stage.getWidth() - (400 + SpeechBubble.SPEECH_BUBBLE_WIDTH), 400,
+                SpeechBubble.SPEECH_BUBBLE_WIDTH, SpeechBubble.SPEECH_BUBBLE_HEIGHT);
 
         // add actors to the stage
         table.setBackground(background);
@@ -260,7 +269,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         Action zoomIn = new Action() {
             @Override
             public boolean act(float delta) {
-                camera.zoom -= 0.01f;
+                camera.zoom -= zoomStep;
                 camera.update();
                 return true;
             }
@@ -269,9 +278,9 @@ public class Cutscene extends InputAdapter implements CustomScreen {
             @Override
             public boolean act(float delta) {
                 if (charNb == 1)
-                    camera.translate(-12, 0);
+                    camera.translate(-cameraMoveStep, 0);
                 else if (charNb == 2)
-                    camera.translate(12, 0);
+                    camera.translate(cameraMoveStep, 0);
                 camera.update();
                 return true;
             }
@@ -285,7 +294,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         Action zoomOut = new Action() {
             @Override
             public boolean act(float delta) {
-                camera.zoom += 0.01f;
+                camera.zoom += zoomStep;
                 camera.update();
                 return true;
             }
@@ -294,9 +303,9 @@ public class Cutscene extends InputAdapter implements CustomScreen {
             @Override
             public boolean act(float delta) {
                 if (charNb == 1)
-                    camera.translate(12, 0);
+                    camera.translate(cameraMoveStep, 0);
                 else if (charNb == 2)
-                    camera.translate(-12, 0);
+                    camera.translate(-cameraMoveStep, 0);
                 camera.update();
                 return true;
             }

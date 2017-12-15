@@ -196,14 +196,14 @@ public class Player extends Actor {
         // for debugging
 //        Level.shapeRenderer.rect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
 //        Level.shapeRenderer.rect(feetBounds.getX(), feetBounds.getY(), feetBounds.getWidth(), feetBounds.getHeight());
-        Level.shapeRenderer.point(xPointLeft1.x, xPointLeft1.y, 0);
-        Level.shapeRenderer.point(xPointLeft2.x, xPointLeft2.y, 0);
-        Level.shapeRenderer.point(xPointRight1.x, xPointRight1.y, 0);
-        Level.shapeRenderer.point(xPointRight2.x, xPointRight2.y, 0);
-        Level.shapeRenderer.point(yPointBottom1.x, yPointBottom1.y, 0);
-        Level.shapeRenderer.point(yPointBottom2.x, yPointBottom2.y, 0);
-        Level.shapeRenderer.point(yPointTop1.x, yPointTop1.y, 0);
-        Level.shapeRenderer.point(yPointTop2.x, yPointTop2.y, 0);
+//        Level.shapeRenderer.point(xPointLeft1.x, xPointLeft1.y, 0);
+//        Level.shapeRenderer.point(xPointLeft2.x, xPointLeft2.y, 0);
+//        Level.shapeRenderer.point(xPointRight1.x, xPointRight1.y, 0);
+//        Level.shapeRenderer.point(xPointRight2.x, xPointRight2.y, 0);
+//        Level.shapeRenderer.point(yPointBottom1.x, yPointBottom1.y, 0);
+//        Level.shapeRenderer.point(yPointBottom2.x, yPointBottom2.y, 0);
+//        Level.shapeRenderer.point(yPointTop1.x, yPointTop1.y, 0);
+//        Level.shapeRenderer.point(yPointTop2.x, yPointTop2.y, 0);
 
         batch.setColor(1, 1, 1, 1);
     }
@@ -343,7 +343,7 @@ public class Player extends Actor {
                 speedY = 0;
             }
 
-            // 
+            // important to avoid bugs
             updateTileCollisionBounds(newPos);
 
             // check collision on x-axis with 2 points at the right and 2 at the left to prevent going into surroundingTiles
@@ -356,7 +356,6 @@ public class Player extends Actor {
                 // push the player to the right border of the tile
                 newPos.x = tile.getX() + 1;
         }
-
 
 
         if (!grounded) {

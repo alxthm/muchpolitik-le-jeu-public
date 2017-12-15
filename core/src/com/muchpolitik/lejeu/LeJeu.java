@@ -36,17 +36,19 @@ public abstract class LeJeu extends Game {
     private CurrentScreenState currentScreenState;
 
     public static final float DEFAULT_VOLUME = 0.6f;
-    // used to specify viewports virtual screen size
-    public static final int minWidth = 2560, minHeight = 1440, maxWidth = 2560, maxHeight = 1920;
+    /**
+     * Specify viewports virtual screen size.
+     * <p>
+     * Virtual height is constant (1440px)
+     * <p>
+     * Virtual width varies according to the screen ratio (from 4/3 : 1920px to 16/9 : 2560px)
+     */
+    public static final int minWidth = 1920, minHeight = 1440, maxWidth = 2560, maxHeight = 1440;
     private float musicVolume, soundVolume;
     private boolean audioOn;
 
     @Override
     public void create() {
-
-        // TODO: set to LOG_INFO or LOG_NONE once the game is published
-        Gdx.app.setLogLevel(Application.LOG_DEBUG); // log all messages
-
 
         // get preferences
         prefs = Gdx.app.getPreferences("MPprefs");

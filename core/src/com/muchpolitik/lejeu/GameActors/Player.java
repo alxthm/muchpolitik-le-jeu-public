@@ -48,7 +48,7 @@ public class Player extends Actor {
         Dead
     }
 
-    private float speedX, speedY, hitboxWidth, stateTime;
+    private float speedX, speedY, hitboxWidth, feetHitboxHeight, stateTime;
     private int mapWidth, mapHeight;
     private long lastTimeHurt = 0, deathTime;
     private State state;
@@ -66,8 +66,16 @@ public class Player extends Actor {
         }
     };
     private Array<Rectangle> surroundingTiles = new Array<>();
-    private Rectangle bounds;
-    private Vector2 xPoint1, xPoint2, yPoint1, yPoint2;
+    private Rectangle bounds, feetBounds;
+    /**
+     * Used in collision detection with tiles.
+     * <p>
+     * xPoints are for collision on x-axis : 2 on the left side, and 2 on the right side.
+     * <p>
+     * yPoints are for collision on y-axis : 2 on the top, 2 on the bottom.
+     */
+    private Vector2 xPointLeft1, xPointLeft2, xPointRight1, xPointRight2,
+            yPointTop1, yPointTop2, yPointBottom1, yPointBottom2;
     private TextureAtlas atlas;
     private Sprite dead;
     private Animation<TextureRegion> currentAnimation, idleRightAnimation, idleLeftAnimation, walkRightAnimation, walkLeftAnimation,
@@ -122,12 +130,19 @@ public class Player extends Actor {
         speedY = 0;
         setBounds(startX, startY, 1, 1);
         hitboxWidth = getWidth() * 2 / 3f;
+        feetHitboxHeight = 1 / 3f;
         bounds = new Rectangle(getX() + (getWidth() - hitboxWidth) / 2f, getY(),
                 hitboxWidth, getHeight());
-        xPoint1 = new Vector2();
-        xPoint2 = new Vector2();
-        yPoint1 = new Vector2();
-        yPoint2 = new Vector2();
+        feetBounds = new Rectangle(getX() + (getWidth() - hitboxWidth) / 2f, getY(),
+                hitboxWidth, feetHitboxHeight);
+        xPointLeft1 = new Vector2();
+        xPointLeft2 = new Vector2();
+        xPointRight1 = new Vector2();
+        xPointRight2 = new Vector2();
+        yPointTop1 = new Vector2();
+        yPointTop2 = new Vector2();
+        yPointBottom1 = new Vector2();
+        yPointBottom2 = new Vector2();
 
     }
 
@@ -179,7 +194,16 @@ public class Player extends Actor {
 
 
         // for debugging
-        //Level.shapeRenderer.rect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+//        Level.shapeRenderer.rect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+//        Level.shapeRenderer.rect(feetBounds.getX(), feetBounds.getY(), feetBounds.getWidth(), feetBounds.getHeight());
+        Level.shapeRenderer.point(xPointLeft1.x, xPointLeft1.y, 0);
+        Level.shapeRenderer.point(xPointLeft2.x, xPointLeft2.y, 0);
+        Level.shapeRenderer.point(xPointRight1.x, xPointRight1.y, 0);
+        Level.shapeRenderer.point(xPointRight2.x, xPointRight2.y, 0);
+        Level.shapeRenderer.point(yPointBottom1.x, yPointBottom1.y, 0);
+        Level.shapeRenderer.point(yPointBottom2.x, yPointBottom2.y, 0);
+        Level.shapeRenderer.point(yPointTop1.x, yPointTop1.y, 0);
+        Level.shapeRenderer.point(yPointTop2.x, yPointTop2.y, 0);
 
         batch.setColor(1, 1, 1, 1);
     }
@@ -298,65 +322,51 @@ public class Player extends Actor {
         int endY = (int) (newPos.y + getHeight());
         getTiles(startX, startY, endX, endY, surroundingTiles);
 
-        // check collision on y-axis with 2 points
+        updateTileCollisionBounds(newPos);
+
         grounded = false; // false by default, unless player collides with ground surroundingTiles
-        if (speedY > 0) { // on upper side if player is going up
-            yPoint1.set(newPos.x + getWidth() * 1 / 4f, newPos.y + getHeight());
-            yPoint2.set(newPos.x + getWidth() * 3 / 4f, newPos.y + getHeight());
-            for (Rectangle tile : surroundingTiles) {
-                if (tile.contains(yPoint1) || tile.contains(yPoint2)) {
-                    newPos.y = tile.getY() - getHeight();
-                    speedY = 0;
-                }
+        for (Rectangle tile : surroundingTiles) {
+            // check collision on y-axis with 2 points on top, 2 points on the bottom
+
+            if (speedY < 0 && (tile.contains(yPointBottom1) || tile.contains(yPointBottom2))) {
+                newPos.y = tile.getY() + 1;
+                yPointBottom1.y = tile.getY() + 1;
+                yPointBottom2.y = tile.getY() + 1;
+                speedY = 0;
+                grounded = true;
+                canDoSecondJump = true;
+
+            } else if (speedY > 0 && (tile.contains(yPointTop1) || tile.contains(yPointTop2))) {
+                newPos.y = tile.getY() - getHeight();
+                yPointTop1.y = tile.getY() - getHeight();
+                yPointTop2.y = tile.getY() - getHeight();
+                speedY = 0;
             }
 
-        } else { // on down side if player is going down
-            yPoint1.set(newPos.x + getWidth() * 1 / 4f, newPos.y);
-            yPoint2.set(newPos.x + getWidth() * 3 / 4f, newPos.y);
-            for (Rectangle tile : surroundingTiles) {
-                if (tile.contains(yPoint1) || tile.contains(yPoint2)) {
-                    newPos.y = tile.getY() + 1;
-                    yPoint1.y = tile.getY() + 1;
-                    yPoint2.y = tile.getY() + 1;
-                    speedY = 0;
-                    grounded = true;
-                    canDoSecondJump = true;
-                }
-            }
+            // 
+            updateTileCollisionBounds(newPos);
+
+            // check collision on x-axis with 2 points at the right and 2 at the left to prevent going into surroundingTiles
+
+            if (speedX > 0 && (tile.contains(xPointRight1) || tile.contains(xPointRight2)))
+                // push the player to the left border of the tile
+                newPos.x = Math.max(tile.getX() - getWidth(), 0);
+
+            else if ((speedX < 0) && (tile.contains(xPointLeft1) || tile.contains(xPointLeft2)))
+                // push the player to the right border of the tile
+                newPos.x = tile.getX() + 1;
         }
+
+
+
         if (!grounded) {
             state = State.Jumping;
             currentAnimation = facingRight ? jumpRightAnimation : jumpLeftAnimation;
         }
 
-        // check collision on x-axis with 2 points, at the right or the left to prevent going into surroundingTiles
-        if (speedX > 0) {
-            for (Rectangle tile : surroundingTiles) {
-                xPoint1.set(newPos.x + getWidth(), newPos.y + getHeight() * 1 / 4f);
-                xPoint2.set(newPos.x + getWidth(), newPos.y + getHeight() * 3 / 4f);
-                if (tile.contains(xPoint1) || tile.contains(xPoint2)) {
-                    float newX = Math.max(tile.getX() - getWidth(), 0);
-                    newPos.x = newX;
-                    xPoint1.x = newX;
-                    xPoint2.x = newX;
-                }
-            }
-
-        } else {
-            for (Rectangle tile : surroundingTiles) {
-                xPoint1.set(newPos.x, newPos.y + getHeight() * 1 / 4f);
-                xPoint2.set(newPos.x, newPos.y + getHeight() * 3 / 4f);
-                if (tile.contains(xPoint1) || tile.contains(xPoint2)) {
-                    float newX = tile.getX() + 1;
-                    newPos.x = newX;
-                    xPoint1.x = newX;
-                    xPoint2.x = newX;
-                }
-            }
-        }
-
         return newPos;
     }
+
 
     /**
      * Move player and eventually camera.
@@ -414,6 +424,7 @@ public class Player extends Actor {
 
         // update bounds rectangle
         bounds.setPosition(getX() + (getWidth() - hitboxWidth) / 2f, getY());
+        feetBounds.setPosition(getX() + (getWidth() - hitboxWidth) / 2f, getY());
 
         // update hurt state
         if (TimeUtils.timeSinceMillis(lastTimeHurt) > TIME_HURT) {
@@ -478,6 +489,10 @@ public class Player extends Actor {
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public Rectangle getFeetBounds() {
+        return feetBounds;
     }
 
     public int getLives() {
@@ -563,6 +578,25 @@ public class Player extends Actor {
 
     public void setInvincible() {
         invincible = true;
+    }
+
+    /**
+     * Update the points used for tile collision detection
+     *
+     * @param newPos The new position used
+     */
+    public void updateTileCollisionBounds(Vector2 newPos) {
+        // points for x-axis collision
+        xPointLeft1.set(newPos.x, newPos.y + getHeight() * 1 / 4f);
+        xPointLeft2.set(newPos.x, newPos.y + getHeight() * 3 / 4f);
+        xPointRight1.set(newPos.x + getWidth(), newPos.y + getHeight() * 1 / 4f);
+        xPointRight2.set(newPos.x + getWidth(), newPos.y + getHeight() * 3 / 4f);
+
+        // points for y-axis collision
+        yPointTop1.set(newPos.x + getWidth() * 1 / 4f, newPos.y + getHeight());
+        yPointTop2.set(newPos.x + getWidth() * 3 / 4f, newPos.y + getHeight());
+        yPointBottom1.set(newPos.x + getWidth() * 1 / 4f, newPos.y);
+        yPointBottom2.set(newPos.x + getWidth() * 3 / 4f, newPos.y);
     }
 
 

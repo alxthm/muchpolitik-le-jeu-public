@@ -32,7 +32,11 @@ public abstract class Enemy extends Actor implements Telegraph {
     public Animation<TextureAtlas.AtlasRegion> currentAnimation, walkRightAnimation, walkLeftAnimation, stunnedRightAnimation,
             stunnedLeftAnimation, dyingAnimation, attackingRightAnimation, attackingLeftAnimation;
     public Rectangle bounds;
-    public float stunnedTime = 5, headHeight = 2 / 3f; // a proportion of enemy height beyond which is head hitbox
+    public float stunnedTime = 5;
+    /**
+     * Proportion of enemy height beyond which is head hitbox.
+     */
+    public float headHeight = 2 / 3f;
 
 
     public enum DefenseType {
@@ -287,7 +291,10 @@ public abstract class Enemy extends Actor implements Telegraph {
      * @return if the ennemy should take a hit
      */
     private boolean isHit() {
-        boolean isHitInTheHead = player.getY() > getY() + getHeight() * headHeight;
+        // true if player's feet hit the enemy's head
+        Rectangle head = new Rectangle(getX(), getY() + getHeight() * headHeight,
+                getWidth(), getHeight() * (1 - headHeight));
+        boolean isHitInTheHead = player.getFeetBounds().overlaps(head);
         return (isHitInTheHead && !player.isHurt()) || player.isInvincible();
     }
 

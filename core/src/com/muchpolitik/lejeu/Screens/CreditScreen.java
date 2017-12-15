@@ -80,7 +80,10 @@ public class CreditScreen implements CustomScreen {
                 "Un mek qui fais des dessin et des vidé eaux !! Au fond de lui cest un " +
                         "harang mirobolan...");
         CreditCard julienCard = new CreditCard(skin, julienTexture, "julien", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
-        CreditCard leoCard = new CreditCard(skin, leoTexture, "leo kaupe", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
+        CreditCard leoCard = new CreditCard(skin, leoTexture,
+                "Leopzl - compositeur",
+                "https://soundcloud.com/leo-kaupe",
+                "musicien qui fait de la musique très musique à base de chiptune et de synthwave ppr");
 
         // create the container Table, ScrollPane, and back button
         Table container = new Table(skin);

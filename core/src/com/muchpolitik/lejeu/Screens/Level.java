@@ -64,7 +64,7 @@ public class Level implements CustomScreen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TextureAtlas gameObjectsAtlas;
-    private static ShapeRenderer shapeRenderer; // for debugging
+    public static ShapeRenderer shapeRenderer; // for debugging
 
     private LeJeu game;
     private Preferences prefs;
@@ -111,6 +111,7 @@ public class Level implements CustomScreen {
         int tileSize = map.getTileSets().getTileSet("tileset").getProperties().get("tilewidth", int.class);
         float unitScale = (float) 1 / tileSize;
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
+        // for debugging
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
 

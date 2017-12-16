@@ -8,7 +8,7 @@ import com.muchpolitik.lejeu.Screens.Level;
 
 public class TimeBonus extends Actor {
 
-    private int bonus = 5;
+    private int bonus = 10;
     private Sprite sprite;
     private Rectangle bounds;
     private Level level;

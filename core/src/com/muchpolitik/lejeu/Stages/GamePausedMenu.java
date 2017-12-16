@@ -25,14 +25,12 @@ public class GamePausedMenu extends CustomStage {
 
     private Level level;
     private LeJeu game;
-    private Player player;
     private Music music;
 
     public GamePausedMenu(Level lvl, final LeJeu gam) {
         super(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         level = lvl;
         game = gam;
-        player = level.getPlayer();
 
         // load skin
         Skin skin = game.getSkin();

@@ -599,52 +599,52 @@ public class Player extends Actor {
     }
 
 
-    //TODO: remove once testing is over
-    public float getACCELERATION() {
-        return ACCELERATION;
-    }
-
-    public float getFRICTION() {
-        return FRICTION;
-    }
-
-    public float getDECELERATION() {
-        return DECELERATION;
-    }
-
-    public float getMAX_SPEED_X() {
-        return MAX_SPEED_X;
-    }
-
-    public float getFIRST_JUMP_SPEED() {
-        return FIRST_JUMP_SPEED;
-    }
-
-    public float getGRAVITY() {
-        return GRAVITY;
-    }
-
-    public void setACCELERATION(float ACCELERATION) {
-        this.ACCELERATION = ACCELERATION;
-    }
-
-    public void setFRICTION(float FRICTION) {
-        this.FRICTION = FRICTION;
-    }
-
-    public void setDECELERATION(float DECELERATION) {
-        this.DECELERATION = DECELERATION;
-    }
-
-    public void setGRAVITY(float GRAVITY) {
-        this.GRAVITY = GRAVITY;
-    }
-
-    public void setFIRST_JUMP_SPEED(float FIRST_JUMP_SPEED) {
-        this.FIRST_JUMP_SPEED = FIRST_JUMP_SPEED;
-    }
-
-    public void setMAX_SPEED_X(float MAX_SPEED_X) {
-        this.MAX_SPEED_X = MAX_SPEED_X;
-    }
+// useful for changing in-game physics on the fly (in testing mode)
+//    public float getACCELERATION() {
+//        return ACCELERATION;
+//    }
+//
+//    public float getFRICTION() {
+//        return FRICTION;
+//    }
+//
+//    public float getDECELERATION() {
+//        return DECELERATION;
+//    }
+//
+//    public float getMAX_SPEED_X() {
+//        return MAX_SPEED_X;
+//    }
+//
+//    public float getFIRST_JUMP_SPEED() {
+//        return FIRST_JUMP_SPEED;
+//    }
+//
+//    public float getGRAVITY() {
+//        return GRAVITY;
+//    }
+//
+//    public void setACCELERATION(float ACCELERATION) {
+//        this.ACCELERATION = ACCELERATION;
+//    }
+//
+//    public void setFRICTION(float FRICTION) {
+//        this.FRICTION = FRICTION;
+//    }
+//
+//    public void setDECELERATION(float DECELERATION) {
+//        this.DECELERATION = DECELERATION;
+//    }
+//
+//    public void setGRAVITY(float GRAVITY) {
+//        this.GRAVITY = GRAVITY;
+//    }
+//
+//    public void setFIRST_JUMP_SPEED(float FIRST_JUMP_SPEED) {
+//        this.FIRST_JUMP_SPEED = FIRST_JUMP_SPEED;
+//    }
+//
+//    public void setMAX_SPEED_X(float MAX_SPEED_X) {
+//        this.MAX_SPEED_X = MAX_SPEED_X;
+//    }
 }

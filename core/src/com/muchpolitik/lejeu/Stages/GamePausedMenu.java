@@ -68,70 +68,70 @@ public class GamePausedMenu extends CustomStage {
         });
 
         // for testing
-        final Label gravityLabel = new Label("gravité : " + player.getGRAVITY(), skin);
-        final Slider gravitySetter = new Slider(0.05f, 3, 0.05f, false, skin);
-        gravitySetter.setValue(player.getGRAVITY());
-        gravitySetter.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                player.setGRAVITY(gravitySetter.getValue());
-                gravityLabel.setText("gravité : " + player.getGRAVITY());
-            }
-        });
-        final Label jumpForceLabel = new Label("force du saut : " + player.getFIRST_JUMP_SPEED(), skin);
-        final Slider jumpForceSetter = new Slider(1, 40, 1, false, skin);
-        jumpForceSetter.setValue(player.getFIRST_JUMP_SPEED());
-        jumpForceSetter.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                player.setFIRST_JUMP_SPEED(jumpForceSetter.getValue());
-                jumpForceLabel.setText("force du saut : " + player.getFIRST_JUMP_SPEED());
-            }
-        });
-        final Label speedLabel = new Label("vitesse : " + player.getMAX_SPEED_X(), skin);
-        final Slider speedSetter = new Slider(1, 15, 1, false, skin);
-        speedSetter.setValue(player.getMAX_SPEED_X());
-        speedSetter.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                player.setMAX_SPEED_X(speedSetter.getValue());
-                speedLabel.setText("vitesse : " + player.getMAX_SPEED_X());
-            }
-        });
-        final Label accLabel = new Label("accélération : " + player.getACCELERATION(), skin);
-        final Slider accSetter = new Slider(0, 1, 0.01f, false, skin);
-        accSetter.setValue(player.getACCELERATION());
-        accSetter.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                player.setACCELERATION(accSetter.getValue());
-                accLabel.setText("accélération : " + player.getACCELERATION());
-            }
-        });
-        final Label decLabel = new Label("décélération : " + player.getDECELERATION(), skin);
-        final Slider decSetter = new Slider(0, 1, 0.01f, false, skin);
-        decSetter.setValue(player.getDECELERATION());
-        decSetter.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                player.setDECELERATION(decSetter.getValue());
-                decLabel.setText("décélération : " + player.getDECELERATION());
-            }
-        });
-        final Label frcLabel = new Label("friction : " + player.getFRICTION(), skin);
-        final Slider frcSetter = new Slider(0, 0.5f, 0.01f, false, skin);
-        frcSetter.setValue(player.getFRICTION());
-        frcSetter.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                player.setFRICTION(frcSetter.getValue());
-                frcLabel.setText("friction : " + player.getFRICTION());
-            }
-        });
+//        final Label gravityLabel = new Label("gravité : " + player.getGRAVITY(), skin);
+//        final Slider gravitySetter = new Slider(0.05f, 3, 0.05f, false, skin);
+//        gravitySetter.setValue(player.getGRAVITY());
+//        gravitySetter.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                player.setGRAVITY(gravitySetter.getValue());
+//                gravityLabel.setText("gravité : " + player.getGRAVITY());
+//            }
+//        });
+//        final Label jumpForceLabel = new Label("force du saut : " + player.getFIRST_JUMP_SPEED(), skin);
+//        final Slider jumpForceSetter = new Slider(1, 40, 1, false, skin);
+//        jumpForceSetter.setValue(player.getFIRST_JUMP_SPEED());
+//        jumpForceSetter.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                player.setFIRST_JUMP_SPEED(jumpForceSetter.getValue());
+//                jumpForceLabel.setText("force du saut : " + player.getFIRST_JUMP_SPEED());
+//            }
+//        });
+//        final Label speedLabel = new Label("vitesse : " + player.getMAX_SPEED_X(), skin);
+//        final Slider speedSetter = new Slider(1, 15, 1, false, skin);
+//        speedSetter.setValue(player.getMAX_SPEED_X());
+//        speedSetter.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                player.setMAX_SPEED_X(speedSetter.getValue());
+//                speedLabel.setText("vitesse : " + player.getMAX_SPEED_X());
+//            }
+//        });
+//        final Label accLabel = new Label("accélération : " + player.getACCELERATION(), skin);
+//        final Slider accSetter = new Slider(0, 1, 0.01f, false, skin);
+//        accSetter.setValue(player.getACCELERATION());
+//        accSetter.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                player.setACCELERATION(accSetter.getValue());
+//                accLabel.setText("accélération : " + player.getACCELERATION());
+//            }
+//        });
+//        final Label decLabel = new Label("décélération : " + player.getDECELERATION(), skin);
+//        final Slider decSetter = new Slider(0, 1, 0.01f, false, skin);
+//        decSetter.setValue(player.getDECELERATION());
+//        decSetter.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                player.setDECELERATION(decSetter.getValue());
+//                decLabel.setText("décélération : " + player.getDECELERATION());
+//            }
+//        });
+//        final Label frcLabel = new Label("friction : " + player.getFRICTION(), skin);
+//        final Slider frcSetter = new Slider(0, 0.5f, 0.01f, false, skin);
+//        frcSetter.setValue(player.getFRICTION());
+//        frcSetter.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                player.setFRICTION(frcSetter.getValue());
+//                frcLabel.setText("friction : " + player.getFRICTION());
+//            }
+//        });
 
 
         // add actors to the window
-        window.defaults().pad(60, 60, 0, 60).prefSize(500, 100);
+        window.defaults().pad(50, 100, 50, 100).prefSize(500, 100);
         window.add(resumeButton);
         window.row();
         window.add(restartButton);
@@ -139,20 +139,6 @@ public class GamePausedMenu extends CustomStage {
         window.add(mainMenuButton).padBottom(50);
         window.row();
         window.defaults().pad(15);
-        window.add(gravityLabel);
-        window.add(gravitySetter);
-        window.add(accLabel);
-        window.add(accSetter);
-        window.row();
-        window.add(jumpForceLabel);
-        window.add(jumpForceSetter);
-        window.add(decLabel);
-        window.add(decSetter);
-        window.row();
-        window.add(speedLabel);
-        window.add(speedSetter);
-        window.add(frcLabel);
-        window.add(frcSetter);
 
         table.add(window);
         addActor(table);

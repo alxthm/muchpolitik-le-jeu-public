@@ -77,9 +77,8 @@ public class Player extends Actor {
     private Vector2 xPointLeft1, xPointLeft2, xPointRight1, xPointRight2,
             yPointTop1, yPointTop2, yPointBottom1, yPointBottom2;
     private TextureAtlas atlas;
-    private Sprite dead;
     private Animation<TextureRegion> currentAnimation, idleRightAnimation, idleLeftAnimation, walkRightAnimation, walkLeftAnimation,
-            jumpRightAnimation, jumpLeftAnimation;
+            jumpRightAnimation, jumpLeftAnimation, dyingAnimation;
     private SequenceAction stopInvincibilityDelayed;
 
 
@@ -185,10 +184,7 @@ public class Player extends Actor {
 
         // draw current frame scaled and at player's location
         TextureRegion currentFrame;
-        if (state == State.Dying)
-            currentFrame = dead;
-        else
-            currentFrame = currentAnimation.getKeyFrame(stateTime);
+        currentFrame = currentAnimation.getKeyFrame(stateTime);
 
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
 
@@ -246,7 +242,8 @@ public class Player extends Actor {
         jumpRightAnimation = new Animation<TextureRegion>(0.1f, jumpRightFrames);
         jumpLeftAnimation = new Animation<TextureRegion>(0.1f, jumpLeftFrames);
 
-        dead = atlas.createSprite("player-" + costumeName + "-dead");
+        // dying animation
+        dyingAnimation = new Animation<TextureRegion>(0.1f, atlas.findRegions("player-" + costumeName + "-dead"));
 
         stateTime = 0;
     }
@@ -454,8 +451,11 @@ public class Player extends Actor {
             } else {
                 lives -= 1;
 
+                // start dying animation
+                addAction(Actions.fadeOut(3));
+                currentAnimation = dyingAnimation;
+                stateTime = 0;
                 // set player dying
-                addAction(Actions.fadeOut(1));
                 state = State.Dying;
                 deathTime = TimeUtils.millis();
                 setY((int) getY()); // to put him down to the floor

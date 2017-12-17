@@ -90,24 +90,26 @@ public class Level implements CustomScreen {
         // get game preferences
         prefs = game.getPrefs();
 
-        // load level info
+        // load map and level info
         Json json = new Json();
-        levelInfo = json.fromJson(LevelInfo.class, Gdx.files.internal("data/levels/" + name + ".json"));
-        // COMMENT OUT FOR A NORMAL RELEASE
-        // useful for level design (load level data from an external directory at the root of the app)
-//        levelInfo = json.fromJson(LevelInfo.class, Gdx.files.local(name + ".json"));
+        switch (LeJeu.distributionType) {
+            case Release:
+                // load data from the reguler assets path
+                levelInfo = json.fromJson(LevelInfo.class, Gdx.files.internal("data/levels/" + name + ".json"));
+                map = new TmxMapLoader().load("data/levels/" + name + "-map.tmx");
+                break;
 
+            case LevelDesigner:
+                // load data from an external directory at the root of the app, useful for level design
+                levelInfo = json.fromJson(LevelInfo.class, Gdx.files.local(name + ".json"));
+                FileHandleResolver localFileHandleResolver = new LocalFileHandleResolver();
+                TmxMapLoader debugMapLoader = new TmxMapLoader(localFileHandleResolver);
+                map = debugMapLoader.load(name + "-map.tmx");
+                break;
+        }
         followingCutscene = levelInfo.getFollowingCutscene();
 
-        // COMMENT OUT FOR A NORMAL RELEASE
-        // useful for level design (load level data from an external directory at the root of the app)
-//        FileHandleResolver debugFileHandleReolver = new LocalFileHandleResolver();
-//        TmxMapLoader debugMapLoader = new TmxMapLoader(debugFileHandleReolver);
-//        map = debugMapLoader.load(name + "-map.tmx");
-
-
-        // load map and create mapRenderer
-        map = new TmxMapLoader().load("data/levels/" + name + "-map.tmx");
+        // create mapRenderer
         int tileSize = map.getTileSets().getTileSet("tileset").getProperties().get("tilewidth", int.class);
         float unitScale = (float) 1 / tileSize;
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
@@ -465,10 +467,10 @@ public class Level implements CustomScreen {
             return "key-dossier-secret";
         else if (getName().contains("Ville"))
             // for regular Ville levels
-            return  "key-signature";
+            return "key-signature";
         else
             // for regular levels in other worlds
-            return  "key-default";
+            return "key-default";
 
     }
 

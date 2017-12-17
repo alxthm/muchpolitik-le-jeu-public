@@ -21,8 +21,12 @@ import com.muchpolitik.lejeu.Screens.TransitionScreen;
  */
 public abstract class LeJeu extends Game {
 
-    private Preferences prefs;
-    private Skin skin;
+    public static DistributionType distributionType = DistributionType.Release;
+
+    public enum DistributionType {
+        Release,
+        LevelDesigner
+    }
 
     private enum CurrentScreenState {
         MainMenu,
@@ -34,6 +38,8 @@ public abstract class LeJeu extends Game {
     }
 
     private CurrentScreenState currentScreenState;
+    private Preferences prefs;
+    private Skin skin;
 
     public static final float DEFAULT_VOLUME = 0.6f;
     /**

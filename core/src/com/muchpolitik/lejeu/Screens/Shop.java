@@ -75,7 +75,7 @@ public class Shop implements CustomScreen {
 
 
         // create an info popup
-        popUp = new PopUp(skin, "achat impossible", "il te manqe de l'argen !", "game-ui-red");
+        popUp = new PopUp(skin, "achat impossible", "il te manqe des pièces !", "game-ui-red");
 
         // set up costumes ScrollPane, which contains one widget : costumesTable
         Table costumesTable = new Table();
@@ -200,7 +200,7 @@ public class Shop implements CustomScreen {
 
     public void updateMoney(int newAmount) {
         money = newAmount;
-        moneyLabel.setText("argent : " + money + " pièces");
+        moneyLabel.setText("x " + money);
     }
 
     public int getMoney() {

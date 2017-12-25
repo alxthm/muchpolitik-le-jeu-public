@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -53,7 +52,7 @@ public class Player extends Actor {
     private long lastTimeHurt = 0, deathTime;
     private State state;
     private boolean pressingRight, pressingLeft, facingRight, grounded, jumpButtonPressed, needToDoSecondJump,
-            canDoSecondJump, hurt, invincible, lastBlinkTransparent;
+            secondJumpAvailable, hurt, invincible, lastBlinkTransparent;
 
     private Level level;
     private OrthographicCamera camera;
@@ -90,7 +89,7 @@ public class Player extends Actor {
 
         loadAnimations(costumeName);
 
-        // load super power
+        // load super powers
         switch (costumeName) {
             case "armure":
                 lives += 1;
@@ -114,7 +113,7 @@ public class Player extends Actor {
         pressingLeft = false;
         jumpButtonPressed = false;
         needToDoSecondJump = false;
-        canDoSecondJump = true;
+        secondJumpAvailable = true;
 
         // initialize state
         currentAnimation = idleRightAnimation;
@@ -286,13 +285,18 @@ public class Player extends Actor {
         }
 
 
-        // apply gravity and jump force on y-axis
+        // apply gravity (on y-axis)
         if (speedY > -MAX_SPEED_Y)
+            // vertical speed is capped
             speedY -= GRAVITY * delta;
+
+        // apply jump forces (on y-axis)
         if (jumpButtonPressed && grounded) {
             speedY = FIRST_JUMP_SPEED;
             stateTime = 0; // for jump animation to start from beginning
-        } else if (needToDoSecondJump) {
+
+        } else if (needToDoSecondJump && speedY <= SECOND_JUMP_SPEED / 4) {
+            // jump a second time only when speedY has decreased enough (makes double jump more intuitive)
             speedY = SECOND_JUMP_SPEED;
             stateTime = 0; // for jump animation to start from beginning
             needToDoSecondJump = false;
@@ -331,7 +335,7 @@ public class Player extends Actor {
                 yPointBottom2.y = tile.getY() + 1;
                 speedY = 0;
                 grounded = true;
-                canDoSecondJump = true;
+                secondJumpAvailable = true;
 
             } else if (speedY > 0 && (tile.contains(yPointTop1) || tile.contains(yPointTop2))) {
                 newPos.y = tile.getY() - getHeight();
@@ -521,9 +525,9 @@ public class Player extends Actor {
     public void setJumping(boolean jumpButtonPressed) {
         this.jumpButtonPressed = jumpButtonPressed;
 
-        if (jumpButtonPressed && canDoSecondJump && !grounded) {
+        if (jumpButtonPressed && secondJumpAvailable && !grounded) {
             needToDoSecondJump = true;
-            canDoSecondJump = false;
+            secondJumpAvailable = false;
         }
     }
 
@@ -536,7 +540,7 @@ public class Player extends Actor {
     public void bounce() {
         if (state != State.Walking && state != State.Idle) {
             speedY = FIRST_JUMP_SPEED * 2 / 3f;
-            canDoSecondJump = true;
+            secondJumpAvailable = true;
         }
     }
 

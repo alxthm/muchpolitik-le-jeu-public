@@ -34,13 +34,14 @@ public class CreditCard extends Window {
         Image image = new Image(imageTexture);
         Label nameLabel = new Label(name, skin, "title-font", "white");
         Label textLabel = new Label(text, skin, "ui-white");
+        nameLabel.setWrap(true);
         textLabel.setWrap(true);
 
 
         // set up a nested table containing labels
         Table textTable = new Table();
         textTable.defaults().pad(10).top().left();
-        textTable.add(nameLabel);
+        textTable.add(nameLabel).growX();
         textTable.row();
 
         // add a label with a link to the website if necessary
@@ -53,7 +54,8 @@ public class CreditCard extends Window {
                     Gdx.net.openURI(websiteURL);
                 }
             });
-            textTable.add(websiteLabel);
+            websiteLabel.setWrap(true);
+            textTable.add(websiteLabel).growX();
             textTable.row();
         }
 

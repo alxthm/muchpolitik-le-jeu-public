@@ -37,7 +37,7 @@ public class Player extends Actor {
     private float FIRST_JUMP_SPEED = 13;
     private float SECOND_JUMP_SPEED = 11;
     private float GRAVITY = 0.6f / typicalDelta;
-    private float TIME_HURT = 1000; // en ms.
+    private float TIME_HURT = 1500; // in ms.
     private int lives = 3;
 
     private enum State {

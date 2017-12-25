@@ -102,14 +102,12 @@ public class Shop implements CustomScreen {
 
             // set up costume card
             CostumeCard card = new CostumeCard(skin, this, i, owned, equipped);
-            costumesTable.add(card).size(stage.getWidth() - 600, 700).pad(80);
+            costumesTable.add(card).prefSize(stage.getWidth() - 600, 700).pad(80);
             costumesTable.row();
 
             if (equipped)
                 equippedCostumeCard = card;
         }
-
-        costumesTable.debug();
 
         // put everything in the container Table (left widgets that don't move, and the scroll pane)
         Table container = new Table(skin);

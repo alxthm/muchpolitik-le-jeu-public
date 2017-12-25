@@ -106,7 +106,7 @@ public class CreditScreen implements CustomScreen {
         container.defaults().pad(50, 500, 50, 100);
         container.add(title).center();
         container.row();
-        container.defaults().growX();
+        container.defaults().prefWidth(stage.getWidth() - 600);
         container.add(billCard);
         container.row();
         container.add(garbaCard);

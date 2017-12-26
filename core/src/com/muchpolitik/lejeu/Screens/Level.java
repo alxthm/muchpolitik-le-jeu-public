@@ -460,8 +460,11 @@ public class Level implements CustomScreen {
 
     public String getKeyType() {
         if (getName().equals("Ville/timer"))
-            // for boss level in Ville world
+            // for timer level in Ville world
             return "key-dossier-signatures";
+        else if (getName().equals("Mairie/timer"))
+            // for timer level in Mairie world
+            return "key-default";
         else if (getName().contains("timer"))
             // for other bosses level
             return "key-dossier-secret";

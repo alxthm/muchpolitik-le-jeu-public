@@ -39,9 +39,10 @@ public class CreditScreen implements CustomScreen {
     private Texture billTexture;
     private Texture garbaTexture;
     private Texture florentTexture;
-    private Texture julienTexture;
     private Texture leoTexture;
-
+    private Texture timTexture;
+    private Texture julienTexture;
+    private Texture merciTexture;
 
     public CreditScreen(LeJeu game) {
         stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
@@ -54,11 +55,13 @@ public class CreditScreen implements CustomScreen {
         Gdx.input.setInputProcessor(stage);
 
         // load images
-        billTexture = new Texture("graphics/heads/billvezay.png");
-        garbaTexture = new Texture("graphics/heads/alexandre.png");
-        florentTexture = new Texture("graphics/heads/florentintin.png");
-        julienTexture = new Texture("graphics/heads/julien.png");
-        leoTexture = new Texture("graphics/heads/leo_kaupe.png");
+        billTexture = new Texture("graphics/heads/credits/billvezay.png");
+        garbaTexture = new Texture("graphics/heads/credits/alexandre.png");
+        florentTexture = new Texture("graphics/heads/credits/florentintin.png");
+        julienTexture = new Texture("graphics/heads/credits/julien.png");
+        timTexture = new Texture("graphics/heads/credits/tim.jpg");
+        leoTexture = new Texture("graphics/heads/credits/leo_kaupe.png");
+        merciTexture = new Texture("graphics/heads/credits/merci.png");
 
 
         // create widgets
@@ -79,11 +82,23 @@ public class CreditScreen implements CustomScreen {
                 "https://www.youtube.com/c/Floranlehareng",
                 "Un mek qui fais des dessin et des vidé eaux !! Au fond de lui cest un " +
                         "harang mirobolan...");
-        CreditCard julienCard = new CreditCard(skin, julienTexture, "julien", "text randomext randomext randomext randomext randomext randomext randomext randomext randomext random");
+        CreditCard julienCard = new CreditCard(skin, julienTexture,
+                "Julien - level design",
+                "Gamme Dit ziner pas piquée au hanne thon, il s'identifi à un hélicoptère d'attack\n" +
+                        "Plu tart il voudrer annimé hune émicion avec stéphane Bern et designer des chato avec lui\n" +
+                        "Appréci la tartes aux myrtilles.");
+        CreditCard timCard = new CreditCard(skin, timTexture,
+                "Tim - level design",
+                "Ce pingouain sauvaje des monthagne a déja travrerser tout lé zocéan a la naje !");
         CreditCard leoCard = new CreditCard(skin, leoTexture,
                 "Leopzl - compositeur",
                 "https://soundcloud.com/leo-kaupe",
                 "musicien qui fait de la musique très musique à base de chiptune et de synthwave ppr");
+        CreditCard contributeursCard = new CreditCard(skin, merciTexture,
+                "contributeurs",
+                "https://www.allmecen.com/main/profiles/MuchPolitik/",
+                "Wlaad, Arthur Thouroude, Jean-Bernard, lc19om, rickruss, Tsu, William Mai, Loupi, " +
+                        "Antisthene42, Valentino, Onimaro");
 
         // create the container Table, ScrollPane, and back button
         Table container = new Table(skin);
@@ -115,7 +130,11 @@ public class CreditScreen implements CustomScreen {
         container.row();
         container.add(julienCard);
         container.row();
+        container.add(timCard);
+        container.row();
         container.add(leoCard);
+        container.row();
+        container.add(contributeursCard);
 
 
         // add non-moving widgets directly to the stage

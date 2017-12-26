@@ -200,8 +200,8 @@ public class Cutscene extends InputAdapter implements CustomScreen {
 
         // load images
         backgroundSprite = new Sprite(new Texture("graphics/backgrounds/cutscenes/" + dialog.getBackgroundName()));
-        character1Sprite = new Sprite(new Texture("graphics/heads/" + dialog.getChar1Name()));
-        character2Sprite = new Sprite(new Texture("graphics/heads/" + dialog.getChar2Name()));
+        character1Sprite = new Sprite(new Texture("graphics/heads/dialogs/" + dialog.getChar1Name()));
+        character2Sprite = new Sprite(new Texture("graphics/heads/dialogs/" + dialog.getChar2Name()));
         character2Sprite.flip(true, false);
 
         // load text and following cutscene and level info

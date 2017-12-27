@@ -77,13 +77,11 @@ public class LevelMap implements CustomScreen {
 
         // create the map table and the level buttons
         WidgetGroup map = new WidgetGroup();
-        map.setSize(5444, 3396); // background image size, for a 2560x1440 screen
 
 
         // create background
         backgroundTexture = new Texture("graphics/backgrounds/levelmap.png");
         Image background = new Image(backgroundTexture);
-        background.setBounds(0, 0, map.getWidth(), map.getHeight());
 
 
         // load level buttons info
@@ -98,7 +96,7 @@ public class LevelMap implements CustomScreen {
 
 
         // add level buttons to the map
-        float[][] positions = {{30.0f, 1621.0f}, {458.0f, 1671.0f}, {848.0f, 1736.0f}, {1290.0f, 1733.0f}, {1670.0f, 1655.0f}, {2445.0f, 1253.0f}, {3391.0f, 1056.0f}, {3330.0f, 448.0f}, {4192.0f, 12.0f}, {1191.0f, 1275.0f}, {575.0f, 647.0f}, {430.0f, 58.0f}, {1668.0f, 205.0f}, {2226.0f, 2240.0f}, {2908.0f, 2270.0f}, {3526.0f, 2317.0f}, {3747.0f, 2709.0f}, {2700.0f, 1753.0f}, {3373.0f, 1745.0f}, {4001.0f, 1745.0f}, {4668.0f, 1737.0f}};
+        float[][] positions = {{-17.0f, 1201.0f}, {426.0f, 1253.0f}, {671.0f, 1327.0f}, {958.0f, 1344.0f}, {1180.0f, 1280.0f}, {1826.0f, 928.0f}, {2464.0f, 833.0f}, {2558.0f, 270.0f}, {3325.0f, 31.0f}, {1024.0f, 952.0f}, {523.0f, 601.0f}, {336.0f, 71.0f}, {1274.0f, 151.0f}, {1653.0f, 1630.0f}, {2188.0f, 1633.0f}, {2721.0f, 1762.0f}, {2834.0f, 2035.0f}, {2055.0f, 1320.0f}, {2527.0f, 1317.0f}, {3001.0f, 1305.0f}, {3362.0f, 1307.0f}};
         for (int i = 0; i < positions.length; i++) {
             float x = positions[i][0];
             float y = positions[i][1];
@@ -337,7 +335,7 @@ public class LevelMap implements CustomScreen {
                 }
                 String positionString = Arrays.deepToString(positions).replaceAll("\\.0", ".0f")
                         .replace('[', '{').replace(']', '}');
-                Gdx.app.debug("Level Map Arrangement", positionString);
+                Gdx.app.log("Level Map Arrangement", positionString);
             }
         };
 

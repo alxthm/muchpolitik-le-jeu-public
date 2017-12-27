@@ -21,7 +21,7 @@ android {
         applicationId "com.muchpolitik.lejeu"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 3
+        versionCode 4
         versionName "1.0"
     }
     buildTypes {

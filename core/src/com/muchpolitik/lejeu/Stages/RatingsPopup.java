@@ -27,7 +27,8 @@ public class RatingsPopup extends PopUp{
         popupWindow.setMovable(false);
 
         // create widgets
-        Label text = new Label("tu aime ce jeu? mci de nou le faire savoir et de nous encouragé !", skin);
+        Label text = new Label("tu aime ce jeu? mci de nou le faire savoir pour promouvoir " +
+                "le journalisme san concession !", skin);
         text.setWrap(true);
         TextButton yesButton = new TextButton("oui !", skin);
         yesButton.addListener(new ChangeListener() {
@@ -45,19 +46,6 @@ public class RatingsPopup extends PopUp{
                 Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.muchpolitik.lejeu");
             }
         });
-        TextButton noButton = new TextButton("nn tg", skin);
-        noButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                // stop asking ratings after that
-                prefs.putBoolean("askForRatings", false);
-                prefs.flush();
-
-                // remove popup and give back input to the level map
-                removePopUp();
-                Gdx.input.setInputProcessor(mainStage);
-            }
-        });
         TextButton laterButton = new TextButton("plus tard", skin);
         laterButton.addListener(new ChangeListener() {
             @Override
@@ -71,11 +59,10 @@ public class RatingsPopup extends PopUp{
 
         // add all widgets to the table
         popupWindow.defaults().pad(50);
-        popupWindow.add(text).prefWidth(1000).colspan(3);
+        popupWindow.add(text).prefWidth(1000).colspan(2);
         popupWindow.row();
-        popupWindow.defaults().prefSize(250, 130);
+        popupWindow.defaults().prefSize(350, 100);
         popupWindow.add(yesButton);
-        popupWindow.add(noButton);
         popupWindow.add(laterButton);
 
 

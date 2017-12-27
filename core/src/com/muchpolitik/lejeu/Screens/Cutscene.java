@@ -332,7 +332,7 @@ public class Cutscene extends InputAdapter implements CustomScreen {
         else if (followingLevel != null)
             game.changeScreen(this, new Level(game, followingLevel));
         else {
-            // on android after finishing a world, display a popup
+            // on android, after finishing a important cutscene, display a popup
             // asking for ratings after loading level map
             boolean askForRatings = Gdx.app.getType() == Application.ApplicationType.Android
                     && cutsceneName.contains("victoire")

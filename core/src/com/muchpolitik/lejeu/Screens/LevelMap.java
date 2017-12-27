@@ -46,6 +46,10 @@ public class LevelMap implements CustomScreen {
 
     private boolean askForRatings = false;
 
+    /**
+     * Create a new LevelMap, without a ratings popup.
+     * @param game
+     */
     public LevelMap(LeJeu game) {
         stage = new Stage(new ExtendViewport(LeJeu.minWidth, LeJeu.minHeight, LeJeu.maxWidth, LeJeu.maxHeight));
         this.game = game;

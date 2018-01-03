@@ -17,7 +17,7 @@ import com.muchpolitik.lejeu.Screens.Shop;
 import com.muchpolitik.lejeu.Screens.TransitionScreen;
 
 /**
- * The generic game class. It should be extended in order to add platform-specific code.
+ * The generic game class. It should be extended in order to add platform-specific code (such as sharing options, etc).
  */
 public abstract class LeJeu extends Game {
 

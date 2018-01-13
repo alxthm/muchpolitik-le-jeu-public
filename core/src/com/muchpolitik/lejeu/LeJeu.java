@@ -1,11 +1,8 @@
 package com.muchpolitik.lejeu;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.muchpolitik.lejeu.Screens.CreditScreen;
 import com.muchpolitik.lejeu.Screens.CustomScreen;
@@ -21,7 +18,7 @@ import com.muchpolitik.lejeu.Screens.TransitionScreen;
  */
 public abstract class LeJeu extends Game {
 
-    public static DistributionType distributionType = DistributionType.Release;
+    public static DistributionType distributionType = DistributionType.LevelDesigner;
 
     public enum DistributionType {
         Release,

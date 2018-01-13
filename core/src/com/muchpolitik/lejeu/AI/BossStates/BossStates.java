@@ -8,8 +8,8 @@ import com.muchpolitik.lejeu.AI.MessageType;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.Boss;
 
 /**
- * Contains the states for all bosses' livingStateMachines (WALK, ATTACK). Messages are handled by the phaseStateMachine (specific to each boss),
- * although it only gets messages if enemy is in LIVING state.
+ * Contains the states for all bosses' livingStateMachines (WALK, ATTACK, HIDING). Messages are handled by
+ * the phasesStateMachine (specific to each boss), although it only gets messages if enemy is in LIVING state.
  */
 
 public enum BossStates implements State<Boss> {
@@ -34,6 +34,9 @@ public enum BossStates implements State<Boss> {
         }
     },
 
+    /**
+     * The boss attacks the player (by throwing projectiles at him, or charging him for exemple).
+     */
     ATTACK() {
         @Override
         public void enter(Boss boss) {
@@ -57,6 +60,7 @@ public enum BossStates implements State<Boss> {
         @Override
         public void enter(Boss boss) {
             // make the boss invisible
+            //TODO: really set alpha to 0
             boss.setColor(1, 1, 1, 0.5f);
         }
 

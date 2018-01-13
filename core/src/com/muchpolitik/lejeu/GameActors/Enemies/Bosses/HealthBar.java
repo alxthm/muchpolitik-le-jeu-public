@@ -1,7 +1,6 @@
 package com.muchpolitik.lejeu.GameActors.Enemies.Bosses;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
@@ -31,7 +30,7 @@ public class HealthBar extends ProgressBar {
         super.act(delta);
 
         // set progress and position (on top of enemy head)
-        float progress = enemy.getLives() / enemy.STARTING_LIVES;
+        float progress = enemy.getLives() / enemy.defaultTankEnemyLives;
         setX(enemy.getX());
         setY(enemy.getY() + enemy.getHeight() + 0.1f);
         setValue(progress);

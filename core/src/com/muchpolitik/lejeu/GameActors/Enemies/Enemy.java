@@ -21,18 +21,18 @@ import com.muchpolitik.lejeu.Stages.GameStage;
  */
 public abstract class Enemy extends Actor implements Telegraph {
 
-    public int STARTING_LIVES = 2;
+    public int defaultTankEnemyLives = 2; // for bosses who need more, overwrite the value of 'lives' in the constructor.
+    public float stunnedTime = 5;
 
     public float startX, hitboxWidth, rangeOfAction, speed, deathTime, stateTime, deltaTime;
     /**
      * Number of hits an enemy can take before dying (only used with tank enemies).
      */
-    public int lives = STARTING_LIVES;
+    public int lives = defaultTankEnemyLives;
     public boolean facingRight;
     public Animation<TextureAtlas.AtlasRegion> currentAnimation, walkRightAnimation, walkLeftAnimation, stunnedRightAnimation,
             stunnedLeftAnimation, dyingAnimation, attackingRightAnimation, attackingLeftAnimation;
     public Rectangle bounds;
-    public float stunnedTime = 5;
     /**
      * Proportion of enemy height beyond which is head hitbox.
      */
@@ -40,20 +40,27 @@ public abstract class Enemy extends Actor implements Telegraph {
 
 
     public enum DefenseType {
+        /**
+         * Immediately killed when hit by player.
+         */
         Basic,
+        /**
+         * Can support multiple hits (number of lives).
+         */
         Tank,
-        Immortal;
+        /**
+         * Cannot be stunned or hurt by the player.
+         */
+        Immortal
     }
 
     public Player player;
     public StateMachine<Enemy, EnemyState> globalStateMachine;
     public GameStage gameStage;
-    // a generic state machine, for generic states (LIVING, STUNNED, DYING) of all types of enemies.
-    // handles all defense types (basic, tank, immortal)
     public DefenseType defenseType;
 
     /**
-     * Save parameters for later use.
+     * Save enemy parameters.
      */
     public Enemy(float startX, float startY, float range, GameStage gameStage) {
         setPosition(startX, startY);

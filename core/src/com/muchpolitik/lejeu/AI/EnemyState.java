@@ -8,7 +8,8 @@ import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
 import com.muchpolitik.lejeu.GameActors.Enemies.ProjectileThrowers.ProjectileThrower;
 
 /**
- * Contains generic states for all enemies. Handles behavior according to the Defense Type.
+ * Contains generic states for all enemies (LIVING, STUNNED, DYING). Let the custom enemy State
+ * handle behavior when living, and handle it itself otherwise.
  */
 public enum EnemyState implements State<Enemy> {
 

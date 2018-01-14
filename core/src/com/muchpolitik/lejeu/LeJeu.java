@@ -18,7 +18,7 @@ import com.muchpolitik.lejeu.Screens.TransitionScreen;
  */
 public abstract class LeJeu extends Game {
 
-    public static DistributionType distributionType = DistributionType.LevelDesigner;
+    public static DistributionType distributionType = DistributionType.Release;
 
     public enum DistributionType {
         Release,

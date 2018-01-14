@@ -17,7 +17,7 @@ android/*
 
 
 # exclude .jar file for level designers who might have it
-android/assets/data/levels/desktop-1.0-leveldesign.jar
+android/assets/data/levels/*.jar
 
 # exclude .DS_Store files
 *.DS_Store

@@ -9,12 +9,11 @@ Dans le répertoire ```android/assets/``` se trouvent toutes les **ressources gr
 - Les niveaux dans le répertoire ```android/assets/data/levels/```
 - Les dialogues dans le répertoire ```android/assets/data/dialogs/```
 - Les graphismes dans le répertoire ```android/assets/data/graphics/```
-
-On retrouve aussi, dans le répertoire ```android/assets/data/levels/``` un fichier .jar permettant de lancer le jeu en utilisant les niveaux du dossier dans lequel il se trouve. Ça permet de travailler sur les fichiers .tmx ou .json et de tester ces changements facilement en lançant le niveau concerné. Normalement il suffit d'avoir java installé.
+- Les fichiers audio dans le répertoire ```android/assets/data/ausdio/```
 
 Si vous avez des modifications à faire, **essayez de vous relire avant de poster, et de ne modifier que les fichiers nécessaires** (pour limiter les erreurs).
 
-## Comment faire
+## Comment travailler sur le jeu en restant à jour
 1. Se créer un compte GitHub
 2. Télécharger GitHub Desktop (ou équivalent)
 3. Aller voir sur google ou suivre les petits guides expliquant comment GitHub marche
@@ -22,8 +21,8 @@ Si vous avez des modifications à faire, **essayez de vous relire avant de poste
 
 ## Tester ou admirer le produit fini
 #### Pour desktop (Windows, Mac, ou Linux)
-La dernière version exécutable du jeu (au format .jar) se trouve en allant voir les "releases" (https://github.com/garbadrom/muchpolitik-le-jeu/releases). Normalement il suffit d'avoir java installé.
+- Pour tester le jeu en modifiant des niveaux (réservé aux **level-designers**) : Aller à la page des "Releases" (onglet "code", dans la barre blanche). Télécharger la dernière version exécutable pour les level-designers (ex : desktop-1.0.1-leveldesign.jar). Placer le fichier dans le dossier ```android/assets/data/levels/``` (sur son ordinateur), et le lancer pour tester les changements effectués sur les fichiers .tmx ou .json.
+- Pour simplement jouer : La dernière version exécutable du jeu (au format .jar) se trouve également en allant voir les "Releases" (https://github.com/garbadrom/muchpolitik-le-jeu/releases). Normalement il suffit d'avoir java installé. Bientôt disponible sur Steam.
 
 #### Pour Android
-Le lien pour accéder à la page Google Play Store de la version alpha/bêta est : https://play.google.com/apps/testing/com.muchpolitik.lejeu.
-M'envoyer un message pour y avoir l'accès.
+Le jeu est officiellement sorti sur le Play Store : https://play.google.com/store/apps/details?id=com.muchpolitik.lejeu.

@@ -2,15 +2,8 @@ package com.muchpolitik.lejeu.AI.BossStates;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.muchpolitik.lejeu.AI.MessageType;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.MarieNougatine;
-import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
-import com.muchpolitik.lejeu.GameActors.Enemies.Ghosts.Fantome;
-import com.muchpolitik.lejeu.GameActors.Enemies.Ghosts.GhostEnemy;
-import com.muchpolitik.lejeu.GameActors.Enemies.ProjectileThrowers.Hutler;
-import com.muchpolitik.lejeu.Stages.GameStage;
 
 /**
  * Phases for KKK boss.
@@ -27,7 +20,7 @@ public enum MarieNougatinePhases implements State<MarieNougatine> {
             // spawns the boss on a random platform
             marieNougatine.changePlatform(marieNougatine.getRandomFreePlatform());
 
-            marieNougatine.livingStateMachine.changeState(BossStates.WALK);
+            marieNougatine.livingStateMachine.changeState(BossState.WALK);
         }
 
         @Override
@@ -35,7 +28,7 @@ public enum MarieNougatinePhases implements State<MarieNougatine> {
             switch (telegram.message) {
                 // attack when ready (once timeBetweenAttacks elapsed)
                 case MessageType.READY_TO_ATTACK:
-                    marieNougatine.livingStateMachine.changeState(BossStates.ATTACK);
+                    marieNougatine.livingStateMachine.changeState(BossState.ATTACK);
                     return true;
 
                 // send the projectile after attackDelay
@@ -45,7 +38,7 @@ public enum MarieNougatinePhases implements State<MarieNougatine> {
 
                 // go back to WALK state after the attack
                 case MessageType.ATTACK_FINISHED:
-                    marieNougatine.livingStateMachine.changeState(BossStates.WALK);
+                    marieNougatine.livingStateMachine.changeState(BossState.WALK);
                     return true;
 
                 // end level once the boss is killed
@@ -64,7 +57,7 @@ public enum MarieNougatinePhases implements State<MarieNougatine> {
         @Override
         public void enter(MarieNougatine marieNougatine) {
             // hide the boss
-            marieNougatine.livingStateMachine.changeState(BossStates.HIDING);
+            marieNougatine.livingStateMachine.changeState(BossState.HIDING);
 
             marieNougatine.spawnMinions();
         }

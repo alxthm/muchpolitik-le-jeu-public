@@ -4,7 +4,7 @@ import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.MathUtils;
-import com.muchpolitik.lejeu.AI.BossStates.BossStates;
+import com.muchpolitik.lejeu.AI.BossStates.BossState;
 import com.muchpolitik.lejeu.AI.MessageType;
 import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
 import com.muchpolitik.lejeu.GameActors.Enemies.Projectiles.Faucille;
@@ -19,12 +19,12 @@ import com.muchpolitik.lejeu.Stages.GameStage;
 public abstract class Boss extends Enemy {
 
     /**
-     * Time between attacks.
+     * Time between attacks (in seconds).
      */
     public float timeBetweenAttacks;
     /**
-     * Time between the beginning of the attack animation and the projectile throw. Also, time between the projectile throw
-     * and going back to WALK state.
+     * Time between the beginning of the attack animation and the projectile throw (in seconds).
+     * Also, time between the projectile throw and going back to WALK state.
      */
     public float attackDelay = 0.5f;
 
@@ -33,7 +33,7 @@ public abstract class Boss extends Enemy {
      */
     public long timeOfWalkBeginning;
 
-    public StateMachine<Boss, BossStates> livingStateMachine;
+    public StateMachine<Boss, BossState> livingStateMachine;
 
     public Boss(float startX, float startY, float range, GameStage gameStage) {
         super(startX, startY, range, gameStage);
@@ -49,7 +49,7 @@ public abstract class Boss extends Enemy {
 
     @Override
     public void returnToDefaultState() {
-        livingStateMachine.changeState(BossStates.WALK);
+        livingStateMachine.changeState(BossState.WALK);
     }
 
     public void startAttack() {

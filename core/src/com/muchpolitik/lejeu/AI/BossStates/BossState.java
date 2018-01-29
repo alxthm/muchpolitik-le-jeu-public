@@ -12,7 +12,7 @@ import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.Boss;
  * the phasesStateMachine (specific to each boss), although it only gets messages if enemy is in LIVING state.
  */
 
-public enum BossStates implements State<Boss> {
+public enum BossState implements State<Boss> {
 
     WALK() {
         @Override

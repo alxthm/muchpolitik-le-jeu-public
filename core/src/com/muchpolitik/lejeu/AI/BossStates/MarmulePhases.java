@@ -4,7 +4,6 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.muchpolitik.lejeu.AI.MessageType;
-import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.Boss;
 import com.muchpolitik.lejeu.GameActors.Enemies.Bosses.Marmule;
 
 /**
@@ -19,7 +18,7 @@ public enum MarmulePhases implements State<Marmule> {
             marmule.speed = marmule.SPEED_PHASE_1;
             marmule.timeBetweenAttacks = marmule.TIME_BETWEEN_ATTACKS_PHASE_1;
 
-            marmule.livingStateMachine.changeState(BossStates.WALK);
+            marmule.livingStateMachine.changeState(BossState.WALK);
         }
 
         @Override
@@ -27,7 +26,7 @@ public enum MarmulePhases implements State<Marmule> {
             switch (telegram.message) {
                 // attack when ready (once timeBetweenAttacks elapsed)
                 case MessageType.READY_TO_ATTACK:
-                    marmule.livingStateMachine.changeState(BossStates.ATTACK);
+                    marmule.livingStateMachine.changeState(BossState.ATTACK);
                     return true;
 
                 // send the projectile after attackDelay
@@ -37,7 +36,7 @@ public enum MarmulePhases implements State<Marmule> {
 
                 // go back to WALK state after the attack
                 case MessageType.ATTACK_FINISHED:
-                    marmule.livingStateMachine.changeState(BossStates.WALK);
+                    marmule.livingStateMachine.changeState(BossState.WALK);
                     return true;
             }
             return false;
@@ -52,7 +51,7 @@ public enum MarmulePhases implements State<Marmule> {
             marmule.timeBetweenAttacks = marmule.TIME_BETWEEN_CHARGES_PHASE_2;
                 // during phase 2, attacks are just charges, where the marmule walks fast
 
-            marmule.livingStateMachine.changeState(BossStates.WALK);
+            marmule.livingStateMachine.changeState(BossState.WALK);
         }
 
         @Override
@@ -68,7 +67,7 @@ public enum MarmulePhases implements State<Marmule> {
                 // go back to WALK state after the attack
                 case MessageType.ATTACK_FINISHED:
                     marmule.speed = marmule.SPEED_PHASE_2;
-                    marmule.livingStateMachine.changeState(BossStates.WALK);
+                    marmule.livingStateMachine.changeState(BossState.WALK);
                     return true;
             }
             return false;
@@ -83,7 +82,7 @@ public enum MarmulePhases implements State<Marmule> {
             marmule.speed = marmule.SPEED_PHASE_3;
             marmule.timeBetweenAttacks = marmule.TIME_BETWEEN_ATTACKS_PHASE_3;
 
-            marmule.livingStateMachine.changeState(BossStates.WALK);
+            marmule.livingStateMachine.changeState(BossState.WALK);
         }
 
         @Override
@@ -91,7 +90,7 @@ public enum MarmulePhases implements State<Marmule> {
             switch (telegram.message) {
                 // attack when ready (once timeBetweenAttacks elapsed)
                 case MessageType.READY_TO_ATTACK:
-                    marmule.livingStateMachine.changeState(BossStates.ATTACK);
+                    marmule.livingStateMachine.changeState(BossState.ATTACK);
                     return true;
 
                 // send the projectile after attackDelay
@@ -101,7 +100,7 @@ public enum MarmulePhases implements State<Marmule> {
 
                 // go back to WALK state after the attack
                 case MessageType.ATTACK_FINISHED:
-                    marmule.livingStateMachine.changeState(BossStates.WALK);
+                    marmule.livingStateMachine.changeState(BossState.WALK);
                     return true;
 
                 // end level once the boss is killed

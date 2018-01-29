@@ -5,7 +5,7 @@ import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.muchpolitik.lejeu.AI.BossStates.BossStates;
+import com.muchpolitik.lejeu.AI.BossStates.BossState;
 import com.muchpolitik.lejeu.AI.BossStates.MarmulePhases;
 import com.muchpolitik.lejeu.GameActors.Enemies.ProjectileThrowers.Russe;
 import com.muchpolitik.lejeu.Stages.GameStage;
@@ -62,7 +62,7 @@ public class Marmule extends Boss {
         super.createStateMachines();
 
         // create livingStateMachine specific to projectile throwers
-        livingStateMachine = new DefaultStateMachine<Boss, BossStates>(this);
+        livingStateMachine = new DefaultStateMachine<Boss, BossState>(this);
 
         // create phasesStateMachine
         phasesStateMachine = new DefaultStateMachine<>(this);

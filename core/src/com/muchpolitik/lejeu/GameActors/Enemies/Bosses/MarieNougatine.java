@@ -1,21 +1,16 @@
 package com.muchpolitik.lejeu.GameActors.Enemies.Bosses;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
-import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.muchpolitik.lejeu.AI.BossStates.BossStates;
+import com.muchpolitik.lejeu.AI.BossStates.BossState;
 import com.muchpolitik.lejeu.AI.BossStates.MarieNougatinePhases;
-import com.muchpolitik.lejeu.AI.MessageType;
 import com.muchpolitik.lejeu.GameActors.Enemies.Enemy;
 import com.muchpolitik.lejeu.GameActors.Enemies.Ghosts.Fantome;
-import com.muchpolitik.lejeu.GameActors.Enemies.Ghosts.GhostEnemy;
 import com.muchpolitik.lejeu.GameActors.Enemies.ProjectileThrowers.Hutler;
 import com.muchpolitik.lejeu.Stages.GameStage;
 
@@ -117,7 +112,7 @@ public class MarieNougatine extends Boss {
         super.createStateMachines();
 
         // create livingStateMachine specific to projectile throwers
-        livingStateMachine = new DefaultStateMachine<Boss, BossStates>(this);
+        livingStateMachine = new DefaultStateMachine<Boss, BossState>(this);
 
         // create phasesStateMachine
         phasesStateMachine = new DefaultStateMachine<>(this);

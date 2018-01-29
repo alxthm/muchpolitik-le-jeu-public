@@ -1,6 +1,9 @@
 package com.muchpolitik.lejeu.Screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -30,7 +33,7 @@ import com.muchpolitik.lejeu.Stages.RatingsPopup;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LevelMap implements CustomScreen {
+public class LevelMap implements CustomScreen, InputProcessor {
 
     private LeJeu game;
     private CustomScreen thisScreen = this;
@@ -46,8 +49,12 @@ public class LevelMap implements CustomScreen {
 
     private boolean askForRatings = false;
 
+    // on desktop, a scrollpane fling is used to move the level map when the mouse moves near the border of the screen
+    private static final float FLING_BORDER = 100, FLING_TIME = 1, FLING_VELOCITY = 1000;
+
     /**
      * Create a new LevelMap, without a ratings popup.
+     *
      * @param game
      */
     public LevelMap(LeJeu game) {
@@ -64,7 +71,9 @@ public class LevelMap implements CustomScreen {
     @Override
     public void load() {
         prefs = game.getPrefs();
-        Gdx.input.setInputProcessor(stage);
+        // allow the screen and the stage to catch input events (such as mouse move/dragged)
+        InputMultiplexer inputMultiplexer = new InputMultiplexer(this, stage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
 
         // create the back button
@@ -100,7 +109,7 @@ public class LevelMap implements CustomScreen {
 
 
         // add level buttons to the map
-        float[][] positions = {{-17.0f, 1201.0f}, {426.0f, 1253.0f}, {671.0f, 1327.0f}, {958.0f, 1344.0f}, {1180.0f, 1280.0f}, {1826.0f, 928.0f}, {2464.0f, 833.0f}, {2558.0f, 270.0f}, {3325.0f, 31.0f}, {1024.0f, 952.0f}, {523.0f, 601.0f}, {336.0f, 71.0f}, {1274.0f, 151.0f}, {1653.0f, 1630.0f}, {2188.0f, 1633.0f}, {2721.0f, 1762.0f}, {2834.0f, 2035.0f}, {2055.0f, 1320.0f}, {2527.0f, 1317.0f}, {3001.0f, 1305.0f}, {3362.0f, 1307.0f}};
+        float[][] positions = {{-39.0f, 1182.0f}, {373.0f, 1257.0f}, {692.0f, 1346.0f}, {1006.0f, 1325.0f}, {1262.0f, 1274.0f}, {1826.0f, 928.0f}, {2464.0f, 833.0f}, {2558.0f, 270.0f}, {3325.0f, 31.0f}, {1024.0f, 952.0f}, {523.0f, 601.0f}, {336.0f, 71.0f}, {1274.0f, 151.0f}, {1653.0f, 1630.0f}, {2188.0f, 1633.0f}, {2721.0f, 1762.0f}, {2834.0f, 2035.0f}, {2055.0f, 1320.0f}, {2527.0f, 1317.0f}, {3001.0f, 1305.0f}, {3362.0f, 1307.0f}};
         for (int i = 0; i < positions.length; i++) {
             float x = positions[i][0];
             float y = positions[i][1];
@@ -356,5 +365,63 @@ public class LevelMap implements CustomScreen {
 
             map.addActor(w);
         }
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        // on desktop, move the scrollPane when the mouse reaches the border of the screen.
+        // It allows user to navigate without clicking and dragging the map
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            int scrollLeft = 0, scrollBottom = 0;
+
+            if (screenX > stage.getWidth() - FLING_BORDER)
+                scrollLeft = -1;
+            else if (screenX < FLING_BORDER)
+                scrollLeft = 1;
+
+            if (screenY > stage.getHeight() - FLING_BORDER)
+                scrollBottom = -1;
+            else if (screenY < FLING_BORDER)
+                scrollBottom = 1;
+
+            // make the scrollpane move for a small duration
+            scrollPane.fling(FLING_TIME, scrollLeft * FLING_VELOCITY, scrollBottom * FLING_VELOCITY);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

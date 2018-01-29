@@ -1,5 +1,6 @@
 package com.muchpolitik.lejeu.Screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -64,16 +65,20 @@ public class MainMenu implements CustomScreen {
 
         // add widgets to the left table
         leftButtons.defaults().prefSize(100).padTop(100);
-        leftButtons.add(shareButton);
-        leftButtons.row();
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            leftButtons.add(shareButton);
+            leftButtons.row();
+        }
         leftButtons.add(webButton);
         leftButtons.row();
         leftButtons.add(fbButton);
 
         // add widgets to the right table
         rightButtons.defaults().prefSize(100).padTop(100);
-        rightButtons.add(rateButton);
-        rightButtons.row();
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            rightButtons.add(rateButton);
+            rightButtons.row();
+        }
         rightButtons.add(volumeButton);
 
         // add widgets to the middle table

@@ -18,13 +18,13 @@ In French:
 
 ## Download
 - Android: The game is currently not available on Google Play Store, due to technical issues (todo)
-- desktop (.jar): Download the [latest release](https://github.com/alexandrethm/muchpolitik-le-jeu-public/releases/download/1.0.2/desktop-1.0.2.jar) and simply execute the .jar file
+- desktop (.jar): Download the [latest release](https://github.com/alxthm/muchpolitik-le-jeu-public/releases/download/1.0.2/desktop-1.0.2.jar) and simply execute the .jar file
 - desktop (Steam): todo
 - iOS: todo
 
 ## Contributors
 - [Tarsi](https://www.tarsi.fr): script, graphics
-- [alexandrethm](https://github.com/alexandrethm): developer
+- [alxthm](https://github.com/alxthm): developer
 - [Floran le hareng](http://blog.evoflo.fr): graphics, animations
 - Julien & Tim: level design
 - Leopzl: music
